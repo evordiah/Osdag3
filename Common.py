@@ -7,6 +7,7 @@ TYPE_COMBOBOX_CUSTOMIZED = 'ComboBox_Customized'
 TYPE_BREAK = 'Break'
 TYPE_ENTER = 'Enter'
 PATH_TO_DATABASE = "ResourceFiles/Database/Intg_osdag.sqlite"
+DESIGN_FLAG = 'False'
 
 import sqlite3
 from utils.common.component import *
@@ -233,11 +234,12 @@ KEY_DISP_WEBPLATE_THICKNESS = 'Thickness(mm)*'
 VALUES_WEBPLATE_THICKNESS = ['All', 'Customized']
 VALUES_PLATETHICKNESS_CUSTOMIZED = ['6', '8', '10', '12', '14', '16', '18', '20', '22', '24', '26', '28', '30']
 
-DISP_TITLE_ENDPLATE = 'end plate'
+DISP_TITLE_ENDPLATE = 'End plate'
 
 KEY_ENDPLATE_THICKNESS = 'Plate.end_plate.Thickness'
 KEY_DISP_ENDPLATE_THICKNESS = 'Thickness(mm)*'
 VALUES_ENDPLATE_THICKNESS = ['All', 'Customized']
+VALUES_ENDPLATE_THICKNESS_CUSTOMIZED = ['3', '4', '5', '6', '8', '10', '12', '14', '16', '18', '20']
 
 DISP_TITLE_PLATE = 'Plate'
 
@@ -384,6 +386,21 @@ KEY_SUPTDSEC_POISSON_RATIO = 'Supported_Section.Poisson_Ratio'
 KEY_DISP_SUPTDSEC_POISSON_RATIO = 'Poissons ratio, v'
 KEY_SUPTDSEC_THERMAL_EXP = 'Supported_Section.Thermal_Expansion'
 KEY_DISP_SUPTDSEC_THERMAL_EXP = 'Thermal expansion coeff.a <br>(x10<sup>-6</sup>/ <sup>0</sup>C)'
+
+KEY_OUT_D_PROVIDED = 'Bolt.Diameter'
+KEY_DISP_OUT_D_PROVIDED = 'Diameter (mm)'
+
+KEY_OUT_GRD_PROVIDED = 'Bolt.Grade'
+KEY_DISP_OUT_GRD_PROVIDED = 'Grade'
+
+KEY_OUT_PLATETHK = 'Plate.Thickness'
+KEY_DISP_OUT_PLATETHK = 'Thickness (mm)'
+
+KEY_OUT_PLATE_HEIGHT = 'Plate.Height'
+KEY_DISP_OUT_PLATE_HEIGHT = 'Height (mm)'
+
+KEY_OUT_PLATE_LENGTH = 'Plate.Length'
+KEY_DISP_OUT_PLATE_LENGTH = 'Length (mm)'
 
 
 

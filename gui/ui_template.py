@@ -36,7 +36,7 @@ from .customized_popup import Ui_Popup
 from .ui_design_preferences import Ui_Dialog
 from .ui_design_preferences import DesignPreferences
 from design_type.connection.fin_plate_connection import FinPlateConnection
-
+from design_type.connection.shear_connection import ShearConnection
 
 
 class Ui_ModuleWindow(QMainWindow):
@@ -523,12 +523,18 @@ class Ui_ModuleWindow(QMainWindow):
             #         key.setItem(indx, QBrush(QColor("red")), Qt.TextColorRole)
         new_list = main.customized_input(main)
         data = {}
+
         # CUSTOMIZED_LIST = [KEY_PLATETHK,KEY_GRD,KEY_D,KEY_WEBPLATE_THICKNESS, KEY_FLANGEPLATE_THICKNESS]
         for t in new_list:
-            if t[0] in [KEY_WEBPLATE_THICKNESS, KEY_FLANGEPLATE_THICKNESS,KEY_PLATETHK,KEY_ENDPLATE_THICKNESS]:
+
+            if t[0] in [KEY_WEBPLATE_THICKNESS, KEY_FLANGEPLATE_THICKNESS,KEY_PLATETHK, KEY_ENDPLATE_THICKNESS]:
                 key_customized_1 = self.dockWidgetContents.findChild(QtWidgets.QWidget, t[0])
                 key_customized_1.activated.connect(lambda: popup(key_customized_1, new_list))
                 data[t[0] + "_customized"] = t[1]()
+            # elif t[0] == KEY_ENDPLATE_THICKNESS:
+            #     key_customized_5 = self.dockWidgetContents.findChild(QtWidgets.QWidget, t[0])
+            #     key_customized_5.activated.connect(lambda: popup(key_customized_5, new_list))
+            #     data[t[0] + "_customized"] = t[1]()
             elif t[0] == KEY_GRD:
                 key_customized_2 = self.dockWidgetContents.findChild(QtWidgets.QWidget, t[0])
                 key_customized_2.activated.connect(lambda: popup(key_customized_2, new_list))
@@ -652,6 +658,48 @@ class Ui_ModuleWindow(QMainWindow):
         font.setWeight(75)
         self.outputDock.setFont(font)
         self.outputDock.setObjectName("outputDock")
+        self.dockWidgetContents_out = QtWidgets.QWidget()
+        self.dockWidgetContents_out.setObjectName("dockWidgetContents_out")
+        out_list = main.output_values(main, DESIGN_FLAG)
+        _translate = QtCore.QCoreApplication.translate
+
+        i = 0
+        for option in out_list:
+            lable = option[1]
+            type = option[2]
+            # value = option[4]
+            if type not in [TYPE_TITLE, TYPE_IMAGE, TYPE_MODULE]:
+                l = QtWidgets.QLabel(self.dockWidgetContents_out)
+                l.setGeometry(QtCore.QRect(6, 10 + i, 120, 25))
+                font = QtGui.QFont()
+                font.setPointSize(11)
+                font.setBold(False)
+                font.setWeight(50)
+                l.setFont(font)
+                l.setObjectName(option[0] + "_label")
+                l.setText(_translate("MainWindow", "<html><head/><body><p>" + lable + "</p></body></html>"))
+
+            if type == TYPE_TEXTBOX:
+                r = QtWidgets.QLineEdit(self.dockWidgetContents_out)
+                r.setGeometry(QtCore.QRect(150, 10 + i, 160, 27))
+                font = QtGui.QFont()
+                font.setPointSize(11)
+                font.setBold(False)
+                font.setWeight(50)
+                r.setFont(font)
+                r.setObjectName(option[0])
+
+            if type == TYPE_TITLE:
+                q = QtWidgets.QLabel(self.dockWidgetContents_out)
+                q.setGeometry(QtCore.QRect(3, 10 + i, 201, 25))
+                font = QtGui.QFont()
+                q.setFont(font)
+                q.setObjectName("_title")
+                q.setText(_translate("MainWindow",
+                                     "<html><head/><body><p><span style=\" font-weight:600;\">" + lable + "</span></p></body></html>"))
+            i = i + 30
+
+        self.outputDock.setWidget(self.dockWidgetContents_out)
         MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.outputDock)
 
         self.actionInput = QtWidgets.QAction(MainWindow)
@@ -1033,69 +1081,13 @@ class Ui_ModuleWindow(QMainWindow):
                     key.setItemData(indx, QBrush(QColor("red")), Qt.TextColorRole)
 
     def validateInputsOnDesignBtn(self, main,data,trigger_type):
-
         option_list = main.input_values(self)
         valid_flag = main.func(main, self.dockWidgetContents, self)
-        # missing_fields_list = []
-        #
-        # for option in option_list:
-        #     if option[0] == KEY_CONN:
-        #         continue
-        #     s = self.dockWidgetContents.findChild(QtWidgets.QWidget, option[0])
-        #
-        #     if option[2] == TYPE_COMBOBOX:
-        #         if option[0] in [KEY_D ,KEY_GRD, KEY_PLATETHK]:
-        #             continue
-        #         if s.currentIndex() == 0:
-        #             missing_fields_list.append(option[1])
-        #
-        #
-        #     elif option[2] == TYPE_TEXTBOX:
-        #         if s.text() == '':
-        #             missing_fields_list.append(option[1])
-        #     else:
-        #         pass
-        #
-        # if len(missing_fields_list) > 0:
-        #     QMessageBox.information(self, "Information", self.generate_missing_fields_error_string(missing_fields_list))
+
         if valid_flag:
             if trigger_type == "Save":
                 self.design_fn(main, option_list, data)
                 self.saveDesign_inputs()
-            # else:
-            #     self.design_fn(option_list, data)
-            #     self.pass_d(main, self.design_inputs)
-            #     main.set_input_values(main, self.design_inputs)
-            #     main.get_bolt_details(main)
-
-
-    # def generate_missing_fields_error_string(self, missing_fields_list):
-    #     """
-    #
-    #     Args:
-    #         missing_fields_list: list of fields that are not selected or entered
-    #
-    #     Returns:
-    #         error string that has to be displayed
-    #
-    #     """
-    #     # The base string which should be displayed
-    #     information = "Please input the following required field"
-    #     if len(missing_fields_list) > 1:
-    #         # Adds 's' to the above sentence if there are multiple missing input fields
-    #         information += "s"
-    #     information += ": "
-    #
-    #     # Loops through the list of the missing fields and adds each field to the above sentence with a comma
-    #
-    #     for item in missing_fields_list:
-    #         information = information + item + ", "
-    #
-    #     # Removes the last comma
-    #     information = information[:-2]
-    #     information += "."
-    #
-    #     return information
 
     def validate_beam_beam(self, key):
         if key.currentIndex() == 2:
