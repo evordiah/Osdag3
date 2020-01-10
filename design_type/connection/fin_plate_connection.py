@@ -16,6 +16,8 @@ from PyQt5.QtGui import QTextCharFormat
 from PyQt5.QtGui import QTextCursor
 from PyQt5.QtWidgets import QMainWindow, QDialog, QFontDialog, QApplication, QFileDialog, QColorDialog
 import pickle
+from PyQt5.QtWidgets import QMessageBox, qApp
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 #from ...gui.newnew import Ui_Form
 #newnew_object = Ui_Form()
@@ -90,7 +92,7 @@ class FinPlateConnection(ShearConnection):
             existingvalue_key_conn = ''
 
         if KEY_SUPTNGSEC in existingvalues:
-           existingvalue_key_suptngsec = existingvalues[KEY_SUPTNGSEC]
+            existingvalue_key_suptngsec = existingvalues[KEY_SUPTNGSEC]
         else:
             existingvalue_key_suptngsec = ''
 
@@ -196,6 +198,7 @@ class FinPlateConnection(ShearConnection):
             logging.warning(" : You are using a section (in red color) that is not available in latest version of IS 808")
             with open('logging_text.log') as file:
                 data = file.read()
+
                 file.close()
             # file = open('logging_text.log', 'r')
             # # This will print every line one by one in the file
@@ -209,6 +212,81 @@ class FinPlateConnection(ShearConnection):
         super(FinPlateConnection,self).set_input_values(self, design_dictionary)
         self.plate = Plate(thickness=design_dictionary.get(KEY_PLATETHK, None),
                            material_grade=design_dictionary[KEY_MATERIAL], gap=design_dictionary[KEY_DP_DETAILING_GAP])
+
+
+    def final_validation(self, window, design_dictionary):
+        chk = True
+        c = {}
+        missing_fields_list = []
+        keys = design_dictionary.keys()
+        for key in keys:
+            if design_dictionary[key] == '' or design_dictionary[key] == 'Select Section':
+                for i in self.input_values(c):
+                    if i[0] == key:
+                        missing_fields_list.append(i[1])
+                chk = False
+        if chk:
+            self.set_input_values(self, design_dictionary)
+            self.get_bolt_details(self)
+
+        else:
+            QMessageBox.information(window, "Information",
+                                        self.generate_missing_fields_error_string(self, missing_fields_list))
+
+    def func(self, p, window):
+        option_list = self.input_values(self)
+        missing_fields_list = []
+
+        for option in option_list:
+            if option[0] == KEY_CONN:
+                continue
+            s = p.findChild(QtWidgets.QWidget, option[0])
+
+            if option[2] == TYPE_COMBOBOX:
+                if option[0] in [KEY_D, KEY_GRD, KEY_PLATETHK]:
+                    continue
+                if s.currentIndex() == 0:
+                    missing_fields_list.append(option[1])
+
+
+            elif option[2] == TYPE_TEXTBOX:
+                if s.text() == '':
+                    missing_fields_list.append(option[1])
+            else:
+                pass
+
+        if len(missing_fields_list) > 0:
+            QMessageBox.information(window, "Information", self.generate_missing_fields_error_string(self,missing_fields_list))
+            return False
+        else:
+            return True
+
+    def generate_missing_fields_error_string(self, missing_fields_list):
+        """
+
+        Args:
+            missing_fields_list: list of fields that are not selected or entered
+
+        Returns:
+            error string that has to be displayed
+
+        """
+        # The base string which should be displayed
+        information = "Please input the following required field"
+        if len(missing_fields_list) > 1:
+            # Adds 's' to the above sentence if there are multiple missing input fields
+            information += "s"
+        information += ": "
+        # Loops through the list of the missing fields and adds each field to the above sentence with a comma
+
+        for item in missing_fields_list:
+            information = information + item + ", "
+
+        # Removes the last comma
+        information = information[:-2]
+        information += "."
+
+        return information
 
 
     def get_bolt_details(self):
