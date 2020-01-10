@@ -2,6 +2,7 @@ from design_type.connection.shear_connection import ShearConnection
 from utils.common.component import *
 from utils.common.material import *
 from Common import *
+from io import StringIO
 from utils.common.load import Load
 import yaml
 import os
@@ -187,26 +188,19 @@ class FinPlateConnection(ShearConnection):
         return options_list
 
     def warn_text(self,key, my_d):
+
+
         old_col_section = get_oldcolumncombolist()
         old_beam_section = get_oldbeamcombolist()
 
         if my_d[KEY_SUPTNGSEC] in old_col_section or my_d[KEY_SUPTDSEC] in old_beam_section:
-            del_data = open('logging_text.log', 'w')
-            del_data.truncate()
-            del_data.close()
-            logging.basicConfig(format='%(asctime)s %(message)s', filename='logging_text.log',level=logging.DEBUG)
             logging.warning(" : You are using a section (in red color) that is not available in latest version of IS 808")
-            with open('logging_text.log') as file:
-                data = file.read()
+            value = log_text.getvalue()
+            saving_log(value, key)
 
-                file.close()
-            # file = open('logging_text.log', 'r')
-            # # This will print every line one by one in the file
-            # for each in file:
-            #     print(each)
-            key.setText(data)
         else:
             key.setText("")
+
 
     def set_input_values(self, design_dictionary):
         super(FinPlateConnection,self).set_input_values(self, design_dictionary)
