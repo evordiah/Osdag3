@@ -35,8 +35,8 @@ from utils.common.component import *
 from .customized_popup import Ui_Popup
 from .ui_design_preferences import Ui_Dialog
 from .ui_design_preferences import DesignPreferences
+from design_type.connection.fin_plate_connection import FinPlateConnection
 from design_type.connection.shear_connection import ShearConnection
-
 
 
 class Ui_ModuleWindow(QMainWindow):
@@ -520,7 +520,7 @@ class Ui_ModuleWindow(QMainWindow):
             #
             #     for value in red_list:
             #         indx = option[4].index(str(value))
-            #         key.setItemData(indx, QBrush(QColor("red")), Qt.TextColorRole)
+            #         key.setItem(indx, QBrush(QColor("red")), Qt.TextColorRole)
         new_list = main.customized_input(main)
         data = {}
 
@@ -950,7 +950,8 @@ class Ui_ModuleWindow(QMainWindow):
         self.mytabWidget.setCurrentIndex(-1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         self.action_save_input.triggered.connect(lambda: self.validateInputsOnDesignBtn(main, data,"Save"))
-        self.btn_Design.clicked.connect(lambda: self.validateInputsOnDesignBtn(main, data,"Design"))
+        # self.btn_Design.clicked.connect(lambda: self.validateInputsOnDesignBtn(main, data,"Design"))
+        self.btn_Design.clicked.connect(lambda: self.design_fn(main, option_list, data))
         self.action_load_input.triggered.connect(lambda: self.loadDesign_inputs(option_list, data, new_list))
         self.btn_Reset.clicked.connect(lambda: self.reset_fn(option_list))
         self.btn_Reset.clicked.connect(lambda: self.reset_popup(new_list, data))
@@ -969,7 +970,7 @@ class Ui_ModuleWindow(QMainWindow):
             else:
                 pass
 
-    def design_fn(self, op_list, data_list):
+    def design_fn(self, main, op_list, data_list):
         design_dictionary = {}
         for op in op_list:
             widget = self.dockWidgetContents.findChild(QtWidgets.QWidget, op[0])
@@ -990,6 +991,9 @@ class Ui_ModuleWindow(QMainWindow):
             design_dictionary.update(d1)
         design_dictionary.update(self.designPrefDialog.save_designPref_para())
         self.design_inputs = design_dictionary
+        main.final_validation(main,self, design_dictionary)
+        self.pass_d(main, self.design_inputs)
+
 
     def pass_d(self, main, design_dictionary):
         key = self.centralwidget.findChild(QtWidgets.QWidget, "textEdit")
@@ -1077,80 +1081,13 @@ class Ui_ModuleWindow(QMainWindow):
                     key.setItemData(indx, QBrush(QColor("red")), Qt.TextColorRole)
 
     def validateInputsOnDesignBtn(self, main,data,trigger_type):
-
         option_list = main.input_values(self)
-        missing_fields_list = []
+        valid_flag = main.func(main, self.dockWidgetContents, self)
 
-        for option in option_list:
-            if option[0] == KEY_CONN:
-                continue
-            s = self.dockWidgetContents.findChild(QtWidgets.QWidget, option[0])
-
-            if option[2] == TYPE_COMBOBOX:
-                if option[0] in [KEY_D ,KEY_GRD, KEY_PLATETHK]:
-                    continue
-                if s.currentIndex() == 0:
-                    missing_fields_list.append(option[1])
-
-
-            elif option[2] == TYPE_TEXTBOX:
-                if s.text() == '':
-                    missing_fields_list.append(option[1])
-            else:
-                pass
-
-        if len(missing_fields_list) > 0:
-            QMessageBox.information(self, "Information", self.generate_missing_fields_error_string(missing_fields_list))
-        elif trigger_type == "Save":
-            self.design_fn(option_list, data)
-            self.saveDesign_inputs()
-        else:
-            self.design_fn(option_list, data)
-            self.pass_d(main, self.design_inputs)
-            main.set_input_values(main, self.design_inputs)
-            main.get_bolt_details(main)
-            DESIGN_FLAG = 'True'
-            out_list = main.output_values(main, DESIGN_FLAG)
-            for option in out_list:
-                if option[2] == TYPE_TEXTBOX:
-                    txt = self.dockWidgetContents_out.findChild(QtWidgets.QWidget, option[0])
-                    print(txt)
-                    print(option[3])
-                    txt.setText(str(option[3]))
-
-
-
-            # key = self.dockWidgetContents_out.findChild(QtWidgets.QWidget, KEY_OUT_PLATE_HEIGHT)
-            # key.setText(str(l[0].length))
-
-
-    def generate_missing_fields_error_string(self, missing_fields_list):
-        """
-
-        Args:
-            missing_fields_list: list of fields that are not selected or entered
-
-        Returns:
-            error string that has to be displayed
-
-        """
-        # The base string which should be displayed
-        information = "Please input the following required field"
-        if len(missing_fields_list) > 1:
-            # Adds 's' to the above sentence if there are multiple missing input fields
-            information += "s"
-        information += ": "
-
-        # Loops through the list of the missing fields and adds each field to the above sentence with a comma
-
-        for item in missing_fields_list:
-            information = information + item + ", "
-
-        # Removes the last comma
-        information = information[:-2]
-        information += "."
-
-        return information
+        if valid_flag:
+            if trigger_type == "Save":
+                self.design_fn(main, option_list, data)
+                self.saveDesign_inputs()
 
     def validate_beam_beam(self, key):
         if key.currentIndex() == 2:
