@@ -538,3 +538,15 @@ KEY_DISP_LEN_INLINE = 'Total Length in line with tension'
 
 KEY_LEN_OPPLINE = 'Total length opp line with tension'
 KEY_DISP_LEN_OPPLINE = 'Total Length opp line with tension'
+
+import logging
+from io import StringIO
+
+log_text = StringIO()
+logging.basicConfig(stream=log_text, format='%(asctime)s %(message)s', level=logging.DEBUG)
+
+def saving_log(value, key):
+    with open('logging_text.log', 'w') as file:
+        file.write(value)
+        file.close()
+    key.setText(value)
