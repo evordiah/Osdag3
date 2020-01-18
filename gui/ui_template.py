@@ -681,12 +681,11 @@ class Ui_ModuleWindow(QMainWindow):
                 red_list_beams = connect_for_red("Beams")
                 red_list.extend(red_list_beams)
                 red_list.extend(red_list_columns)
-                print(red_list)
-                print(option[4])
+
                 red_list_set = set(red_list)
                 current_list_set = set(option[4])
                 current_red_list = list(current_list_set.intersection(red_list_set))
-                print(current_red_list)
+
                 for value in current_red_list:
                     indx = option[4].index(str(value))
                     # key.addItem(option[4])
@@ -777,7 +776,6 @@ class Ui_ModuleWindow(QMainWindow):
                         if k1.currentText() in VALUES_CONN_1:
                             v = "Columns"
                             red_list = connect_for_red(v)
-                            #print(red_list)
 
                             for value in red_list:
                                 indx = val.index(str(value))
@@ -785,7 +783,6 @@ class Ui_ModuleWindow(QMainWindow):
                         else:
                             v = "Beams"
                             red_list = connect_for_red(v)
-                            #print(red_list)
 
                             for value in red_list:
                                 indx = val.index(str(value))
@@ -1256,7 +1253,6 @@ class Ui_ModuleWindow(QMainWindow):
             if option[0] == KEY_SUPTNGSEC:
                 v = "Columns"
                 red_list = connect_for_red(v)
-                print(red_list)
 
                 for value in red_list:
                     indx = option[4].index(str(value))
@@ -1267,8 +1263,6 @@ class Ui_ModuleWindow(QMainWindow):
                 v = "Beams"
 
                 red_list = connect_for_red(v)
-
-                print(red_list)
 
                 for value in red_list:
                     indx = option[4].index(str(value))
@@ -1307,14 +1301,12 @@ class Ui_ModuleWindow(QMainWindow):
             self.design_fn(option_list, data)
             self.pass_d(main, self.design_inputs)
             main.set_input_values(main, self.design_inputs)
-            main.get_bolt_details(main)
+            # main.get_bolt_details(main)
             DESIGN_FLAG = 'True'
             out_list = main.output_values(main, DESIGN_FLAG)
             for option in out_list:
                 if option[2] == TYPE_TEXTBOX:
                     txt = self.dockWidgetContents_out.findChild(QtWidgets.QWidget, option[0])
-                    print(txt)
-                    print(option[3])
                     txt.setText(str(option[3]))
 
 

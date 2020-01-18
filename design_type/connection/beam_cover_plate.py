@@ -202,8 +202,8 @@ class BeamCoverPlate(MomentConnection):
                                      edge_dist=edge_dist_rem, dia_hole=self.flange_bolt.dia_hole,
                                      fy=self.flange_plate.fy, fu=self.flange_plate.fu)
 
-        self.flange_plate.shear_yielding_b(self.flange_plate.length, self.flange_plate.thickness[0],
-                                           self.flange_plate.fy)
+        self.flange_plate.shear_yielding(self.flange_plate.length, self.flange_plate.thickness[0],
+                                         self.flange_plate.fy)
 
         self.flange_plate.shear_rupture_b(self.flange_plate.length, self.flange_plate.thickness[0],
                                           self.flange_plate.bolts_one_line,
@@ -253,7 +253,7 @@ class BeamCoverPlate(MomentConnection):
                                   edge_dist=edge_dist_rem, dia_hole=self.web_bolt.dia_hole,
                                   fy=self.web_plate.fy, fu=self.web_plate.fu)
 
-        self.web_plate.shear_yielding_b(self.web_plate.length, self.web_plate.thickness[0], self.web_plate.fy)
+        self.web_plate.shear_yielding(self.web_plate.length, self.web_plate.thickness[0], self.web_plate.fy)
 
         self.web_plate.shear_rupture_b(self.web_plate.length, self.web_plate.thickness[0],
                                        self.web_plate.bolts_one_line,

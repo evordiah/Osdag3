@@ -4,6 +4,7 @@ class Load(object):
         self.axial_force = float(axial_force)
         self.shear_force = float(shear_force)
         self.moment = float(moment)
+        print(self.axial_force)
 
     def __repr__(self):
         repr = "Load\n"

@@ -189,7 +189,7 @@ class ColumnCoverPlate(MomentConnection):
         min_plate_height = self.section.flange_width
         max_plate_height = self.section.flange_width
         axial_force_f = self.load.axial_force * self.section.flange_width * self.section.flange_thickness/self.section.area
-        flange_force=(((self.load.moment * 1000000) / (self.section.depth - self.section.flange_thickness)) + (axial_force_f * 1000)) / 1000
+        flange_force = (((self.load.moment * 1000000) / (self.section.depth - self.section.flange_thickness)) + (axial_force_f * 1000)) / 1000
 
 
         self.flange_plate.get_web_plate_details(bolt_dia=self.flange_bolt.bolt_diameter[0], web_plate_h_min=min_plate_height,
@@ -213,7 +213,7 @@ class ColumnCoverPlate(MomentConnection):
                               edge_dist=edge_dist_rem, dia_hole=self.flange_bolt.dia_hole,
                               fy=self.flange_plate.fy, fu=self.flange_plate.fu)
 
-        self.flange_plate.shear_yielding_b(self.flange_plate.length, self.flange_plate.thickness[0], self.flange_plate.fy)
+        self.flange_plate.shear_yielding(self.flange_plate.length, self.flange_plate.thickness[0], self.flange_plate.fy)
 
         self.flange_plate.shear_rupture_b(self.flange_plate.length, self.flange_plate.thickness[0], self.flange_plate.bolts_one_line,
                                    self.flange_bolt.dia_hole, self.flange_plate.fu)
@@ -255,7 +255,7 @@ class ColumnCoverPlate(MomentConnection):
                               edge_dist=edge_dist_rem, dia_hole=self.web_bolt.dia_hole,
                               fy=self.web_plate.fy, fu=self.web_plate.fu)
 
-        self.web_plate.shear_yielding_b(self.web_plate.length, self.web_plate.thickness[0], self.web_plate.fy)
+        self.web_plate.shear_yielding(self.web_plate.length, self.web_plate.thickness[0], self.web_plate.fy)
 
         self.web_plate.shear_rupture_b(self.web_plate.length, self.web_plate.thickness[0], self.web_plate.bolts_one_line,
                                    self.web_bolt.dia_hole, self.web_plate.fu)
