@@ -46,17 +46,19 @@ weld_size = 6
 material_grade = "E 250 (Fe 410 W)B"
 material = Material(material_grade)
 
+
 def set_osdaglogger(key):
     global logger
     logger = logging.getLogger('osdag')
+
     logger.setLevel(logging.DEBUG)
     handler = logging.StreamHandler()
     handler.setLevel(logging.DEBUG)
-    formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt= '%H:%M:%S')
+    formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
 
     handler.setFormatter(formatter)
     logger.addHandler(handler)
-    handler = logging.FileHandler('C:/Users/pc/Desktop/osdag3/Osdag3-master/logging_text.log')
+    handler = logging.FileHandler('logging_text.log')
     handler.setLevel(logging.WARNING)
     formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
     handler.setFormatter(formatter)
@@ -67,9 +69,10 @@ def set_osdaglogger(key):
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
+
 class OurLog(logging.Handler):
 
-    def __init__(self,key):
+    def __init__(self, key):
         logging.Handler.__init__(self)
         self.key = key
         # self.key.setText("INDIA")
@@ -77,7 +80,6 @@ class OurLog(logging.Handler):
     def handle(self, record):
         msg = self.format(record)
         self.key.append(msg)
-
 
 
 def desired_location(self, filename, base_type):
@@ -308,7 +310,7 @@ class FinPlateConnection(ShearConnection):
         return out_list
 
     def warn_text(self,key, my_d):
-        global logger
+
         old_col_section = get_oldcolumncombolist()
         old_beam_section = get_oldbeamcombolist()
 
@@ -338,6 +340,7 @@ class FinPlateConnection(ShearConnection):
 
         self.supported_section.shear_yielding(length=length, thickness=self.supported_section.web_thickness, fy=self.supported_section.fy)
         self.supported_section.tension_yielding(length=length, thickness=self.supported_section.web_thickness, fy=self.supported_section.fy)
+
         print(self.supported_section.shear_yielding_capacity, self.load.shear_force,
               self.supported_section.tension_yielding_capacity, self.load.axial_force)
 
@@ -345,58 +348,72 @@ class FinPlateConnection(ShearConnection):
                 self.supported_section.tension_yielding_capacity > self.load.axial_force:
             self.get_bolt_details(self)
         else:
-            logging.basicConfig(format='%(asctime)s %(message)s', filename='logging_text.log', level=logging.DEBUG)
-            logging.warning(" : shear yielding capacity {} and/or tension yielding capacity {} is less "
-                            "than applied loads, Please select larger sections or decrease loads"
+            logger.error(" : shear yielding capacity {} and/or tension yielding capacity {} is less "
+                           "than applied loads, Please select larger sections or decrease loads"
                             .format(self.supported_section.shear_yielding_capacity,
                                     self.supported_section.tension_yielding_capacity))
-            with open('logging_text.log') as file:
-                data = file.read()
-                # print(data)
-                file.close()
-
 
     def get_bolt_details(self):
-        # design_status = False
+
         min_plate_height = self.supported_section.min_plate_height()
         max_plate_height = self.supported_section.max_plate_height()
-        self.plate.thickness_provided = self.plate.thickness[0]
-        grades_considered = min(len(self.bolt.bolt_grade), 2)
-        for self.bolt.bolt_grade_provided in reversed(self.bolt.bolt_grade[-grades_considered:]):
-            for self.bolt.bolt_diameter_provided in self.bolt.bolt_diameter:
+        self.plate.thickness_provided = round_up(self.supported_section.web_thickness, 2)
+        bolts_required_previous = 2
+        bolt_diameter_previous = self.bolt.bolt_diameter[-1]
+        bolt_grade_previous = self.bolt.bolt_grade[-1]
+        res_force = math.sqrt(self.load.shear_force ** 2 + self.load.axial_force ** 2) * 1000
+        print("resforce1", res_force)
+        self.bolt.bolt_grade_provided = self.bolt.bolt_grade[-1]
+        for self.bolt.bolt_diameter_provided in reversed(self.bolt.bolt_diameter):
+            self.bolt.calculate_bolt_spacing_limits(bolt_diameter_provided=self.bolt.bolt_diameter_provided,
+                                                    connecting_plates_tk=[self.plate.thickness_provided,
+                                                                          self.supported_section.web_thickness])
 
-                self.bolt.calculate_bolt_spacing_limits(bolt_diameter_provided=self.bolt.bolt_diameter_provided,
-                                                        connecting_plates_tk=[self.plate.thickness_provided,
-                                                                              self.supported_section.web_thickness],
-                                                        bolt_hole_type=self.bolt.bolt_hole_type)
-                self.bolt.calculate_bolt_capacity(bolt_diameter_provided=self.bolt.bolt_diameter_provided,
-                                                  bolt_grade_provided=self.bolt.bolt_grade_provided,
-                                                  connecting_plates_tk=[self.plate.thickness_provided,
-                                                                        self.supported_section.web_thickness],
-                                                  n_planes=1)
+            self.bolt.calculate_bolt_capacity(bolt_diameter_provided=self.bolt.bolt_diameter_provided,
+                                              bolt_grade_provided=self.bolt.bolt_grade_provided,
+                                              connecting_plates_tk=[self.plate.thickness_provided,
+                                                                    self.supported_section.web_thickness],
+                                              n_planes=1)
 
-                res_force = math.sqrt(self.load.shear_force ** 2 + self.load.axial_force ** 2)*1000
+            self.plate.bolts_required = max(int(math.ceil(res_force / self.bolt.bolt_capacity)), 2)
 
-                self.plate.bolts_required = max(int(math.ceil(res_force / self.bolt.bolt_capacity)), 3)
+            if self.plate.bolts_required > bolts_required_previous:
+                self.bolt.bolt_diameter_provided = bolt_diameter_previous
+                self.plate.bolts_required = bolts_required_previous
+                break
+            bolts_required_previous = self.plate.bolts_required
+            bolt_diameter_previous = self.bolt.bolt_diameter_provided
 
-                self.plate.get_web_plate_l_bolts_one_line(max_plate_height, min_plate_height, self.plate.bolts_required,
-                                                          self.bolt.min_end_dist_round, self.bolt.min_pitch_round)
+        for self.bolt.bolt_grade_provided in reversed(self.bolt.bolt_grade):
 
-                print(1, self.bolt.bolt_capacity, self.plate.bolts_required, self.plate.bolt_line)
+            self.bolt.calculate_bolt_spacing_limits(bolt_diameter_provided=self.bolt.bolt_diameter_provided,
+                                                    connecting_plates_tk=[self.plate.thickness_provided,
+                                                                          self.supported_section.web_thickness])
 
-                if self.plate.bolt_line <= 2:
-                    self.plate.get_web_plate_details(bolt_dia=self.bolt.bolt_diameter_provided,
-                                                     web_plate_h_min=min_plate_height, web_plate_h_max=max_plate_height,
-                                                     bolt_capacity=self.bolt.bolt_capacity,
-                                                     min_end_dist=self.bolt.min_end_dist_round,
-                                                     min_pitch=self.bolt.min_pitch_round, max_spacing=self.bolt.max_spacing_round,
-                                                     max_end_dist=self.bolt.max_end_dist_round,
-                                                     bolt_line_limit=2, shear_load=self.load.shear_force,
-                                                     axial_load=self.load.axial_force, gap=self.plate.gap,
-                                                     shear_ecc=True)
-                    print(2, self.bolt.bolt_capacity, self.plate.bolts_required, self.plate.bolt_line)
-                    if self.plate.design_status is True:
-                        break
+            self.bolt.calculate_bolt_capacity(bolt_diameter_provided=self.bolt.bolt_diameter_provided,
+                                              bolt_grade_provided=self.bolt.bolt_grade_provided,
+                                              connecting_plates_tk=[self.plate.thickness_provided,
+                                                                    self.supported_section.web_thickness],
+                                              n_planes=1)
+
+            self.plate.bolts_required = max(int(math.ceil(res_force / self.bolt.bolt_capacity)), 2)
+
+            if self.plate.bolts_required > bolts_required_previous:
+                self.bolt.bolt_grade_provided = bolt_grade_previous
+                self.plate.bolts_required = bolts_required_previous
+                break
+            bolts_required_previous = self.plate.bolts_required
+            bolt_grade_previous = self.bolt.bolt_grade_provided
+
+        self.plate.get_web_plate_details(bolt_dia=self.bolt.bolt_diameter_provided,
+                                         web_plate_h_min=min_plate_height, web_plate_h_max=max_plate_height,
+                                         bolt_capacity=self.bolt.bolt_capacity,
+                                         min_end_dist=self.bolt.min_end_dist_round,
+                                         min_pitch=self.bolt.min_pitch_round, max_spacing=self.bolt.max_spacing_round,
+                                         max_end_dist=self.bolt.max_end_dist_round, shear_load=self.load.shear_force*1000,
+                                         axial_load=self.load.axial_force*1000, gap=self.plate.gap,
+                                         shear_ecc=True)
+        print(1, self.bolt.bolt_capacity, self.plate.bolts_required, self.plate.bolt_line)
 
         edge_dist_rem = self.plate.edge_dist_provided+self.plate.gap
 
@@ -435,25 +452,4 @@ class FinPlateConnection(ShearConnection):
         print(self.load)
         print(self.bolt)
         print(self.plate)
-        if self.plate.design_status is True:
-            print(self.plate)
-        else:
-            # del_data = open('logging_text.log', 'w')
-            # del_data.truncate()
-            # del_data.close()
-            # logging.basicConfig(format='%(asctime)s %(message)s', filename='logging_text.log',level=logging.DEBUG)
-            logger.warning(" : The connection cannot be designed with given loads")
-            # with open('logging_text.log') as file:
-            #     data = file.read()
-            #     print(data)
-            #     file.close()
-            # file = open('logging_text.log', 'r')
-            # # This will print every line one by one in the file
-            # for each in file:
-            #     print(each)
-            #key.setText(data)
-    #
-    # with open("filename", 'w') as out_file:
-    #     yaml.dump(fin_plate_input, out_file)
-
 

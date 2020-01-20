@@ -1,7 +1,7 @@
 from design_type.connection.connection import Connection
-from utils.common.component import Bolt, Weld, Plate, Angle, Beam, Column
 from Common import *
 from utils.common.load import Load
+from utils.common.component import Column,Beam,Bolt
 
 class ShearConnection(Connection):
 

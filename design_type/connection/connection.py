@@ -1,4 +1,4 @@
-from utils.common.component import Bolt, Weld, Plate, Angle, Beam, Column
+
 from utils.common.load import Load
 from main import Main
 

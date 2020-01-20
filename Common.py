@@ -11,6 +11,7 @@ DESIGN_FLAG = 'False'
 
 import sqlite3
 from utils.common.component import *
+import logging
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 
 
