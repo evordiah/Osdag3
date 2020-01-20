@@ -57,6 +57,7 @@ class Ui_ModuleWindow(QMainWindow):
         self.ui.addAvailableItems(op, KEYEXISTING_CUSTOMIZED)
         self.window.exec()
         return self.ui.get_right_elements()
+
     @pyqtSlot()
     def open_summary_popup(self):
         self.new_window = QtWidgets.QDialog()
@@ -66,7 +67,6 @@ class Ui_ModuleWindow(QMainWindow):
         self.new_ui.btn_browse.clicked.connect(lambda: self.getLogoFilePath(self.new_ui.lbl_browse))
         self.new_ui.btn_saveProfile.clicked.connect(self.saveUserProfile)
         self.new_ui.btn_useProfile.clicked.connect(self.useUserProfile)
-
 
     def getLogoFilePath(self, lblwidget):
 
@@ -1051,9 +1051,9 @@ class Ui_ModuleWindow(QMainWindow):
         design_dictionary.update(self.designPrefDialog.save_designPref_para())
         self.design_inputs = design_dictionary
 
-    def pass_d(self, main, design_dictionary):
-        key = self.centralwidget.findChild(QtWidgets.QWidget, "textEdit")
-        main.warn_text(main, key, design_dictionary)
+    # def pass_d(self, main, design_dictionary):
+    #     key = self.centralwidget.findChild(QtWidgets.QWidget, "textEdit")
+    #     main.warn_text(main, key, design_dictionary)
         # main.set_input_values(main, design_dictionary)
 # Function for saving inputs in a file
     '''

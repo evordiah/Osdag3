@@ -59,6 +59,7 @@ def set_osdaglogger(key):
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     handler = logging.FileHandler('logging_text.log')
+
     handler.setLevel(logging.WARNING)
     formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
     handler.setFormatter(formatter)
