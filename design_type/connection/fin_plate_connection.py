@@ -46,43 +46,6 @@ weld_size = 6
 material_grade = "E 250 (Fe 410 W)B"
 material = Material(material_grade)
 
-
-def set_osdaglogger(key):
-    global logger
-    logger = logging.getLogger('osdag')
-
-    logger.setLevel(logging.DEBUG)
-    handler = logging.StreamHandler()
-    handler.setLevel(logging.DEBUG)
-    formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
-
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-    handler = logging.FileHandler('logging_text.log')
-
-    handler.setLevel(logging.WARNING)
-    formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-    handler = OurLog(key)
-    handler.setLevel(logging.WARNING)
-    formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-
-
-class OurLog(logging.Handler):
-
-    def __init__(self, key):
-        logging.Handler.__init__(self)
-        self.key = key
-        # self.key.setText("INDIA")
-
-    def handle(self, record):
-        msg = self.format(record)
-        self.key.append(msg)
-
-
 def desired_location(self, filename, base_type):
     if base_type == ".svg":
         cairosvg.svg2png(file_obj=filename, write_to=os.path.join(str(self.maincontroller.folder), "images_html",
@@ -139,6 +102,7 @@ class FinPlateConnection(ShearConnection):
 
     def __init__(self):
         super(FinPlateConnection, self).__init__()
+
 
     def input_values(self, existingvalues={}):
 
@@ -257,14 +221,17 @@ class FinPlateConnection(ShearConnection):
         t3 = (KEY_OUT_GRD_PROVIDED, KEY_OUT_DISP_GRD_PROVIDED, TYPE_TEXTBOX, self.bolt.bolt_grade_provided if flag == 'True' else '')
         out_list.append(t3)
 
-        t4 = (KEY_OUT_BOLT_SHEAR, KEY_OUT_DISP_BOLT_SHEAR, TYPE_TEXTBOX,  self.bolt.bolt_shear_capacity if flag == 'True' else '')
+        t4 = (KEY_OUT_BOLT_SHEAR, KEY_OUT_DISP_BOLT_SHEAR, TYPE_TEXTBOX,  round(self.bolt.bolt_shear_capacity/1000,2) if flag == 'True' else '')
         out_list.append(t4)
 
-        t5 = (KEY_OUT_BOLT_BEARING, KEY_OUT_DISP_BOLT_BEARING, TYPE_TEXTBOX, self.bolt.bolt_bearing_capacity if flag == 'True' else '')
+        t5 = (KEY_OUT_BOLT_BEARING, KEY_OUT_DISP_BOLT_BEARING, TYPE_TEXTBOX, round(self.bolt.bolt_bearing_capacity/1000,2) if flag == 'True' else '')
         out_list.append(t5)
 
-        t6 = (KEY_OUT_BOLT_CAPACITY, KEY_OUT_DISP_BOLT_CAPACITY, TYPE_TEXTBOX, self.bolt.bolt_capacity if flag == 'True' else '')
+        t6 = (KEY_OUT_BOLT_CAPACITY, KEY_OUT_DISP_BOLT_CAPACITY, TYPE_TEXTBOX, round(self.bolt.bolt_capacity/1000,2) if flag == 'True' else '')
         out_list.append(t6)
+
+        t21 = (KEY_OUT_BOLT_FORCE, KEY_OUT_DISP_BOLT_FORCE, TYPE_TEXTBOX, round(self.plate.bolt_force / 1000, 2) if flag == 'True' else '')
+        out_list.append(t21)
 
         t7 = (KEY_OUT_BOLT_LINE, KEY_OUT_DISP_BOLT_LINE, TYPE_TEXTBOX, self.plate.bolt_line if flag == 'True' else '')
         out_list.append(t7)
@@ -296,16 +263,16 @@ class FinPlateConnection(ShearConnection):
         t16 = (KEY_OUT_PLATE_LENGTH, KEY_OUT_DISP_PLATE_LENGTH, TYPE_TEXTBOX, self.plate.length if flag == 'True' else '')
         out_list.append(t16)
 
-        t17 = (KEY_OUT_PLATE_SHEAR, KEY_OUT_DISP_PLATE_SHEAR, TYPE_TEXTBOX, self.plate.shear_yielding_capacity if flag == 'True' else '')
+        t17 = (KEY_OUT_PLATE_SHEAR, KEY_OUT_DISP_PLATE_SHEAR, TYPE_TEXTBOX, round(self.plate.shear_yielding_capacity,2) if flag == 'True' else '')
         out_list.append(t17)
 
-        t18 = (KEY_OUT_PLATE_BLK_SHEAR, KEY_OUT_DISP_PLATE_BLK_SHEAR, TYPE_TEXTBOX, self.plate.block_shear_capacity if flag == 'True' else '')
+        t18 = (KEY_OUT_PLATE_BLK_SHEAR, KEY_OUT_DISP_PLATE_BLK_SHEAR, TYPE_TEXTBOX, round(self.plate.block_shear_capacity,2) if flag == 'True' else '')
         out_list.append(t18)
 
-        t19 = (KEY_OUT_PLATE_MOM_DEMAND, KEY_OUT_DISP_PLATE_MOM_DEMAND, TYPE_TEXTBOX, self.plate.moment_demand if flag == 'True' else '')
+        t19 = (KEY_OUT_PLATE_MOM_DEMAND, KEY_OUT_DISP_PLATE_MOM_DEMAND, TYPE_TEXTBOX, round(self.plate.moment_demand/1000000,2) if flag == 'True' else '')
         out_list.append(t19)
 
-        t20 = (KEY_OUT_PLATE_MOM_CAPACITY, KEY_OUT_DISP_PLATE_MOM_CAPACITY, TYPE_TEXTBOX, self.plate.moment_capacity if flag == 'True' else '')
+        t20 = (KEY_OUT_PLATE_MOM_CAPACITY, KEY_OUT_DISP_PLATE_MOM_CAPACITY, TYPE_TEXTBOX, round(self.plate.moment_capacity,2) if flag == 'True' else '')
         out_list.append(t20)
 
         return out_list
@@ -363,8 +330,8 @@ class FinPlateConnection(ShearConnection):
         bolt_diameter_previous = self.bolt.bolt_diameter[-1]
         bolt_grade_previous = self.bolt.bolt_grade[-1]
         res_force = math.sqrt(self.load.shear_force ** 2 + self.load.axial_force ** 2) * 1000
-        print("resforce1", res_force)
         self.bolt.bolt_grade_provided = self.bolt.bolt_grade[-1]
+
         for self.bolt.bolt_diameter_provided in reversed(self.bolt.bolt_diameter):
             self.bolt.calculate_bolt_spacing_limits(bolt_diameter_provided=self.bolt.bolt_diameter_provided,
                                                     connecting_plates_tk=[self.plate.thickness_provided,
@@ -430,8 +397,6 @@ class FinPlateConnection(ShearConnection):
 
         plate_shear_capacity = min(self.plate.block_shear_capacity, self.plate.shear_rupture_capacity,
                                    self.plate.shear_yielding_capacity)
-
-
 
         # if self.load.shear_force > plate_shear_capacity:
         #     design_status = False

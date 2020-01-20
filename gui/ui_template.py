@@ -45,7 +45,7 @@ from gui.ui_summary_popup import Ui_Dialog1
 from design_report.reportGenerator import save_html
 from .ui_design_preferences import DesignPreferences
 from design_type.connection.shear_connection import ShearConnection
-from design_type.connection.fin_plate_connection import set_osdaglogger
+# from design_type.connection.fin_plate_connection import set_osdaglogger
 
 class Ui_ModuleWindow(QMainWindow):
 
@@ -285,9 +285,7 @@ class Ui_ModuleWindow(QMainWindow):
         self.textEdit.setReadOnly(True)
         self.textEdit.setOverwriteMode(True)
         self.textEdit.setObjectName("textEdit")
-
-
-        set_osdaglogger(self.textEdit)
+        main.set_osdaglogger(self.textEdit)
         # self.textEdit.setStyleSheet("QTextEdit {color:red}")
         self.verticalLayout_2.addWidget(self.splitter)
         MainWindow.setCentralWidget(self.centralwidget)
