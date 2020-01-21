@@ -103,6 +103,29 @@ class FinPlateConnection(ShearConnection):
     def __init__(self):
         super(FinPlateConnection, self).__init__()
 
+    def set_osdaglogger(key):
+        global logger
+        logger = logging.getLogger('osdag')
+
+        logger.setLevel(logging.DEBUG)
+        handler = logging.StreamHandler()
+        handler.setLevel(logging.DEBUG)
+        formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
+
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+        handler = logging.FileHandler('logging_text.log')
+
+        handler.setLevel(logging.WARNING)
+        formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+        handler = OurLog(key)
+        handler.setLevel(logging.WARNING)
+        formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+
 
     def input_values(self, existingvalues={}):
 
@@ -331,7 +354,7 @@ class FinPlateConnection(ShearConnection):
         bolt_grade_previous = self.bolt.bolt_grade[-1]
         res_force = math.sqrt(self.load.shear_force ** 2 + self.load.axial_force ** 2) * 1000
         self.bolt.bolt_grade_provided = self.bolt.bolt_grade[-1]
-
+        count = 0
         for self.bolt.bolt_diameter_provided in reversed(self.bolt.bolt_diameter):
             self.bolt.calculate_bolt_spacing_limits(bolt_diameter_provided=self.bolt.bolt_diameter_provided,
                                                     connecting_plates_tk=[self.plate.thickness_provided,
@@ -345,15 +368,18 @@ class FinPlateConnection(ShearConnection):
 
             self.plate.bolts_required = max(int(math.ceil(res_force / self.bolt.bolt_capacity)), 2)
 
-            if self.plate.bolts_required > bolts_required_previous:
+            if self.plate.bolts_required > bolts_required_previous and count >= 1:
                 self.bolt.bolt_diameter_provided = bolt_diameter_previous
                 self.plate.bolts_required = bolts_required_previous
                 break
             bolts_required_previous = self.plate.bolts_required
             bolt_diameter_previous = self.bolt.bolt_diameter_provided
+            count +=1
+
+        bolts_required_previous = self.plate.bolts_required
 
         for self.bolt.bolt_grade_provided in reversed(self.bolt.bolt_grade):
-
+            count = 1
             self.bolt.calculate_bolt_spacing_limits(bolt_diameter_provided=self.bolt.bolt_diameter_provided,
                                                     connecting_plates_tk=[self.plate.thickness_provided,
                                                                           self.supported_section.web_thickness])
@@ -366,12 +392,23 @@ class FinPlateConnection(ShearConnection):
 
             self.plate.bolts_required = max(int(math.ceil(res_force / self.bolt.bolt_capacity)), 2)
 
-            if self.plate.bolts_required > bolts_required_previous:
+            if self.plate.bolts_required > bolts_required_previous and count >= 1:
                 self.bolt.bolt_grade_provided = bolt_grade_previous
                 self.plate.bolts_required = bolts_required_previous
                 break
             bolts_required_previous = self.plate.bolts_required
             bolt_grade_previous = self.bolt.bolt_grade_provided
+            count += 1
+
+        self.bolt.calculate_bolt_spacing_limits(bolt_diameter_provided=self.bolt.bolt_diameter_provided,
+                                                connecting_plates_tk=[self.plate.thickness_provided,
+                                                                      self.supported_section.web_thickness])
+
+        self.bolt.calculate_bolt_capacity(bolt_diameter_provided=self.bolt.bolt_diameter_provided,
+                                          bolt_grade_provided=self.bolt.bolt_grade_provided,
+                                          connecting_plates_tk=[self.plate.thickness_provided,
+                                                                self.supported_section.web_thickness],
+                                          n_planes=1)
 
         self.plate.get_web_plate_details(bolt_dia=self.bolt.bolt_diameter_provided,
                                          web_plate_h_min=min_plate_height, web_plate_h_max=max_plate_height,
@@ -381,7 +418,6 @@ class FinPlateConnection(ShearConnection):
                                          max_end_dist=self.bolt.max_end_dist_round, shear_load=self.load.shear_force*1000,
                                          axial_load=self.load.axial_force*1000, gap=self.plate.gap,
                                          shear_ecc=True)
-        print(1, self.bolt.bolt_capacity, self.plate.bolts_required, self.plate.bolt_line)
 
         edge_dist_rem = self.plate.edge_dist_provided+self.plate.gap
 

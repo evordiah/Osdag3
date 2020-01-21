@@ -303,7 +303,7 @@ class Weld(Material):
         return repr
 
 
-class Plate(Bolt):
+class Plate():
 
     def __init__(self, thickness=0.0, height=0.0, length=0.0, gap=0.0, material_grade=""):
         super(Plate, self).__init__(material_grade=material_grade)
@@ -315,7 +315,7 @@ class Plate(Bolt):
         self.gap = float(gap)
 
         self.bolts_required = 0
-        self.bolt_group_capacity = 0.0
+        self.bolt_capacity_red = 0.0
         self.bolt_line = 0.0
         self.bolts_one_line = 0.0
         self.bolt_force = 0.0
@@ -346,17 +346,15 @@ class Plate(Bolt):
         web_plate_h_req = float((bolts_one_line - 1) * pitch + 2 * end_dist)
         return web_plate_h_req
 
-    def get_spacing_adjusted(self, gauge_pitch, edge_end):
-        while gauge_pitch > self.max_spacing_round:
+    def get_spacing_adjusted(self, gauge_pitch, edge_end, max_spacing):
+        while gauge_pitch > max_spacing:
             edge_end += 5
             gauge_pitch -= 5
         return gauge_pitch, edge_end
 
     def get_web_plate_l_bolts_one_line(self, web_plate_h_max, web_plate_h_min, bolts_required,end_dist, pitch):
-        # super(Plate, self).calculate_bolt_spacing_limits(bolt_dia,connecting_plates_tk,bolt_hole_type)
         max_bolts_one_line = int(((web_plate_h_max - (2 * end_dist)) / pitch) + 1)
         self.bolt_line = max(int(math.ceil((float(bolts_required) / float(max_bolts_one_line)))), 1)
-
         self.bolts_one_line = max(int(math.ceil(float(bolts_required) / float(self.bolt_line))), 2)
         self.height = max(web_plate_h_min, self.get_web_plate_h_req (self.bolts_one_line, pitch, end_dist))
 
@@ -375,7 +373,7 @@ class Plate(Bolt):
         pitch = round_up((web_plate_h - (2 * end_dist)) / (bolts_one_line - 1), multiplier=1)
         web_plate_h = pitch*(bolts_one_line - 1) + end_dist*2
         if pitch > max_spacing:
-            pitch, end_dist = self.get_spacing_adjusted(pitch, end_dist)
+            pitch, end_dist = self.get_spacing_adjusted(pitch, end_dist, max_spacing)
             if end_dist >= max_end_dist:
                 # TODO: add one more bolt to satisfy spacing criteria
                 web_plate_h = False
@@ -432,7 +430,7 @@ class Plate(Bolt):
         return bolt_capacity_red
 
     def get_web_plate_details(self, bolt_dia, web_plate_h_min, web_plate_h_max, bolt_capacity, min_end_dist, min_pitch, max_spacing, max_end_dist,
-                              bolt_line_limit=2, shear_load=0.0, axial_load = 0.0, gap=0.0, shear_ecc=False):
+                              shear_load=0.0, axial_load=0.0, gap=0.0, shear_ecc=False):
 
         """
 
@@ -453,7 +451,6 @@ class Plate(Bolt):
 
         # initialising values to start the loop
         res_force = math.sqrt(shear_load ** 2 + axial_load ** 2)
-        print("resforce1", res_force)
         bolts_required = max(int(math.ceil(res_force / bolt_capacity)), 2)
         [bolt_line, bolts_one_line, web_plate_h] = \
             self.get_web_plate_l_bolts_one_line(web_plate_h_max, web_plate_h_min, bolts_required,
@@ -462,7 +459,6 @@ class Plate(Bolt):
         gauge = min_pitch
         edge_dist = min_end_dist
         moment_demand = 0.0
-        print("meh", bolt_line, bolts_one_line, web_plate_h, pitch, end_dist, web_plate_h)
         vres = res_force / (bolt_line*bolts_one_line)
         bolt_capacity_red = self.get_bolt_red(bolts_one_line, pitch, bolt_capacity, bolt_dia)
 
@@ -501,7 +497,7 @@ class Plate(Bolt):
         self.bolt_line = bolt_line
         self.bolts_one_line = bolts_one_line
         self.bolts_required = bolt_line * bolts_one_line
-        self.bolt_capacity = bolt_capacity_red
+        self.bolt_capacity_red = bolt_capacity_red
         self.bolt_force = vres
         self.moment_demand = moment_demand
         self.pitch_provided = pitch
@@ -594,7 +590,7 @@ class Plate(Bolt):
         repr += "Bolt Lines: {}\n".format(self.bolt_line)
         repr += "Bolts in One Line: {}\n".format(self.bolts_one_line)
         repr += "Bolts Required: {}\n".format(self.bolts_required)
-        repr += "Bolt Capacity Reduced: {}\n".format(self.bolt_capacity)
+        repr += "Bolt Capacity Reduced: {}\n".format(self.bolt_capacity_red)
         repr += "Bolt Force: {}\n".format(self.bolt_force)
         repr += "Moment Demand: {}\n".format(self.moment_demand)
         repr += "Pitch Provided: {}\n".format(self.pitch_provided)
