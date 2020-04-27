@@ -1,8 +1,19 @@
+'''
+Only difference between Unitest.py and Multitest.py file is Multitest uses for loop to run each file
+whereas unitest has a unique function for each file.
+
+Now if we have fixed number of test files it's better to use Unitest if we want to find out which file
+is failing the test case. It'll show  name of the function which is failing the test case and from there
+we can traceback the filename(coz we know which function is running which input file).
+
+But using Multitest we can't traceback which file is failing coz it's running in for loop. It'll just show
+the number of test cases failed and passed.
+'''
+
 import yaml
 from design_type.connection.fin_plate_connection import FinPlateConnection
 import unittest
 import os
-import logging
 import sys
 
 
@@ -26,15 +37,23 @@ files = os.listdir(path)  # get all files in input files directory
 
 list_of_dict_finplate = []   # List of tuples. In each tuple first item is file name and second item is file data
 
+
+''' We are also storing file name here and tuple would look like (filename, file_data)
+    We will need this file name for testing purpose and giving each output pdf it's corresponding
+    input file name.
+
+    We can't traceback the file name here.
+'''
+
+
 def read_finplate_files():
-    for i in range(1,21):
-        raw_file_name = 'fin_' + str(i)  # File name without extension
-        file_name =  raw_file_name + '.osi' # File name with extension
         for file in files:
-            if file_name==file:
+            if 'fin_' in file:                      # if file name contains fin_ (not specific change it according to need).
+                raw_file_name = file.split('.')[0]  # File name without extension
+                file_name = file                    # File name with extension
                 in_file = path + file_name
                 with open(in_file, 'r') as fileObject:
-                    uiObj = yaml.load(fileObject,yaml.FullLoader)
+                    uiObj = yaml.load(fileObject)
                 list_of_dict_finplate.append((raw_file_name, uiObj))
 
 
@@ -108,5 +127,8 @@ if __name__ == '__main__':
     read_finplate_files()  # precomputing all finplate data
 
     result = unittest.TextTestRunner(verbosity=2).run(suite())
-    test_exit_code = int(not result.wasSuccessful())
-    print('Exit Status Code is : ',test_exit_code)
+
+
+    ''' Uncomment it if you want to see the exit Status of the test.'''
+    #test_exit_code = int(not result.wasSuccessful())
+    #print('Exit Status Code is : ',test_exit_code)
