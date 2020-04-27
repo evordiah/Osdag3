@@ -399,7 +399,7 @@ class FinPlateConnection(ShearConnection):
 
             s_beam_details = cursor2.fetchone()
             s_val = s_beam_details[0]
-            print(p_val,s_val)
+            #print(p_val,s_val)
             if p_val <= s_val:
                 error = "Secondary beam width is higher than clear depth of primary column web " + "\n" + "(No provision in Osdag till now)"
                 all_errors.append(error)
@@ -445,7 +445,7 @@ class FinPlateConnection(ShearConnection):
 
     def set_input_values(self, design_dictionary):
 
-        print(design_dictionary)
+        #print(design_dictionary)
 
         super(FinPlateConnection,self).set_input_values(self, design_dictionary)
 
@@ -456,7 +456,7 @@ class FinPlateConnection(ShearConnection):
                            material_grade=design_dictionary[KEY_PLATE_MATERIAL], gap=design_dictionary[KEY_DP_DETAILING_GAP])
 
         self.weld = Weld(material_grade=design_dictionary[KEY_MATERIAL],material_g_o=design_dictionary[KEY_DP_WELD_MATERIAL_G_O],fabrication = design_dictionary[KEY_DP_WELD_FAB])
-        print("input values are set. Doing preliminary member checks")
+        #print("input values are set. Doing preliminary member checks")
         self.member_capacity(self)
 
         # if self.design_status:
@@ -478,19 +478,19 @@ class FinPlateConnection(ShearConnection):
         self.supported_section.shear_yielding(length=length, thickness=self.supported_section.web_thickness, fy=self.supported_section.fy)
         self.supported_section.tension_yielding(length=length, thickness=self.supported_section.web_thickness, fy=self.supported_section.fy)
 
-        print(self.supported_section.shear_yielding_capacity, self.load.shear_force,
-              self.supported_section.tension_yielding_capacity, self.load.axial_force)
+        #print(self.supported_section.shear_yielding_capacity, self.load.shear_force,
+              #self.supported_section.tension_yielding_capacity, self.load.axial_force)
 
         if self.supported_section.shear_yielding_capacity > self.load.shear_force and \
                 self.supported_section.tension_yielding_capacity > self.load.axial_force:
 
-            print("preliminary member check is satisfactory. Checking available plate Thickness")
+            #print("preliminary member check is satisfactory. Checking available plate Thickness")
             self.thickness_possible = [i for i in self.plate.thickness if i >= self.supported_section.web_thickness]
 
             if not self.thickness_possible:
                 logger.error(": Plate thickness should be greater than suppported section web thicknesss.")
             else:
-                print("Selecting bolt diameter")
+                #print("Selecting bolt diameter")
                 self.select_bolt_dia(self)
 
         else:
@@ -499,13 +499,13 @@ class FinPlateConnection(ShearConnection):
                            "than applied loads, Please select larger sections or decrease loads"
                             .format(self.supported_section.shear_yielding_capacity,
                                     self.supported_section.tension_yielding_capacity))
-            print("failed in preliminary member checks. Select larger sections or decrease loads")
+            #print("failed in preliminary member checks. Select larger sections or decrease loads")
             self.thickness_possible = [i for i in self.plate.thickness if i >= self.supported_section.web_thickness]
 
             if not self.thickness_possible:
                 logger.error(": Plate thickness should be greater than suppported section web thicknesss.")
             else:
-                print("Selecting bolt diameter")
+                #print("Selecting bolt diameter")
                 self.select_bolt_dia(self)
             # self.select_bolt_dia(self)
 
@@ -554,7 +554,7 @@ class FinPlateConnection(ShearConnection):
             #     self.plate.get_web_plate_l_bolts_one_line(self.max_plate_height, self.min_plate_height, self.plate.bolts_required,
             #                                         self.bolt.min_edge_dist_round, self.bolt.min_gauge_round)
             # self.plate.bolts_required = bolt_line * bolts_one_line
-            print(1, self.plate.bolt_force, self.bolt.bolt_capacity, self.bolt.bolt_diameter_provided, self.plate.bolts_required, self.plate.bolts_one_line)
+            #print(1, self.plate.bolt_force, self.bolt.bolt_capacity, self.bolt.bolt_diameter_provided, self.plate.bolts_required, self.plate.bolts_one_line)
             if self.plate.design_status is True:
                 if self.plate.bolts_required > bolts_required_previous and count >= 1:
                     self.bolt.bolt_diameter_provided = bolt_diameter_previous
@@ -576,7 +576,7 @@ class FinPlateConnection(ShearConnection):
             self.get_bolt_grade(self,bolt_capacity_req)
 
     def get_bolt_grade(self,bolt_capacity_req):
-        print(self.design_status, "Getting bolt grade")
+        #print(self.design_status, "Getting bolt grade")
         bolt_grade_previous = self.bolt.bolt_grade[-1]
 
         for self.bolt.bolt_grade_provided in reversed(self.bolt.bolt_grade):
@@ -589,7 +589,7 @@ class FinPlateConnection(ShearConnection):
                                               conn_plates_t_fu_fy=self.bolt_conn_plates_t_fu_fy,
                                               n_planes=1)
 
-            print(self.bolt.bolt_grade_provided, self.bolt.bolt_capacity, self.plate.bolt_force)
+            #print(self.bolt.bolt_grade_provided, self.bolt.bolt_capacity, self.plate.bolt_force)
 
             bolt_capacity_reduced = self.plate.get_bolt_red(self.plate.bolts_one_line,
                                                             self.plate.gauge_provided, self.plate.bolt_line, self.plate.pitch_provided,self.bolt.bolt_capacity,
@@ -606,7 +606,7 @@ class FinPlateConnection(ShearConnection):
 
     def get_fin_plate_details(self):
 
-        print(self.design_status,"getting fin plate details")
+        #print(self.design_status,"getting fin plate details")
         self.bolt.calculate_bolt_spacing_limits(bolt_diameter_provided=self.bolt.bolt_diameter_provided,
                                                 conn_plates_t_fu_fy=self.bolt_conn_plates_t_fu_fy)
 
@@ -818,17 +818,17 @@ class FinPlateConnection(ShearConnection):
             force_l = self.load.shear_force * 1000
             force_w = self.load.axial_force*1000
             force_t = self.plate.moment_demand
-            print(self.weld.strength)
+            #print(self.weld.strength)
             self.weld.get_weld_stress(force_l, force_w, force_t, Ip_weld, y_max,
                                                         x_max, 2*self.weld.eff_length)
-            print(self.weld.strength, self.weld.stress)
+            #print(self.weld.strength, self.weld.stress)
             if self.weld.strength > self.weld.stress:
                 break
             else:
                 t_weld_req = self.weld.size * self.weld.stress / self.weld.strength
-                print("thicknessreq",t_weld_req)
+                #print("thicknessreq",t_weld_req)
                 updated_weld_list = list([x for x in available_welds if (t_weld_req <= x)])
-                print(updated_weld_list)
+                #print(updated_weld_list)
                 if not updated_weld_list:
                     self.plate.height += 10
                     self.weld.size = available_welds[0]
@@ -836,7 +836,7 @@ class FinPlateConnection(ShearConnection):
                 else:
                     self.weld.size = updated_weld_list[0]
 
-        print(self.weld.size, self.weld.length)
+        #print(self.weld.size, self.weld.length)
         if self.weld.strength < self.weld.stress:
             t_weld_req = self.weld.size * self.weld.stress / self.weld.strength
             self.weld.design_status = False
@@ -861,7 +861,7 @@ class FinPlateConnection(ShearConnection):
                                 pitch=self.plate.gauge_provided,bolt_capacity=self.bolt.bolt_capacity,bolt_dia=self.bolt.bolt_diameter_provided)
 
         self.get_design_status(self)
-        print("--- %s seconds ---" % (time.time() - self.start_time))
+        #print("--- %s seconds ---" % (time.time() - self.start_time))
 
     def get_design_status(self):
         if self.plate.design_status is True and self.weld.design_status is True:
@@ -1122,15 +1122,11 @@ class FinPlateConnection(ShearConnection):
         # config.read_file(open(r'Osdag.config'))
         # desktop_path = config.get("desktop_path", "path1")
         # print("desk:", desktop_path)
-        print(sys.path[0])
+        #print(sys.path[0])
         rel_path = str(sys.path[0])
         rel_path = rel_path.replace("\\", "/")
 
-        file_type = "PDF (*.pdf)"
-        filename = QFileDialog.getSaveFileName(QFileDialog(), "Save File As", os.path.join(str(' '), "untitled.pdf"), file_type)
-        # filename = os.path.join(str(folder), "images_html", "TexReport")
-        file_name = str(filename)
-        fname_no_ext = filename[0].split(".")[0]
+        fname_no_ext = popup_summary['filename']
 
         CreateLatex.save_latex(CreateLatex(), self.report_input, self.report_check, popup_summary, fname_no_ext, rel_path, Disp_3D_image)
 
