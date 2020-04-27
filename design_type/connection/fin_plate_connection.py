@@ -1131,7 +1131,6 @@ class FinPlateConnection(ShearConnection):
         #filename = QFileDialog.getSaveFileName(QFileDialog(), "Save File As", os.path.join(str(' '), "untitled.pdf"), file_type)
         # filename = os.path.join(str(folder), "images_html", "TexReport")
         #file_name = str(filename)
-
         fname_no_ext = popup_summary['filename']
 
         CreateLatex.save_latex(CreateLatex(), self.report_input, self.report_check, popup_summary, fname_no_ext, rel_path, Disp_3D_image)

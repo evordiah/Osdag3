@@ -1,5 +1,5 @@
 import yaml
-from Threading import FinPlateConnection
+from design_type.connection.fin_plate_connection import FinPlateConnection
 import unittest
 import os
 
@@ -10,7 +10,7 @@ popup_summary = {'ProfileSummary': {'CompanyName': 'LoremIpsum', 'CompanyLogo': 
                 'ProjectTitle': 'Fossee', 'Subtitle': '', 'JobNumber': '123', 'AdditionalComments': 'No comments', 'Client': 'LoremIpsum'}
 
 
-path = 'C:/Users/nitin/Pictures/Saved Pictures/Osdag3/ResourceFiles/design_example/'  ## path of input files
+path = 'C:/Users/nitin/Desktop/FOSSEE/Osdag3/ResourceFiles/design_example/'  ## path of input files
 
 files = os.listdir(path)  # get all files in input files directory
 
