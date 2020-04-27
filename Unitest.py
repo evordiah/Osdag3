@@ -8,6 +8,8 @@ we can traceback the filename(coz we know which function is running which input 
 
 But using Multitest we can't traceback which file is failing coz it's running in for loop. It'll just show
 the number of test cases failed and passed.
+
+Multitest.py is dynamic so we doesn't have to worry about number of input files.
 '''
 
 import yaml
@@ -105,6 +107,8 @@ class TestClass_for_FinPlate(unittest.TestCase):  # Similarly make other classes
 
     finplate = Modules()
 
+    # Make the number of functions equal to number of input files.
+    
     def test_0(self):
 
         file_name = list_of_dict_finplate[0][0]   #index 0

@@ -8,6 +8,8 @@ we can traceback the filename(coz we know which function is running which input 
 
 But using Multitest we can't traceback which file is failing coz it's running in for loop. It'll just show
 the number of test cases failed and passed.
+
+This file is dynamic it means we doesn't have to worry about number of input files.
 '''
 
 import yaml
