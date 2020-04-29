@@ -33,8 +33,6 @@ class CreateLatex(Document):
     def __init__(self):
         super().__init__()
 
-    @pyqtSlot()
-
     def save_latex(self, uiObj, Design_Check, reportsummary, filename, rel_path, Disp_3d_image):
         companyname = str(reportsummary["ProfileSummary"]['CompanyName'])
         companylogo = str(reportsummary["ProfileSummary"]['CompanyLogo'])
