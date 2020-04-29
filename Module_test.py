@@ -121,7 +121,7 @@ if __name__ == '__main__':
 
 
     test_log = open(log_file,'w')
-    result = unittest.TextTestRunner(stream=test_log, verbosity=2).run(suite())
+    result = unittest.TextTestRunner(verbosity=2).run(suite())
     test_log.close()
 
 
