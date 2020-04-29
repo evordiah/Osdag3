@@ -2,7 +2,7 @@ language: python
 
 python:
     - 3.7
-sudo: required
+os: window
 before_install:
     - sudo apt-get install texlive-latex-base
 
