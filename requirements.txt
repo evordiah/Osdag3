@@ -1,4 +1,3 @@
-pdflatex
 pdfkit
 pyyaml==3.13
 openpyxl
