@@ -418,7 +418,7 @@ class FinPlateConnection(ShearConnection):
         else:
             flag2=True
         if len(missing_fields_list) > 0:
-            error = generate_missing_fields_error_string(missing_fields_list)
+            error = self.generate_missing_fields_error_string(self, missing_fields_list)
             all_errors.append(error)
             # flag = False
         else:
@@ -428,6 +428,30 @@ class FinPlateConnection(ShearConnection):
             self.set_input_values(self, design_dictionary)
         else:
             return all_errors
+
+    def generate_missing_fields_error_string(self, missing_fields_list):
+        """
+        Args:
+            missing_fields_list: list of fields that are not selected or entered
+        Returns:
+            error string that has to be displayed
+        """
+        # The base string which should be displayed
+        information = "Please input the following required field"
+        if len(missing_fields_list) > 1:
+            # Adds 's' to the above sentence if there are multiple missing input fields
+            information += "s"
+        information += ": "
+        # Loops through the list of the missing fields and adds each field to the above sentence with a comma
+
+        for item in missing_fields_list:
+            information = information + item + ", "
+
+        # Removes the last comma
+        information = information[:-2]
+        information += "."
+
+        return information
 
     def warn_text(self):
 

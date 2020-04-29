@@ -1,72 +1,58 @@
-'''
-Only difference between Unitest.py and Multitest.py file is Multitest uses for loop to run each file
-whereas unitest has a unique function for each file.
-
-Now if we have fixed number of test files it's better to use Unitest if we want to find out which file
-is failing the test case. It'll show  name of the function which is failing the test case and from there
-we can traceback the filename(coz we know which function is running which input file).
-
-But using Multitest we can't traceback which file is failing coz it's running in for loop. It'll just show
-the number of test cases failed and passed.
-
-This file is dynamic it means we doesn't have to worry about number of input files.
-'''
-
-import yaml
-from design_type.connection.fin_plate_connection import FinPlateConnection
-import unittest
 import os
+import errno
+import yaml
 import sys
+from design_type.connection.fin_plate_connection import FinPlateConnection
+from design_type.connection.cleat_angle_connection import CleatAngleConnection
+import unittest
+
+Output_folder_name = 'Output_PDF'
 
 
-fname_no_ext = 'C:/Users/nitin/Desktop/PDF_output/'  # Output pdf location. Change it according to your need.
-
-# Predefined pop-up summary.
+#predefined pop-up summary.
 popup_summary = {'ProfileSummary': {'CompanyName': 'LoremIpsum', 'CompanyLogo': '', 'Group/TeamName': 'LoremIpsum', 'Designer': 'LoremIpsum'},
                 'ProjectTitle': 'Fossee', 'Subtitle': '', 'JobNumber': '123', 'AdditionalComments': 'No comments', 'Client': 'LoremIpsum'}
 
 
-path = 'C:/Users/nitin/Desktop/FOSSEE/Osdag3/ResourceFiles/design_example/'  ## path of input files
+input_file_path = os.path.join(os.path.dirname(__file__), 'ResourceFiles', 'design_example')
 
-files = os.listdir(path)  # get all files in input files directory
-
-
+output_folder_path = os.path.join(os.path.dirname(__file__), Output_folder_name)
 
 
-###################    BEGIN  -  FOR FINPLATE FILES   ##################
+def make_sure_path_exists(path):
+    try:
+        os.makedirs(path)
+    except OSError as exception:
+        if exception.errno != errno.EEXIST:
+            raise
 
-
-
-list_of_dict_finplate = []   # List of tuples. In each tuple first item is file name and second item is file data
-
-
-''' We are also storing file name here and tuple would look like (filename, file_data)
-    We will need this file name for testing purpose and giving each output pdf it's corresponding
-    input file name.
-
-    We can't traceback the file name here.
-'''
-
-
-def read_finplate_files():
-        for file in files:
-            if 'fin_' in file:                      # if file name contains fin_ (not specific change it according to need).
-                raw_file_name = file.split('.')[0]  # File name without extension
-                file_name = file                    # File name with extension
-                in_file = path + file_name
-                with open(in_file, 'r') as fileObject:
-                    uiObj = yaml.load(fileObject)
-                list_of_dict_finplate.append((raw_file_name, uiObj))
+make_sure_path_exists(output_folder_path)
 
 
 
-###################    END - FOR FINPLATE FILES   ##################
+osi_files = [file for file in os.listdir(input_file_path) if file.endswith(".osi")]
 
+
+available_module = {'Fin Plate':FinPlateConnection, 'Cleat Angle':CleatAngleConnection}  # Add more modules if they are ready.
+
+
+files_data = []
+
+def precompute_data():
+
+    for file in osi_files:
+
+        in_file = input_file_path + '/' + file
+
+        with open(in_file, 'r') as fileObject:
+            uiObj = yaml.load(fileObject, yaml.Loader)
+
+        files_data.append((file, uiObj))
 
 
 class Modules:
 
-    def Finplate_test(self,mainWindow,main,file_name, file_data): # FinPlate test function . Similarly make functions for other Modules.
+    def run_test(self,mainWindow,main,file_name, file_data): # FinPlate test function . Similarly make functions for other Modules.
 
         pdf_created = False
         main.set_osdaglogger(None)
@@ -91,8 +77,8 @@ class Modules:
 
             '''
 
-            duplicate = fname_no_ext         # Making duplicate so that original path doesn't change.
-            duplicate = duplicate + file_name  # giving each output file it's corresponding input file name.
+            duplicate = output_folder_path         # Making duplicate so that original path doesn't change.
+            duplicate = duplicate + '/' + file_name  # giving each output file it's corresponding input file name.
             popup_summary['filename'] = duplicate    # adding this key in popup_summary dict.
             main.save_design(main,popup_summary)  # calling the function.
             pdf_created = True   # if pdf created
@@ -100,37 +86,58 @@ class Modules:
         return pdf_created
 
 
-
 class TestModules(unittest.TestCase):
     def __init__(self, input, output):
         super(TestModules, self).__init__()
         self.input = input
         self.output = output
-        self.finplate = Modules()
+        self.module = Modules()
 
     def runTest(self):
 
         file_name = self.input[0]
         file_data = self.input[1]
-        ans = self.finplate.Finplate_test(self.finplate,FinPlateConnection,file_name, file_data)
-
+        file_class = available_module[file_data['Module']]
+        ans = self.module.run_test(self.module,file_class,file_name, file_data)
         self.assertTrue(ans is self.output)
 
 
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTests(TestModules(list_of_dict_finplate[i], True) for i in range(len(list_of_dict_finplate)))
+    suite.addTests(TestModules(item, True) for item in files_data )
+
+    ''' Uncomment and add condition according to your need if you want to run tests only for some specific modules. '''
+    #suite.addTests(TestModules(item, True) for item in files_data if item[1]['Module'] in available_module)
+
     return suite
 
 
 if __name__ == '__main__':
 
-    read_finplate_files()  # precomputing all finplate data
-
-    result = unittest.TextTestRunner(verbosity=2).run(suite())
+    precompute_data()
 
 
-    ''' Uncomment it if you want to see the exit Status of the test.'''
+    log_file = "test_log_file.txt"   # file in which test results will be written.
+
+
+    test_log = open(log_file,'w')
+    result = unittest.TextTestRunner(stream=test_log, verbosity=2).run(suite())
+    test_log.close()
+
+
+
+
+    with open(log_file, 'r') as content_file:
+        content = content_file.read()
+
+    '''
+        Reading the log file to see the output on console rather than opening the log file to see the output.
+        In actual test environment we won't need it.
+    '''
+    print(content)
+
+
+
     #test_exit_code = int(not result.wasSuccessful())
     #print('Exit Status Code is : ',test_exit_code)
