@@ -139,4 +139,4 @@ if __name__ == '__main__':
 
     test_exit_code = int(not result.wasSuccessful())
     sys.exit(test_exit_code)                                       # This step is important for travis CI.
-    #print('Exit Status Code is : ',test_exit_code)
+    print('Exit Status Code is : ',test_exit_code)

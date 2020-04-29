@@ -9,6 +9,3 @@ install:
 
 script:
     - python Module_test.py
-
-notifications:
-  email: false
