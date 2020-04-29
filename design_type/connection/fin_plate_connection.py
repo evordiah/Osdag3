@@ -6,7 +6,7 @@ from utils.common.component import Bolt, Plate, Weld
 # from gui.ui_summary_popup import Ui_Dialog
 from design_report.reportGenerator_latex import CreateLatex
 from utils.common.component import *
-from cad.common_logic import CommonDesignLogic
+#from cad.common_logic import CommonDesignLogic
 from utils.common.material import *
 from Common import *
 from utils.common.load import Load
