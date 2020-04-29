@@ -13,7 +13,6 @@ from pylatex.utils import italic, bold
 import pdflatex
 import sys
 import datetime
-from PyQt5.QtCore import pyqtSlot,pyqtSignal, QObject
 import pylatex as pyl
 
 from pylatex import Document, Section, Subsection, Tabular, Tabularx,MultiColumn, LongTable, LongTabularx, LongTabu, MultiRow, StandAloneGraphic
