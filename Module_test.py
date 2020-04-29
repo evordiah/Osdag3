@@ -107,7 +107,7 @@ def suite():
     #suite.addTests(TestModules(item, True) for item in files_data )
 
     ''' Uncomment and add condition according to your need if you want to run tests only for some specific modules. '''
-    suite.addTests(TestModules(item, True) for item in files_data if item[1]['Module'] not in available_module)
+    suite.addTests(TestModules(item, True) for item in files_data if item[1]['Module'] in available_module)
 
     return suite
 
