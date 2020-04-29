@@ -3,6 +3,7 @@ pyyaml==3.13
 openpyxl
 Pygments
 XlsxWriter
+latexmk.py
 pdflatex
 pylatex
 
