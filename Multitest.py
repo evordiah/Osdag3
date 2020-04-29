@@ -29,7 +29,6 @@ def make_sure_path_exists(path):
 make_sure_path_exists(output_folder_path)
 
 
-
 osi_files = [file for file in os.listdir(input_file_path) if file.endswith(".osi")]
 
 
