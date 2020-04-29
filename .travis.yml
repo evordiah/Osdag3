@@ -5,6 +5,7 @@ python:
 
 os: linux
 dist: ubuntu
+sudo: required
 before_install:
     - sudo apt-get install texlive-latex-base
 
