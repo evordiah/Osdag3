@@ -104,10 +104,10 @@ class TestModules(unittest.TestCase):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTests(TestModules(item, True) for item in files_data )
+    #suite.addTests(TestModules(item, True) for item in files_data )
 
     ''' Uncomment and add condition according to your need if you want to run tests only for some specific modules. '''
-    #suite.addTests(TestModules(item, True) for item in files_data if item[1]['Module'] in available_module)
+    suite.addTests(TestModules(item, True) for item in files_data if item[1]['Module'] not in available_module)
 
     return suite
 
@@ -138,5 +138,6 @@ if __name__ == '__main__':
 
 
 
-    #test_exit_code = int(not result.wasSuccessful())
+    test_exit_code = int(not result.wasSuccessful())
+    sys.exit(test_exit_code)                                       # This step is important for travis CI.
     #print('Exit Status Code is : ',test_exit_code)
