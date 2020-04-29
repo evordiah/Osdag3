@@ -6,7 +6,7 @@ python:
 os: linux
 dist: ubuntu
 before_install:
-    - sudo apt-get install texlive-latex-base
+    - sudo apt-get install texlive-full
 
 install:
     - pip install -r requirements.txt
