@@ -10,7 +10,7 @@ import configparser
 # from utils.common import component
 from pylatex import Document, Section, Subsection
 from pylatex.utils import italic, bold
-#import pdflatex
+import pdflatex
 import sys
 import datetime
 import pylatex as pyl
@@ -18,7 +18,7 @@ import pylatex as pyl
 from pylatex import Document, Section, Subsection, Tabular, Tabularx,MultiColumn, LongTable, LongTabularx, LongTabu, MultiRow, StandAloneGraphic
 from pylatex import Math, TikZ, Axis, Plot, Figure, Matrix, Alignat
 from pylatex.utils import italic
-#from pdflatex import PDFLaTeX
+from pdflatex import PDFLaTeX
 import os
 from pylatex.base_classes import Environment, CommandBase, Arguments
 from pylatex.package import Package
