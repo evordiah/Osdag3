@@ -3,7 +3,7 @@ import errno
 import yaml
 import sys
 from design_type.connection.fin_plate_connection import FinPlateConnection
-from design_type.connection.cleat_angle_connection import CleatAngleConnection
+#from design_type.connection.cleat_angle_connection import CleatAngleConnection
 import unittest
 
 Output_folder_name = 'Output_PDF'
