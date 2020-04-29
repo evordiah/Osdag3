@@ -1,5 +1,5 @@
 pdfkit
-pyYAML
+pyyaml==3.13
 openpyxl
 Pygments
 XlsxWriter

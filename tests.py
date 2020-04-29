@@ -127,14 +127,14 @@ if __name__ == '__main__':
 
 
 
-    with open(log_file, 'r') as content_file:
-        content = content_file.read()
+    #with open(log_file, 'r') as content_file:
+        #content = content_file.read()
 
     '''
         Reading the log file to see the output on console rather than opening the log file to see the output.
         In actual test environment we won't need it.
     '''
-    print(content)
+    #print(content)
 
 
 
