@@ -117,12 +117,12 @@ if __name__ == '__main__':
     precompute_data()
 
 
-    log_file = "test_log_file.txt"   # file in which test results will be written.
+    #log_file = "test_log_file.txt"   # file in which test results will be written.
 
 
-    test_log = open(log_file,'w')
+    #test_log = open(log_file,'w')
     result = unittest.TextTestRunner(verbosity=2).run(suite())
-    test_log.close()
+    #test_log.close()
 
 
 
