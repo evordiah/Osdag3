@@ -29,10 +29,11 @@ def make_sure_path_exists(path):
 make_sure_path_exists(output_folder_path)
 
 
+
 osi_files = [file for file in os.listdir(input_file_path) if file.endswith(".osi")]
 
 
-available_module = {'Fin Plate':FinPlateConnection, 'Cleat Angle':CleatAngleConnection}  # Add more modules if they are ready.
+available_module = {'Fin Plate':FinPlateConnection}  # Add more modules if they are ready.
 
 
 files_data = []
@@ -51,7 +52,7 @@ def precompute_data():
 
 class Modules:
 
-    def run_test(self,mainWindow,main,file_name, file_data): # FinPlate test function . Similarly make functions for other Modules.
+    def run_test(self,mainWindow,main,file_name, file_data):
 
         pdf_created = False
         main.set_osdaglogger(None)
@@ -104,10 +105,10 @@ class TestModules(unittest.TestCase):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTests(TestModules(item, True) for item in files_data )
+    #suite.addTests(TestModules(item, True) for item in files_data )
 
     ''' Uncomment and add condition according to your need if you want to run tests only for some specific modules. '''
-    #suite.addTests(TestModules(item, True) for item in files_data if item[1]['Module'] in available_module)
+    suite.addTests(TestModules(item, True) for item in files_data if item[1]['Module'] in available_module)
 
     return suite
 
@@ -127,14 +128,14 @@ if __name__ == '__main__':
 
 
 
-    #with open(log_file, 'r') as content_file:
-        #content = content_file.read()
+    with open(log_file, 'r') as content_file:
+        content = content_file.read()
 
     '''
         Reading the log file to see the output on console rather than opening the log file to see the output.
         In actual test environment we won't need it.
     '''
-    #print(content)
+    print(content)
 
 
 
