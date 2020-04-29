@@ -104,10 +104,10 @@ class TestModules(unittest.TestCase):
 
 def suite():
     suite = unittest.TestSuite()
-    #suite.addTests(TestModules(item, True) for item in files_data )
+    suite.addTests(TestModules(item, True) for item in files_data )
 
     ''' Uncomment and add condition according to your need if you want to run tests only for some specific modules. '''
-    suite.addTests(TestModules(item, True) for item in files_data if item[1]['Module'] not in available_module)
+    #suite.addTests(TestModules(item, True) for item in files_data if item[1]['Module'] not in available_module)
 
     return suite
 
@@ -120,20 +120,20 @@ if __name__ == '__main__':
     log_file = "test_log_file.txt"   # file in which test results will be written.
 
 
-    test_log = open(log_file,'w')
+    #test_log = open(log_file,'w')
     result = unittest.TextTestRunner(verbosity=2).run(suite())
-    test_log.close()
+    #test_log.close()
 
 
 
-    with open(log_file, 'r') as content_file:
-        content = content_file.read()
+    #with open(log_file, 'r') as content_file:
+        #content = content_file.read()
 
     '''
         Reading the log file to see the output on console rather than opening the log file to see the output.
         In actual test environment we won't need it.
     '''
-    print(content)
+    #print(content)
 
 
     test_exit_code = int(not result.wasSuccessful())
