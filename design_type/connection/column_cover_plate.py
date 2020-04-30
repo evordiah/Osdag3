@@ -172,6 +172,20 @@ class ColumnCoverPlate(MomentConnection):
 
         return options_list
 
+    def customized_input(self):
+
+        list1 = []
+        t1 = (KEY_GRD, self.grdval_customized)
+        list1.append(t1)
+        t3 = (KEY_D, self.diam_bolt_customized)
+        list1.append(t3)
+        t4 = (KEY_WEBPLATE_THICKNESS, self.plate_thick_customized)
+        list1.append(t4)
+        t5 = (KEY_FLANGEPLATE_THICKNESS, self.plate_thick_customized)
+        list1.append(t5)
+
+        return list1
+
     def flangespacing(self, flag):
 
         flangespacing = []
@@ -555,7 +569,11 @@ class ColumnCoverPlate(MomentConnection):
         self.web_plate = Plate(thickness=design_dictionary.get(KEY_WEBPLATE_THICKNESS, None),
                                material_grade=design_dictionary[KEY_MATERIAL],
                                gap=design_dictionary[KEY_DP_DETAILING_GAP])
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 36a206b8a4e0ce15a2b4f9619a5bdc8bcebaee7f
 
         self.member_capacity(self)
         # self.hard_values(self)
@@ -2900,3 +2918,7 @@ class ColumnCoverPlate(MomentConnection):
         print(fname_no_ext, "hhhhhhhhhhhhhhhhhhhhhhhhhhh")
         CreateLatex.save_latex(CreateLatex(), self.report_input, self.report_check, popup_summary, fname_no_ext,
                                rel_path, Disp_3D_image)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 36a206b8a4e0ce15a2b4f9619a5bdc8bcebaee7f

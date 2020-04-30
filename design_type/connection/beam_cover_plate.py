@@ -162,6 +162,21 @@ class BeamCoverPlate(MomentConnection):
 
         return options_list
 
+    def customized_input(self):
+
+        list1 = []
+        t1 = (KEY_GRD, self.grdval_customized)
+        list1.append(t1)
+        t3 = (KEY_D, self.diam_bolt_customized)
+        list1.append(t3)
+        t4 = (KEY_WEBPLATE_THICKNESS, self.plate_thick_customized)
+        list1.append(t4)
+        t5 = (KEY_FLANGEPLATE_THICKNESS, self.plate_thick_customized)
+        list1.append(t5)
+
+        return list1
+
+
     def flangespacing(self, flag):
 
         flangespacing = []
@@ -703,7 +718,11 @@ class BeamCoverPlate(MomentConnection):
             self.beta_b = 1
         elif self.class_of_section == 3:
             self.beta_b = self.Z_e / self.Z_p
+<<<<<<< HEAD
 
+=======
+     
+>>>>>>> 36a206b8a4e0ce15a2b4f9619a5bdc8bcebaee7f
         self.section.plastic_moment_capacty(beta_b = self.beta_b, Z_p = self.Z_p, fy= self.section.fy) # N # for section #todo add in ddcl
         self.section.moment_d_deformation_criteria(fy= self.section.fy,Z_e = self.section.elast_sec_mod_z)
         # todo add in ddcl
@@ -742,7 +761,11 @@ class BeamCoverPlate(MomentConnection):
         self.tension_yielding_capacity_web = self.tension_member_design_due_to_yielding_of_gross_section(
             A_v=A_v_web, fy=self.section.fy)
 
+<<<<<<< HEAD
 
+=======
+       
+>>>>>>> 36a206b8a4e0ce15a2b4f9619a5bdc8bcebaee7f
         print("tension_yielding_capacity_web", self.tension_yielding_capacity_web)
 
         if self.tension_yielding_capacity_web >  self.axial_force_w :
