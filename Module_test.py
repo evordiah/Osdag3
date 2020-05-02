@@ -3,8 +3,16 @@ import errno
 import yaml
 import sys
 from design_type.connection.fin_plate_connection import FinPlateConnection
+from design_type.tension_member.tension_bolted import Tension_bolted
 #from design_type.connection.cleat_angle_connection import CleatAngleConnection
 import unittest
+
+
+
+
+
+
+available_module = {'Fin Plate':FinPlateConnection, 'Tension Members Bolted Design':Tension_bolted}  # Add more modules if they are ready and make required changes in those modules else all test cases will fail.
 
 Output_folder_name = 'Output_PDF'
 
@@ -14,28 +22,32 @@ popup_summary = {'ProfileSummary': {'CompanyName': 'LoremIpsum', 'CompanyLogo': 
                 'ProjectTitle': 'Fossee', 'Subtitle': '', 'JobNumber': '123', 'AdditionalComments': 'No comments', 'Client': 'LoremIpsum'}
 
 
-input_file_path = os.path.join(os.path.dirname(__file__), 'ResourceFiles', 'design_example')
+input_file_path = os.path.join(os.path.dirname(__file__), 'ResourceFiles', 'design_example')   # input folder path
 
-output_folder_path = os.path.join(os.path.dirname(__file__), Output_folder_name)
+output_folder_path = os.path.join(os.path.dirname(__file__), Output_folder_name)               # output folder path
 
 
-def make_sure_path_exists(path):
+
+
+
+
+def make_sure_path_exists(path):      # Works on all OS.
     try:
         os.makedirs(path)
     except OSError as exception:
         if exception.errno != errno.EEXIST:
             raise
 
-make_sure_path_exists(output_folder_path)
+make_sure_path_exists(output_folder_path)   #make sure output folder exists if not then create.
 
 
-osi_files = [file for file in os.listdir(input_file_path) if file.endswith(".osi")]
 
 
-available_module = {'Fin Plate':FinPlateConnection}  # Add more modules if they are ready.
 
 
-files_data = []
+osi_files = [file for file in os.listdir(input_file_path) if file.endswith(".osi")]    # get all osi files in input_file_path directory.
+
+files_data = []   # list of tuples in which the first item will be file name and second item will be data of that file in dictionary format.
 
 def precompute_data():
 
@@ -44,9 +56,14 @@ def precompute_data():
         in_file = input_file_path + '/' + file
 
         with open(in_file, 'r') as fileObject:
+
             uiObj = yaml.load(fileObject, yaml.Loader)
 
         files_data.append((file, uiObj))
+
+
+
+
 
 
 class Modules:
@@ -85,6 +102,10 @@ class Modules:
         return pdf_created
 
 
+
+
+
+
 class TestModules(unittest.TestCase):
     def __init__(self, input, output):
         super(TestModules, self).__init__()
@@ -96,45 +117,63 @@ class TestModules(unittest.TestCase):
 
         file_name = self.input[0]
         file_data = self.input[1]
-        file_class = available_module[file_data['Module']]
+        file_class = available_module[file_data['Module']]               # check the class.
         ans = self.module.run_test(self.module,file_class,file_name, file_data)
         self.assertTrue(ans is self.output)
 
 
 
-def suite():
-    suite = unittest.TestSuite()
-    #suite.addTests(TestModules(item, True) for item in files_data )
 
-    ''' Uncomment and add condition according to your need if you want to run tests only for some specific modules. '''
+
+
+def suite():
+
+    suite = unittest.TestSuite()
+
+    ''' Make changes in this line to add files in TestSuite for testing according to your need or available modules. '''
+
     suite.addTests(TestModules(item, True) for item in files_data if item[1]['Module'] in available_module)
 
     return suite
 
 
+
+
+
+
+#Block print
+def blockPrint():
+    sys.stdout = open(os.devnull, 'w')
+
+# Restore print
+def enablePrint():
+    sys.stdout = sys.__stdout__
+
+
 if __name__ == '__main__':
 
-    precompute_data()
+    blockPrint()         # disable printing to avoid printing from unnecessary print statments in each modules.
+    precompute_data()    # precompute all data.
 
 
-    #log_file = "test_log_file.txt"   # file in which test results will be written.
+    log_file = "test_log_file.txt"   # log file in which test results will be written.
 
 
-    #test_log = open(log_file,'w')
-    result = unittest.TextTestRunner(verbosity=2).run(suite())
-    #test_log.close()
+    with open(log_file, 'w') as TEST_LOG_FILE:
+        result = unittest.TextTestRunner(stream = TEST_LOG_FILE,verbosity=2).run(suite())     # Writing results to log file.
 
 
 
-    #with open(log_file, 'r') as content_file:
-        #content = content_file.read()
+    with open(log_file, 'r') as content_file:
+        content = content_file.read()
 
     '''
         Reading the log file to see the output on console rather than opening the log file to see the output.
         In actual test environment we won't need it.
     '''
-    #print(content)
+    enablePrint()       # enable printing to print the test log.
+    print(content)
+
 
     test_exit_code = int(not result.wasSuccessful())
-    print('Exit Status Code is : ',test_exit_code)
-    sys.exit(test_exit_code)                                       # This step is important for travis CI.
+    sys.exit(test_exit_code)                              # This step is important for travis CI if we want to show test case fail as build fail.

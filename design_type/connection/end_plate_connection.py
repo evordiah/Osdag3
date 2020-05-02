@@ -1076,14 +1076,13 @@ class EndPlateConnection(ShearConnection):
 
         return capacities
 # main()
-<<<<<<< HEAD
-print(time.clock() - start_time, "seconds")
-=======
-
-
-
-
-
 
 print(time.clock() - start_time, "seconds")
->>>>>>> 36a206b8a4e0ce15a2b4f9619a5bdc8bcebaee7f
+
+
+
+
+
+
+
+print(time.clock() - start_time, "seconds")

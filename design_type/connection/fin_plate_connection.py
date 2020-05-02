@@ -11,7 +11,7 @@ from utils.common.material import *
 from Common import *
 from utils.common.load import Load
 import yaml
-from design_report.reportGenerator import save_html
+from design_report.reportGenerator import  save_html
 from Report_functions import *
 import os
 import logging
@@ -1079,7 +1079,7 @@ class FinPlateConnection(ShearConnection):
                                                              round(self.plate.tension_yielding_capacity / 1000, 2)),'')
         self.report_check.append(t1)
 
-        t1 = (KEY_DISP_TENSION_RUPTURECAPACITY, '', tension_rupture_prov(self.plate.length, self.plate.thickness_provided,
+        t1 = (KEY_DISP_TENSION_RUPTURECAPACITY, '', tension_rupture_bolted_prov(self.plate.length, self.plate.thickness_provided,
                                                         self.plate.bolts_one_line, self.bolt.dia_hole,
                                                         self.plate.fu,gamma_m1,
                                                         round(self.plate.tension_rupture_capacity / 1000, 2)),'')

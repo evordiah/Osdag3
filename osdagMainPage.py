@@ -102,7 +102,10 @@ class OsdagMainWindow(QMainWindow):
         #show_msg = pyqtSignal()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.showMaximized()
+        with open("mainContent.qss", 'r', encoding='utf-8') as f:
+                self.style = f.read()
+                self.setStyleSheet(self.style)
+        self.show()
         list_of_items = {'Osdagpage': 0, 'connectionpage': 1, 'Tension': 2,'Compression': 3, 'beamtocolumnpage': 4,'flexuralpage': 5}
         self.ui.myStackedWidget.setCurrentIndex(list_of_items['Osdagpage'])
         self.ui.btn_connection.clicked.connect(lambda: self.change_desgin_page(list_of_items['connectionpage'], list_of_items['Osdagpage']))
@@ -567,14 +570,20 @@ def the_exception_hook(exctype, value, traceback):
 
 # Set the exception hook to our wrapping function
 sys.excepthook = the_exception_hook
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+
     # folder_path = r'C:\Users\Deepthi\Desktop\OsdagWorkspace'
     # # folder_path = r'C:\Users\Win10\Desktop'
     #folder_path = r'C:\Users\pc\Desktop'
     # window = MainController(Ui_ModuleWindow, FinPlateConnection, folder_path)
     window = OsdagMainWindow()
     window.show()
+    #qtmodern.styles.light(app)
+    #mw = qtmodern.windows.ModernWindow(window)
+    #mw.show()
     # app.exec_()
     # sys.exit(app.exec_())
     try:

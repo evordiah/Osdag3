@@ -11,6 +11,7 @@ from pylatex.utils import italic, bold
 import pdflatex
 import sys
 import datetime
+from PyQt5.QtCore import pyqtSlot,pyqtSignal, QObject
 
 
 from pylatex import Document, Section, Subsection, Tabular, Tabularx,MultiColumn
@@ -285,12 +286,8 @@ def tension_yield_prov(l,t, f_y, gamma, T_dg):
     return tension_yield_eqn
 
 
-<<<<<<< HEAD
-def tension_rupture_prov(w_p, t_p, n_c, d_o, fu,gamma_m1,T_dn):
-=======
 def tension_rupture_bolted_prov(w_p, t_p, n_c, d_o, fu,gamma_m1,T_dn):
 
->>>>>>> 36a206b8a4e0ce15a2b4f9619a5bdc8bcebaee7f
     w_p = str(w_p)
     t_p = str(t_p)
     n_c = str(n_c)

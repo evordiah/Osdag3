@@ -39,13 +39,11 @@ class BeamCoverPlate(MomentConnection):
         formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
         handler.setFormatter(formatter)
         logger.addHandler(handler)
-
-        if key is not None:
-            handler = OurLog(key)
-            handler.setLevel(logging.WARNING)
-            formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
-            handler.setFormatter(formatter)
-            logger.addHandler(handler)
+        handler = OurLog(key)
+        handler.setLevel(logging.WARNING)
+        formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
 
     def input_values(self, existingvalues={}):
 
@@ -425,7 +423,6 @@ class BeamCoverPlate(MomentConnection):
         return out_list
 
     def func_for_validation(self, window, design_dictionary):
-        all_errors = []
         self.design_status = False
         flag = False
 
@@ -441,8 +438,8 @@ class BeamCoverPlate(MomentConnection):
                     missing_fields_list.append(option[1])
 
         if len(missing_fields_list) > 0:
-            error = self.generate_missing_fields_error_string(self,missing_fields_list)
-            all_errors.append(error)
+            QMessageBox.information(window, "Information",
+                                    self.generate_missing_fields_error_string(self, missing_fields_list))
             # flag = False
         else:
             flag = True
@@ -450,7 +447,7 @@ class BeamCoverPlate(MomentConnection):
         if flag:
             self.set_input_values(self, design_dictionary)
         else:
-            all_errors
+            pass
 
     def warn_text(self):
 
@@ -718,11 +715,7 @@ class BeamCoverPlate(MomentConnection):
             self.beta_b = 1
         elif self.class_of_section == 3:
             self.beta_b = self.Z_e / self.Z_p
-<<<<<<< HEAD
 
-=======
-     
->>>>>>> 36a206b8a4e0ce15a2b4f9619a5bdc8bcebaee7f
         self.section.plastic_moment_capacty(beta_b = self.beta_b, Z_p = self.Z_p, fy= self.section.fy) # N # for section #todo add in ddcl
         self.section.moment_d_deformation_criteria(fy= self.section.fy,Z_e = self.section.elast_sec_mod_z)
         # todo add in ddcl
@@ -761,11 +754,7 @@ class BeamCoverPlate(MomentConnection):
         self.tension_yielding_capacity_web = self.tension_member_design_due_to_yielding_of_gross_section(
             A_v=A_v_web, fy=self.section.fy)
 
-<<<<<<< HEAD
 
-=======
-       
->>>>>>> 36a206b8a4e0ce15a2b4f9619a5bdc8bcebaee7f
         print("tension_yielding_capacity_web", self.tension_yielding_capacity_web)
 
         if self.tension_yielding_capacity_web >  self.axial_force_w :

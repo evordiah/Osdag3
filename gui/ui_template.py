@@ -1572,11 +1572,10 @@ class Ui_ModuleWindow(QMainWindow):
             return
         try:
             in_file = str(fileName)
-            print(in_file)
             with open(in_file, 'r') as fileObject:
                 uiObj = yaml.load(fileObject)
             module = uiObj[KEY_MODULE]
-
+            print('djhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh',uiObj)
             module_class = self.return_class(module)
 
             selected_module = main.module_name(main)
@@ -1671,8 +1670,7 @@ class Ui_ModuleWindow(QMainWindow):
             status = main.design_status
             print(status)
 
-            if error is not None:   # if list is not empty means error occurred.
-
+            if error is not None:
                 self.show_error_msg(error)
             # main.set_input_values(main, self.design_inputs, self)
             # DESIGN_FLAG = 'True'
@@ -2286,8 +2284,6 @@ if __name__ == '__main__':
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-<<<<<<< HEAD
-=======
 
 
 # var_list = list(d)
@@ -2325,4 +2321,3 @@ if __name__ == '__main__':
 #     key_customized_6.activated.connect(lambda: popup(key_customized_6, new_list))
 #     data[t[0] + "_customized"] = t[1](self.dockWidgetContents.findChild(QtWidgets.QWidget,
 #                     KEY_SEC_PROFILE).currentText())
->>>>>>> 36a206b8a4e0ce15a2b4f9619a5bdc8bcebaee7f

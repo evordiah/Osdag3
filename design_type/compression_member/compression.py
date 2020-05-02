@@ -35,12 +35,11 @@ class Compression(Main):
         # formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
         # handler.setFormatter(formatter)
         # logger.addHandler(handler)
-        if key is not None:
-            handler = OurLog(key)
-            # handler.setLevel(logging.DEBUG)
-            formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
-            handler.setFormatter(formatter)
-            logger.addHandler(handler)
+        handler = OurLog(key)
+        # handler.setLevel(logging.DEBUG)
+        formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
 
     def customized_input(self):
 
@@ -835,7 +834,7 @@ class Compression(Main):
         # angle_section.append(t33)
 
         return angle_section
-    
+
     @staticmethod
     def tab_channel_section():
         #Channel Tab method for adding tab elements
@@ -961,8 +960,6 @@ class Compression(Main):
         design.append(t1)
 
         return design
-<<<<<<< HEAD
-=======
     @staticmethod
     def connector_values():
         connector = []
@@ -979,4 +976,3 @@ class Compression(Main):
         connector.append(t3)
 
         return connector
->>>>>>> 36a206b8a4e0ce15a2b4f9619a5bdc8bcebaee7f

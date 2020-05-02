@@ -63,11 +63,10 @@ class Tension_welded(Main):
         handler.setFormatter(formatter)
         logger.addHandler(handler)
 
-        if key is not None:
-            handler = OurLog(key)
-            formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
-            handler.setFormatter(formatter)
-            logger.addHandler(handler)
+        handler = OurLog(key)
+        formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
 
     def module_name(self):
 
@@ -884,7 +883,6 @@ class Tension_welded(Main):
 
         "check valid inputs and empty inputs in input dock"
 
-        all_errors = []
         self.design_status = False
 
         flag = False
@@ -900,8 +898,8 @@ class Tension_welded(Main):
                     missing_fields_list.append(option[1])
 
         if len(missing_fields_list) > 0:
-            error = self.generate_missing_fields_error_string(self,missing_fields_list)
-            all_errors.append(error)
+            QMessageBox.information(window, "Information",
+                                    self.generate_missing_fields_error_string(self, missing_fields_list))
             # flag = False
         else:
             flag = True
@@ -910,7 +908,7 @@ class Tension_welded(Main):
             self.set_input_values(self, design_dictionary)
             print(design_dictionary)
         else:
-            all_errors
+            pass
 
 
 

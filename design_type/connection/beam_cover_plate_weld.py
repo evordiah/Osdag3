@@ -35,13 +35,11 @@ class BeamCoverPlateWeld(MomentConnection):
         formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
         handler.setFormatter(formatter)
         logger.addHandler(handler)
-
-        if key is not None:
-            handler = OurLog(key)
-            handler.setLevel(logging.WARNING)
-            formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
-            handler.setFormatter(formatter)
-            logger.addHandler(handler)
+        handler = OurLog(key)
+        handler.setLevel(logging.WARNING)
+        formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
 
     def input_values(self, existingvalues={}):
 
@@ -317,7 +315,6 @@ class BeamCoverPlateWeld(MomentConnection):
         return out_list
 
     def func_for_validation(self, window, design_dictionary):
-        all_errors = []
         self.design_status = False
         flag = False
 
@@ -333,8 +330,8 @@ class BeamCoverPlateWeld(MomentConnection):
                     missing_fields_list.append(option[1])
 
         if len(missing_fields_list) > 0:
-            error = self.generate_missing_fields_error_string(self,missing_fields_list)
-            all_errors.append(error)
+            QMessageBox.information(window, "Information",
+                                    self.generate_missing_fields_error_string(self, missing_fields_list))
             # flag = False
         else:
             flag = True
@@ -342,7 +339,7 @@ class BeamCoverPlateWeld(MomentConnection):
         if flag:
             self.set_input_values(self, design_dictionary)
         else:
-            all_errors
+            pass
 
     def warn_text(self):
 
