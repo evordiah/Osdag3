@@ -25,5 +25,7 @@ addons:
       - python3-pip
 
 
+before_script: cd $TRAVIS_BUILD_DIR/src/
+
 script:
-  - python3 Module_test.py
+    - pdflatex fin.tex
