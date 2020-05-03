@@ -3,6 +3,8 @@ language: generic
 
 dist: bionic
 
+before_install:
+    - sudo apt install python3
 install:
     #- sudo apt-get install lmodern
     #- sudo apt install texlive-latex-base
@@ -19,10 +21,3 @@ cache:
 
 script:
     - python Module_test.py
-
-addons:
-  apt:
-    sources:
-      - deadsnakes # source required so it finds the package definition below
-    packages:
-      - python3.5
