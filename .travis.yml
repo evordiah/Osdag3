@@ -5,10 +5,10 @@ language: python
 python:
     - 3.7
 
-
+dist: bionic
 
 install:
-    - source ./texlive_install.sh
+    - source ./texlive/texlive_install.sh
     - pip install -r requirements.txt
 
 
