@@ -29,4 +29,7 @@ addons:
 before_script: cd $TRAVIS_BUILD_DIR/src/
 
 script:
-    - pdflatex fin.tex
+    - sudo pdflatex fin.tex
+
+
+# C:/Users/nitin/Pictures/untitled
