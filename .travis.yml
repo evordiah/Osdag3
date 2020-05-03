@@ -3,9 +3,8 @@ language: generic
 
 dist: bionic
 
-env: PYTHON_VERSION=3.6.2
-python: 3.6
-
+before_install:
+    - sudo apt install python3
 install:
     #- sudo apt-get install lmodern
     #- sudo apt install texlive-latex-base
@@ -21,4 +20,4 @@ cache:
 #before_script: cd $TRAVIS_BUILD_DIR/src/
 
 script:
-    - python3 Module_test.py
+    - python3 -m Module_test.py
