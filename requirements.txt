@@ -1,5 +1,4 @@
 pdfkit
-pdflatex
 pyyaml==3.13
 openpyxl
 Pygments
