@@ -9,7 +9,7 @@ install:
     #- sudo apt-get install lmodern
     #- sudo apt install texlive-latex-base
     - source ./texlive/texlive_install.sh
-    - pip install --user -r requirements.txt
+    - pip3 install --user -r requirements.txt
 
 
 cache:
@@ -20,4 +20,4 @@ cache:
 #before_script: cd $TRAVIS_BUILD_DIR/src/
 
 script:
-    - python Module_test.py
+    - python3 Module_test.py
