@@ -182,7 +182,7 @@ if __name__ == '__main__':
         result = unittest.TextTestRunner(stream = TEST_LOG_FILE,verbosity=2).run(suite())     # Writing results to log file.
 
 
-    with open(path, 'r') as content_file:
+    with open(log_file, 'r') as content_file:
         content = content_file.read()
 
     '''
