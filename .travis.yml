@@ -18,10 +18,7 @@ cache:
 before_script: cd $TRAVIS_BUILD_DIR/src/
 
 script:
-      - pdflatex main.tex
-      - bibtex main
-      - pdflatex main.tex
-      - pdflatex main.tex # Compile twice to fix references
+      - latexmk -pdf main.tex
 
 after_script:
     - export PATH=/tmp/texlive/bin/x86_64-linux:$PATH
