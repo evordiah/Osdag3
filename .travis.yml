@@ -23,6 +23,7 @@ addons:
   apt:
     packages:
       - python3-pip
+      - python3.4-dev
 
 
 before_script: cd $TRAVIS_BUILD_DIR/src/
