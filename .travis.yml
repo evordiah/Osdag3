@@ -22,6 +22,3 @@ addons:
         - deadsnakes
     packages:
         - python3.4
-
-script:
-    - python3 -m Module_test.py
