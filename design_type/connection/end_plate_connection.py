@@ -26,8 +26,6 @@ ASCII diagram
 
 
 from design_type.connection.shear_connection import ShearConnection
-from PyQt5.QtWidgets import QMessageBox
-from PyQt5 import QtCore, QtGui, QtWidgets
 from utils.common.component import Bolt, Plate, Weld
 # from gui.ui_summary_popup import Ui_Dialog
 from utils.common.component import *
@@ -35,7 +33,6 @@ from utils.common.component import *
 from utils.common.material import *
 from Common import *
 from utils.common.load import Load
-import yaml
 from design_report.reportGenerator import save_html
 import logging
 
