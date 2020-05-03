@@ -8,7 +8,7 @@ python:
 
 
 install:
-    - source ./support/texlive_install.sh
+    - source ./texlive_install.sh
     - pip install -r requirements.txt
 
 
