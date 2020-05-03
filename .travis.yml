@@ -26,4 +26,4 @@ addons:
 
 
 script:
-  - python Module_test.py
+  - python3 Module_test.py
