@@ -72,7 +72,11 @@ tlmgr install \
   luatexja      \
   xkeyval       \
   zhmetrics    \
-  lastpage
+  lastpage		\
+  parskip		\
+  needspace		\
+  multirow		\
+  fancyhdr
   
 # For the doc target
 tlmgr install \
