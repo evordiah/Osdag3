@@ -2,13 +2,15 @@
 dist: bionic
 before_install: sudo apt-get update
 install:
+    - sudo apt install latexmk
+    - sudo apt install perl
     - sudo apt install texlive-latex-base
 
 
 script:
 
 # Prefix command with travis_wait x so it times out after 3 mins
-    - pdflatex fin.tex
+    - latexmk fin.tex
 
 #after_script:
   #  - export PATH=/tmp/texlive/bin/x86_64-linux:$PATH
