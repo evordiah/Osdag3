@@ -171,37 +171,27 @@ def enablePrint():
 
 if __name__ == '__main__':
 
-    blockPrint()         # disable printing to avoid printing from unnecessary print statments in each modules.
+    #blockPrint()         # disable printing to avoid printing from unnecessary print statments in each modules.
     precompute_data()    # precompute all data.
 
 
     log_file = "test_log_file.txt"   # log file in which test results will be written.
 
-    try:
 
-        path = os.getcwd()
-        path = path.replace("\\",'/')
-        path = path + '/' + log_file
-
-        with open(path, 'w+') as TEST_LOG_FILE:
-            result = unittest.TextTestRunner(stream = TEST_LOG_FILE,verbosity=2).run(suite())     # Writing results to log file.
+    with open(log_file, 'w') as TEST_LOG_FILE:
+        result = unittest.TextTestRunner(stream = TEST_LOG_FILE,verbosity=2).run(suite())     # Writing results to log file.
 
 
-        with open(path, 'r') as content_file:
-            content = content_file.read()
+    with open(path, 'r') as content_file:
+        content = content_file.read()
 
-        '''
-            Reading the log file to see the output on console rather than opening the log file to see the output.
-            In actual test environment we won't need it.
-        '''
-        enablePrint()       # enable printing to print the test log.
-        print(content)
+    '''
+        Reading the log file to see the output on console rather than opening the log file to see the output.
+        In actual test environment we won't need it.
+    '''
+    #enablePrint()       # enable printing to print the test log.
+    print(content)
 
 
-        test_exit_code = int(not result.wasSuccessful())
-        sys.exit(test_exit_code)                              # This step is important for travis CI if we want to show test case fail as build fail.
-
-    except IOError:
-
-        enablePrint()
-        print("You do not have permission to access the log file. Please run as an administrator.")
+    test_exit_code = int(not result.wasSuccessful())
+    sys.exit(test_exit_code)                              # This step is important for travis CI if we want to show test case fail as build fail.
