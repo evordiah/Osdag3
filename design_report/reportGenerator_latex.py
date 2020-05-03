@@ -89,7 +89,7 @@ class CreateLatex(Document):
                         table.add_hline()
                         sectiondetails = uiObj[i]
                         image_name = sectiondetails[KEY_DISP_SEC_PROFILE]
-                        Img_path = r'/ResourceFiles/images/'+image_name+r'".png'
+                        Img_path = '/ResourceFiles/images/'+image_name+'.png'
                         if (len(sectiondetails))% 2 == 0:
                         # merge_rows = int(round_up(len(sectiondetails),2)/2 + 2)
                             merge_rows = int(round_up((len(sectiondetails)/2),1,0) + 2)
@@ -105,7 +105,7 @@ class CreateLatex(Document):
                             if x == 1:
                                 table.add_row(
                                     (MultiRow(merge_rows, data=StandAloneGraphic(image_options="width=5cm,height=5cm",
-                                                                                 filename=r'"' + rel_path + Img_path)),
+                                                                                 filename=rel_path + Img_path)),
                                      MultiColumn(2, align='|c|', data=a[x]),
                                      MultiColumn(2, align='|c|', data=sectiondetails[a[x]]),))
                             elif x <= 4:
@@ -150,7 +150,7 @@ class CreateLatex(Document):
         with doc.create(Section('3D View')):
             with doc.create(Figure(position='h!')) as view_3D:
                 view_3dimg_path = rel_path + Disp_3d_image
-                view_3D.add_image(filename=r'"' + view_3dimg_path, width=NoEscape(r'\linewidth'))
+                view_3D.add_image(filename=view_3dimg_path, width=NoEscape(r'\linewidth'))
                 view_3D.add_caption('3D View')
-        print(filename,'jjjjjjjjjjjjjjjjjjjj')
+
         doc.generate_pdf(filename, compiler='pdflatex', clean_tex=False)

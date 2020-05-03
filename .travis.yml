@@ -5,7 +5,7 @@ dist: bionic
 
 before_install:
   - sudo apt-get install python3-setuptools
-  - sudo apt-get install perl
+
 install:
     #- sudo apt-get install lmodern
     #- sudo apt install texlive-latex-base
