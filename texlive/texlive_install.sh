@@ -71,7 +71,8 @@ tlmgr install \
   xecjk         \
   luatexja      \
   xkeyval       \
-  zhmetrics
+  zhmetrics    \
+  lastpage
   
 # For the doc target
 tlmgr install \
