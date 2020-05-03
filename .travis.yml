@@ -6,6 +6,7 @@ dist: bionic
 
 
 install:
+    - apt install texlive-latex-base
     - source ./texlive/texlive_install.sh
 
 
