@@ -173,7 +173,7 @@ def enablePrint():
 
 if __name__ == '__main__':
 
-    blockPrint()         # disable printing to avoid printing from unnecessary print statments in each modules.
+    #blockPrint()         # disable printing to avoid printing from unnecessary print statments in each modules.
     precompute_data()    # precompute all data.
 
 
@@ -194,7 +194,7 @@ if __name__ == '__main__':
         Reading the log file to see the output on console rather than opening the log file to see the output.
         In actual test environment we won't need it.
     '''
-    enablePrint()       # enable printing to print the test log.
+    #enablePrint()       # enable printing to print the test log.
     print(content)
 
 
