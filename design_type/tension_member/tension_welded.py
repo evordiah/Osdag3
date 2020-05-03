@@ -8,15 +8,11 @@ from utils.common.component import *
 from utils.common.material import *
 from Common import *
 from utils.common.load import Load
-import yaml
 from design_report.reportGenerator import save_html
 import logging
 
 from main import Main
 
-
-import cairosvg
-from io import StringIO
 
 class Tension_welded(Main):
 
