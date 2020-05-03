@@ -1,6 +1,7 @@
-language: generic
+language: python
 
-
+python:
+  - 3.7
 dist: bionic
 
 #before_install :
@@ -10,7 +11,7 @@ install:
     #- sudo apt-get install lmodern
     #- sudo apt install texlive-latex-base
     - source ./texlive/texlive_install.sh
-    #- pip install -r requirements.txt
+    - pip install -r requirements.txt
 
 
 
@@ -19,8 +20,7 @@ cache:
     - /tmp/texlive
     - $HOME/.texlive
 
-before_script: cd $TRAVIS_BUILD_DIR/src/
+#before_script: cd $TRAVIS_BUILD_DIR/src/
 
 script:
-    - texliveonfly fin.tex
-    - latexmk -pdf fin.tex
+    - python Module_test.py
