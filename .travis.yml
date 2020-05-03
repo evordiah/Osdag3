@@ -1,18 +1,7 @@
-language:
-  - generic
+language: generic
 
 
 dist: bionic
-
-
-cache:
-  directories:
-    - /tmp/texlive
-    - $HOME/.texlive
-
-
-before_install :
-    - sudo apt-get update
 
 install:
     #- sudo apt-get install lmodern
@@ -21,6 +10,10 @@ install:
     - pip install -r requirements.txt
 
 
+cache:
+  directories:
+    - /tmp/texlive
+    - $HOME/.texlive
 
 #before_script: cd $TRAVIS_BUILD_DIR/src/
 
@@ -32,4 +25,4 @@ addons:
     sources:
       - deadsnakes # source required so it finds the package definition below
     packages:
-      - python3.4
+      - python
