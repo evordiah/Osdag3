@@ -9,6 +9,7 @@ install:
     #- sudo apt-get install lmodern
     #- sudo apt install texlive-latex-base
     - source ./texlive/texlive_install.sh
+    - pip3 install wheel
     - pip3 install --user -r requirements.txt
 
 
@@ -23,7 +24,6 @@ addons:
   apt:
     packages:
       - python3-pip
-      - python3.4-dev
 
 
 before_script: cd $TRAVIS_BUILD_DIR/src/
