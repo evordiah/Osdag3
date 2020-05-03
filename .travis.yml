@@ -32,6 +32,3 @@ addons:
 script:
     #- pdflatex fin.tex
     - python3 Module_test.py
-
-
-# C:/Users/nitin/Pictures/untitled
