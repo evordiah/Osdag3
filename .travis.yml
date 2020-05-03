@@ -4,13 +4,12 @@ language:
 
 dist: bionic
 
-addons:
-  apt:
-    sources:
-      - deadsnakes # source required so it finds the package definition below
-    packages:
-      - python3.7
-      - python3.4-dev
+
+cache:
+  directories:
+    - /tmp/texlive
+    - $HOME/.texlive
+
 
 before_install :
     - sudo apt-get update
@@ -23,12 +22,14 @@ install:
 
 
 
-cache:
-  directories:
-    - /tmp/texlive
-    - $HOME/.texlive
-
 #before_script: cd $TRAVIS_BUILD_DIR/src/
 
 script:
     - python Module_test.py
+
+addons:
+  apt:
+    sources:
+      - deadsnakes # source required so it finds the package definition below
+    packages:
+      - python3.4
