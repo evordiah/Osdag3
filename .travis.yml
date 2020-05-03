@@ -6,17 +6,8 @@ dist: bionic
 
 before_install: sudo apt-get update
 install:
-    - sudo apt install texlive-base
-    - source ./texlive/texlive_install.sh
+    - sudo apt install texlive-latex-base
 
-
-
-cache:
-  directories:
-    - /tmp/texlive
-    - $HOME/.texlive
-
-before_script: cd $TRAVIS_BUILD_DIR/src/
 
 script:
     - mkdir _build
