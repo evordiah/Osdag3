@@ -4,4 +4,4 @@ openpyxl
 Pygments
 XlsxWriter
 pylatex
-
+numpy
