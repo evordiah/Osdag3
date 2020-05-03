@@ -4,9 +4,8 @@ language: generic
 dist: bionic
 
 before_install :
-  - sudo apt clean && sudo apt-get update
-  - sudo apt upgrade
-  - sudo apt install --fix-missing
+    - sudo apt-get update
+
 install:
     - sudo apt install texlive-latex-base
     - source ./texlive/texlive_install.sh
