@@ -3,12 +3,12 @@ language: generic
 
 dist: bionic
 
-before_install :
-    - sudo apt-get update
+#before_install :
+    #- sudo apt-get update
 
 install:
-    - sudo apt-get install lmodern
-    - sudo apt install texlive-latex-base
+    #- sudo apt-get install lmodern
+    #- sudo apt install texlive-latex-base
     - source ./texlive/texlive_install.sh
     #- pip install -r requirements.txt
 
