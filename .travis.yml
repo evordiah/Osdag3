@@ -1,4 +1,6 @@
-language: python
+language:
+  - python
+  - generic
 
 python:
   - 3.7
