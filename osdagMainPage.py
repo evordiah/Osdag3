@@ -232,40 +232,6 @@ class OsdagMainWindow(QMainWindow):
         super().__init__()
         self.ui=Ui_MainWindow()
         self.ui.setupUi(self)
-<<<<<<< HEAD
-        with open("mainContent.qss", 'r', encoding='utf-8') as f:
-                self.style = f.read()
-                self.setStyleSheet(self.style)
-        self.show()
-        list_of_items = {'Osdagpage': 0, 'connectionpage': 1, 'Tension': 2,'Compression': 3, 'beamtocolumnpage': 4,'flexuralpage': 5}
-        self.ui.myStackedWidget.setCurrentIndex(list_of_items['Osdagpage'])
-        self.ui.btn_connection.clicked.connect(lambda: self.change_desgin_page(list_of_items['connectionpage'], list_of_items['Osdagpage']))
-        self.ui.btn_compression.clicked.connect(
-            lambda: self.change_desgin_page(list_of_items['Compression'], list_of_items['Osdagpage']))
-        self.ui.btn_tension.clicked.connect(
-            lambda: self.change_desgin_page(list_of_items['Tension'], list_of_items['Osdagpage']))
-       # self.ui.myListWidget.currentItemChanged.connect(self.change_desgin_page)
-        self.ui.btn_shearconnection_start.clicked.connect(self.show_shear_connection)
-        self.ui.btn_momentconnection_bb_start.clicked.connect(self.show_moment_connection)
-        self.ui.btn_momentconnection_bc_start.clicked.connect(self.unavailable)
-        self.ui.btn_momentconnection_cc_start.clicked.connect(self.show_moment_connection_cc)
-        self.ui.btn_baseplate_start.clicked.connect(self.show_base_plate)
-
-        self.ui.Tension_Start.clicked.connect(self.show_tension_module)
-        self.ui.Compression_Start.clicked.connect(self.show_compression_module)
-
-        self.ui.btn_beamCol.clicked.connect(self.unavailable)
-        # self.ui.btn_compression.clicked.connect(self.unavailable)
-        self.ui.btn_flexural.clicked.connect(self.unavailable)
-        self.ui.btn_truss.clicked.connect(self.unavailable)
-        self.ui.btn_2dframe.clicked.connect(self.unavailable)
-        self.ui.btn_3dframe.clicked.connect(self.unavailable)
-        self.ui.btn_groupdesign.clicked.connect(self.unavailable)
-        # self.ui.btn_tension.clicked.connect(self.unavailable)
-        self.ui.btn_plate.clicked.connect(self.unavailable)
-        self.ui.comboBox_help.setCurrentIndex(0)
-=======
->>>>>>> 51e6e005262038a97f17551927ec3db51c057ba4
         self.ui.comboBox_help.currentIndexChanged.connect(self.selection_change)
         self.Under_Development='UNDER DEVELOPMENT'
         self.Modules={
@@ -785,58 +751,10 @@ class OsdagMainWindow(QMainWindow):
                    subprocess.call([opener, "%s/%s" % (root_path, html_file)])
 
 
-            widget.show()
-        else:
-            widget.hide()
-
-    def closeEvent(self, event):
-        '''
-        Closing finPlate window.
-        '''
-        reply = QMessageBox.question(self, 'Message',
-                                     "Are you sure you want to quit?", QMessageBox.Yes, QMessageBox.No)
-
-        if reply == QMessageBox.Yes:
-            self.closed.emit()
-            event.accept()
-        else:
-            event.ignore()
-
-# Back up the reference to the exceptionhook
-sys._excepthook = sys.excepthook
-def the_exception_hook(exctype, value, traceback):
-    '''Finds the error occurs when Osdag crashes
-
-    Args:
-        exctype: type of error
-        value: information of the error
-        traceback: trace the object
-
-    Returns:
-        system exit(1)
-    '''
-    # Print the error and traceback
-    print("Error occurred: ", (exctype, value, traceback))
-    # Call the normal Exception hook after
-    sys.__excepthook__(exctype, value, traceback)
-    sys.exit(1)
-
-# Set the exception hook to our wrapping function
-sys.excepthook = the_exception_hook
-
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-
-    # folder_path = r'C:\Users\Deepthi\Desktop\OsdagWorkspace'
-    # # folder_path = r'C:\Users\Win10\Desktop'
-    #folder_path = r'C:\Users\pc\Desktop'
-    # window = MainController(Ui_ModuleWindow, FinPlateConnection, folder_path)
     window = OsdagMainWindow()
     window.show()
-    #qtmodern.styles.light(app)
-    #mw = qtmodern.windows.ModernWindow(window)
-    #mw.show()
     # app.exec_()
     # sys.exit(app.exec_())
     try:

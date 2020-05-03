@@ -1514,8 +1514,6 @@ class BeamCoverPlateWeld(MomentConnection):
     #     self.moment_flange = ((self.load.moment * 1000000) - moment_web) / 1000000
     #     flange_force = (((self.moment_flange * 1000000) / (self.section.depth - self.section.flange_thickness)) + (
     #         axial_force_f))
-<<<<<<< HEAD
-=======
 
 
 # self.weld_connecting_plates = [self.section.flange_thickness,self.flange_plate.thickness_provided]
@@ -1703,4 +1701,3 @@ class BeamCoverPlateWeld(MomentConnection):
         fname_no_ext = popup_summary['filename']
         CreateLatex.save_latex(CreateLatex(), self.report_input, self.report_check, popup_summary, fname_no_ext,
                                rel_path, Disp_3D_image)
->>>>>>> 51e6e005262038a97f17551927ec3db51c057ba4
