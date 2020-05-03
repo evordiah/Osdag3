@@ -1,17 +1,25 @@
+language: python
+
+
+
+python:
+    - 3.7
 
 dist: bionic
-before_install: sudo apt-get update
-install:
-    - sudo apt install latexmk
-    - sudo apt install perl
-    - sudo apt install texlive-latex-base
 
+install:
+    - source ./texlive/texlive_install.sh
+    #- pip install -r requirements.txt
+
+
+
+cache:
+  directories:
+    - /tmp/texlive
+    - $HOME/.texlive
+
+before_script: cd $TRAVIS_BUILD_DIR/src/
 
 script:
-
-# Prefix command with travis_wait x so it times out after 3 mins
-    - latexmk fin.tex
-
-#after_script:
-  #  - export PATH=/tmp/texlive/bin/x86_64-linux:$PATH
-    #- tlmgr list --only-installed | grep -oP 'i \K.+?(?=:)'
+    - texliveonfly fin.tex
+    - latexmk -pdf fin.tex
