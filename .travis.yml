@@ -1,7 +1,7 @@
 language: generic
 
 
-dist: xenial
+dist: bionic
 
 install:
     #- sudo apt-get install lmodern
