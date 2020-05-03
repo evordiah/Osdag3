@@ -180,7 +180,7 @@ if __name__ == '__main__':
     path = os.getcwd()
     path = path.replace("\\",'/')
     path = path + '/' + log_file
-    
+
     with open(path, 'w+') as TEST_LOG_FILE:
         result = unittest.TextTestRunner(stream = TEST_LOG_FILE,verbosity=2).run(suite())     # Writing results to log file.
 
@@ -193,7 +193,6 @@ if __name__ == '__main__':
         In actual test environment we won't need it.
     '''
     enablePrint()       # enable printing to print the test log.
-    print('printing content')
     print(content)
 
 

@@ -1,15 +1,11 @@
-language: python
+language: generic
 
 
 
-python:
-    - 3.7
-
-dist: bionic 
+dist: bionic
 
 install:
     - source ./texlive/texlive_install.sh
-    - pip install -r requirements.txt
 
 
 
@@ -18,7 +14,14 @@ cache:
     - /tmp/texlive
     - $HOME/.texlive
 
-
+before_script: cd $TRAVIS_BUILD_DIR/src/
 
 script:
-    - python Module_test.py
+      - pdflatex main.tex
+      - bibtex main
+      - pdflatex main.tex
+      - pdflatex main.tex # Compile twice to fix references
+
+after_script:
+    - export PATH=/tmp/texlive/bin/x86_64-linux:$PATH
+    - tlmgr list --only-installed | grep -oP 'i \K.+?(?=:)'
