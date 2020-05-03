@@ -9,7 +9,7 @@ install:
     #- sudo apt-get install lmodern
     #- sudo apt install texlive-latex-base
     - source ./texlive/texlive_install.sh
-    - pip3 install --user -r requirements.txt
+    - pip install --user -r requirements.txt
 
 
 cache:
