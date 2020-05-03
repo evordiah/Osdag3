@@ -9,7 +9,7 @@ addons:
     sources:
       - deadsnakes # source required so it finds the package definition below
     packages:
-      - python3.7.6
+      - python3.7
 
 before_install :
     - sudo apt-get update
@@ -18,7 +18,7 @@ install:
     #- sudo apt-get install lmodern
     #- sudo apt install texlive-latex-base
     - source ./texlive/texlive_install.sh
-    - pip3 install -r requirements.txt
+    - pip install -r requirements.txt
 
 
 
