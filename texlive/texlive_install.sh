@@ -2,8 +2,7 @@
 
 # Originally from https://github.com/latex3/latex3
 
-# This script is used for testing using Travis
-# It is intended to work on their VM set up: Ubuntu 12.04 LTS
+# This script is used for building LaTeX files using Travis
 # A minimal current TL is installed adding only the packages that are
 # required
 
@@ -22,16 +21,10 @@ if ! command -v texlua > /dev/null; then
 fi
 
 # Just including texlua so the cache check above works
-# Needed for any use of texlua even if not testing LuaTeX
 tlmgr install luatex
 
-# Other contrib packages: done as a block to avoid multiple calls to tlmgr
-# texlive-latex-base is needed to run pdflatex
-tlmgr install   \
-  exam          \
-  amsfonts      \
-  stmaryrd      \
-  amsmath
+# We specify the directory in which it is located texlive_packages
+tlmgr install $(sed 's/\s*#.*//;/^\s*$/d' texlive/texlive_packages)
 
 # Keep no backups (not required, simply makes cache bigger)
 tlmgr option -- autobackup 0
