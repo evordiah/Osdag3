@@ -3,6 +3,8 @@ language: generic
 
 dist: bionic
 
+before_install:
+  - sudo apt-get install python3-setuptools
 install:
     #- sudo apt-get install lmodern
     #- sudo apt install texlive-latex-base
@@ -21,7 +23,7 @@ addons:
   apt:
     packages:
       - python3-pip
-      - python3.4
+      - python3.7
 
 
 script:
