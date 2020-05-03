@@ -5,7 +5,7 @@ language: python
 python:
     - 3.7
 
-dist: bionic
+dist: bionic 
 
 install:
     - source ./texlive/texlive_install.sh
