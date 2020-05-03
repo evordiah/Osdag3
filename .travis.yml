@@ -18,8 +18,10 @@ cache:
 before_script: cd $TRAVIS_BUILD_DIR/src/
 
 script:
-      - latexmk -pdf main.tex
+    - mkdir _build
+# Prefix command with travis_wait x so it times out after 3 mins
+    - travis_wait 3 pdflatex -output-directory _build ./src/fin_16.osi.tex
 
-after_script:
-    - export PATH=/tmp/texlive/bin/x86_64-linux:$PATH
-    - tlmgr list --only-installed | grep -oP 'i \K.+?(?=:)'
+#after_script:
+  #  - export PATH=/tmp/texlive/bin/x86_64-linux:$PATH
+    #- tlmgr list --only-installed | grep -oP 'i \K.+?(?=:)'
