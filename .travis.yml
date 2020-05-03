@@ -4,9 +4,7 @@ language: generic
 
 dist: bionic
 
-sudo: required
 
-before_install: sudo apt install texlive-latex-base
 install:
     - source ./texlive/texlive_install.sh
 
