@@ -4,7 +4,7 @@ language: generic
 
 dist: bionic
 
-
+before_install: sudo apt purge libkpathsea6
 install:
     - sudo apt install texlive-base
     - source ./texlive/texlive_install.sh
