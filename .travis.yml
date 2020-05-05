@@ -1,54 +1,59 @@
-# Don't use language: python; this gives us an unnecessary virtualenv
-language: generic
+language : generic
 
 env:
-  # Build and test package on all supported python versions
-  - BUILD_TARGET=3.7 MINICONDA_VERSION=4.7.10
-  - BUILD_TARGET=3.6 MINICONDA_VERSION=4.7.10
-  #- BUILD_TARGET=2.7 MINICONDA_VERSION=4.7.10
-  # To make sure it's still working with conda 4.5 and 4.6
-  - BUILD_TARGET=3.7 MINICONDA_VERSION=4.6.14
-  - BUILD_TARGET=3.6 MINICONDA_VERSION=4.5.12
-  # Smoketest the package on conda canary
-  - BUILD_TARGET=3.7 MINICONDA_VERSION=latest CONDA_CANARY="yes"
+- CONDA_PYTHON=3.6
 
-os:
-  - linux
-  - osx
+cache :
+  directories:
+    - $HOME/miniconda
+
+os : # this occurs both on Linux and OSX
+- linux
 
 dist: bionic
 
-jobs:
-  # conda canary shouldn't block the build, just show us as an FYI
-  allow_failures:
-    - env: BUILD_TARGET=3.7 MINICONDA_VERSION=latest CONDA_CANARY="yes"
-  # skip the historical conda tests on Mac to save time
-  exclude:
-    - env: BUILD_TARGET=3.7 MINICONDA_VERSION=4.6.14
-      os: osx
-    - env: BUILD_TARGET=3.6 MINICONDA_VERSION=4.5.12
-      os: osx
-    - env: BUILD_TARGET=3.7 MINICONDA_VERSION=latest CONDA_CANARY="yes"
-      os: osx
+before_cache:
+  - rm -rf $HOME/miniconda/locks $HOME/miniconda/pkgs $HOME/miniconda/var $HOME/miniconda/envs/test-environment/conda-meta/history $HOME/miniconda/lib/python3.6/__pycache__
+
+before_install:
+  # Set conda path info
+  - MINICONDA_PATH=$HOME/miniconda;
+  - MINICONDA_SUB_PATH=$MINICONDA_PATH/bin;
+  # Obtain miniconda installer
+  - if [[ -f $HOME/download/miniconda.sh ]]; then
+        echo "miniconda.sh for posix already available from cache";
+      else
+        mkdir -p $HOME/download;
+        if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+          echo "downloading miniconda.sh for linux";
+          wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $HOME/download/miniconda.sh;
+        elif  [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+          echo "downloading miniconda.sh for osx";
+          wget https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O $HOME/download/miniconda.sh;
+        fi;
+    fi;
 
 install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then MINICONDA_OS=Linux; else MINICONDA_OS=MacOSX; fi
-  - wget https://repo.anaconda.com/miniconda/Miniconda3-$MINICONDA_VERSION-$MINICONDA_OS-x86_64.sh -O miniconda.sh
-  - bash miniconda.sh -b -p "$HOME"/miniconda
-  - source "$HOME"/miniconda/etc/profile.d/conda.sh
-  - conda config --set always_yes yes --set changeps1 no --set auto_update_conda false --set notify_outdated_conda false
-  # yapf is pinned to help make sure we get the same results here as a user does locally.
-  - conda install -c defaults -c conda-forge conda-build conda-verify codecov flake8 pep257 yapf==0.25.0
-  - if [[ "$CONDA_CANARY" == "yes" ]]; then conda install -c conda-canary conda; fi
-  - conda info -a
-  - export LANG=en_US.UTF-8
-  - export COVERAGE_DIR=":$HOME/htmlcov"
-  - printenv | sort
+  # Install miniconda
+  - if [[ -d $MINICONDA_SUB_PATH ]]; then
+        echo "miniconda for posix already available from cache";
+      else
+        echo "installing miniconda for posix";
+        bash $HOME/download/miniconda.sh -b -u -p $MINICONDA_PATH;
+    fi;
+  - export PATH="$MINICONDA_PATH:$MINICONDA_SUB_PATH:$PATH";
+  - hash -r;
+  - echo $TRAVIS_OS_NAME
+  - echo $TRAVIS_PYTHON_VERSION
+  - echo $CONDA_PYTHON
+  # - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then
+  #     conda init `basename $SHELL` --quiet;
+  #     source ~/.bashrc;
+  #   fi;
+  - conda config --set always_yes yes --set changeps1 no;
+  - source $MINICONDA_PATH/etc/profile.d/conda.sh
+  # Useful for debugging any issues with conda
+  - conda info --all;
+  - conda update --name base --channel defaults --quiet conda;
 
-script:
-  - conda build conda.recipe --python=$BUILD_TARGET
-  - conda activate
-#  - python scripts/run_tests.py --format-only
-
-after_success:
-  - codecov
+script : echo "conda update success\nnow please rerun after cache to verify"
