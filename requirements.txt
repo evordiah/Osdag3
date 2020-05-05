@@ -5,3 +5,4 @@ Pygments
 XlsxWriter
 pylatex
 numpy
+https://raw.githubusercontent.com/ns3098/python-packages/master/smesh-6.7.6-vc14_7.tar.bz2
