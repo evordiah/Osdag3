@@ -1,4 +1,3 @@
-pdfkit
 pyyaml
 openpyxl
 Pygments
