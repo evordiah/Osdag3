@@ -59,7 +59,7 @@ install:
   - conda info --all;
   - conda update --name base --channel defaults --quiet conda;
   - while read requirement; do conda install --yes $requirement || pip install --user $requirement; done < requirements.txt;
-  - conda install -c conda-forge -c dlr-sc -c tpaviot -c oce pythonocc-core==0.18.2
+  - conda install -c conda-forge -c dlr-sc -c pythonocc -c oce pythonocc-core==0.18.1
   - source ./texlive/texlive_install.sh;
 
 
