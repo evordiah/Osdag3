@@ -1,7 +1,7 @@
 language : generic
 
 env:
-- CONDA_PYTHON=3.7
+- CONDA_PYTHON=3.6
 
 cache :
   directories:
@@ -15,7 +15,7 @@ os : # this occurs both on Linux and OSX
 dist: bionic
 
 before_cache:
-  - rm -rf $HOME/miniconda/locks $HOME/miniconda/pkgs $HOME/miniconda/var $HOME/miniconda/envs/test-environment/conda-meta/history $HOME/miniconda/lib/python3.7/__pycache__
+  - rm -rf $HOME/miniconda/locks $HOME/miniconda/pkgs $HOME/miniconda/var $HOME/miniconda/envs/test-environment/conda-meta/history $HOME/miniconda/lib/python3.6/__pycache__
 
 before_install:
   # Set conda path info
