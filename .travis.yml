@@ -8,6 +8,7 @@ cache :
     - $HOME/miniconda
     - /tmp/texlive
     - $HOME/.texlive
+    - $TRAVIS_BUILD_DIR/src/
 
 os : # this occurs both on Linux and OSX
 - linux
@@ -35,6 +36,10 @@ before_install:
         fi;
     fi;
 
+  - if ! [ -f ./src/smesh-6.7.6-vc14_7.tar.bz2 ]; then
+      wget https://raw.githubusercontent.com/ns3098/python-packages/master/smesh-6.7.6-vc14_7.tar.bz2 -o ./src/smesh-6.7.6-vc14_7.tar.bz2;
+    fi;
+
 install:
   # Install miniconda
   - if [[ -d $MINICONDA_SUB_PATH ]]; then
@@ -58,6 +63,7 @@ install:
   - conda info --all;
   - conda update --name base --channel defaults --quiet conda;
   - while read requirement; do conda install --yes $requirement || pip install $requirement; done < requirements.txt;
-  - source ./texlive/texlive_install.sh
+  - source ./texlive/texlive_install.sh;
+  - conda install ./src/smesh-6.7.6-vc14_7.tar.bz2;
 
-script : python Module_test.py
+script : python df.py
