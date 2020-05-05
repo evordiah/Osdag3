@@ -58,7 +58,7 @@ install:
   # Useful for debugging any issues with conda
   - conda info --all;
   - conda update --name base --channel defaults --quiet conda;
-  - while read requirement; do conda install --yes $requirement || pip install $requirement; done < requirements.txt;
+  - while read requirement; do conda install --user --yes $requirement || pip install --user $requirement; done < requirements.txt;
   - source ./texlive/texlive_install.sh;
 
 
