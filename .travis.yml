@@ -56,4 +56,4 @@ install:
   - conda info --all;
   - conda update --name base --channel defaults --quiet conda;
 
-script : echo "conda update success\nnow please rerun after cache to verify"
+script : python df.py
