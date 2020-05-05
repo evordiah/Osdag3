@@ -55,5 +55,6 @@ install:
   # Useful for debugging any issues with conda
   - conda info --all;
   - conda update --name base --channel defaults --quiet conda;
+  - while read requirement; do conda install --yes $requirement || pip install $requirement; done < requirements.txt;
 
 script : python df.py
