@@ -144,6 +144,7 @@ class Modules:
                 file_extension = fName.split(".")[-1]
                 if file_extension == 'png':
                     display.ExportToImage(fName)
+
             main.save_design(main,popup_summary)  # calling the function.
             pdf_created = True   # if pdf created
 
