@@ -1,6 +1,4 @@
 numpy
 pylatex
 pyyaml
-openpyxl
-Pygments
-XlsxWriter
+wheel
