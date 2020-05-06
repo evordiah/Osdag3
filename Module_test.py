@@ -3,7 +3,7 @@ import errno
 import yaml
 import sys
 import unittest
-
+is_travis = 'TRAVIS' in os.environ
 
 from design_type.connection.fin_plate_connection import FinPlateConnection
 from design_type.connection.cleat_angle_connection import CleatAngleConnection
@@ -22,9 +22,9 @@ from design_type.connection.column_cover_plate import ColumnCoverPlate
 from design_type.connection.column_end_plate import ColumnEndPlate
 from design_type.compression_member.compression import Compression
 
-
-from cad.common_logic import CommonDesignLogic
-from src.df import init_display
+if not is_travis:
+    from cad.common_logic import CommonDesignLogic
+    from src.df import init_display
 
 
 all_modules = {'Base Plate':BasePlateConnection, 'Beam Coverplate  Weld Connection':BeamCoverPlateWeld,'Beam Coverplate Connection':BeamCoverPlate,
@@ -106,7 +106,7 @@ def precompute_data():
 
 class Modules:
 
-    def run_test(self,mainWindow,main,file_name, file_data, does_3d_exist): # FinPlate test function . Similarly make functions for other Modules.
+    def run_test(self,mainWindow,main,file_name, file_data): # FinPlate test function . Similarly make functions for other Modules.
 
         pdf_created = False
         main.set_osdaglogger(None)
@@ -135,7 +135,7 @@ class Modules:
             duplicate = duplicate + '/' + file_name  # giving each output file it's corresponding input file name.
             popup_summary['filename'] = duplicate    # adding this key in popup_summary dict.
 
-            if does_3d_exist:
+            try:
                 display, start_display, add_menu, add_function_to_menu = init_display(backend_str="qt-pyqt5")
                 commLogicObj = CommonDesignLogic(display, ' ', main.module, main.mainmodule)
                 status = main.design_status
@@ -144,6 +144,8 @@ class Modules:
                 file_extension = fName.split(".")[-1]
                 if file_extension == 'png':
                     display.ExportToImage(fName)
+            except:
+                print("Design is not ready.")
 
             main.save_design(main,popup_summary)  # calling the function.
             pdf_created = True   # if pdf created
@@ -166,9 +168,8 @@ class TestModules(unittest.TestCase):
 
         file_name = self.input[0]
         file_data = self.input[1]
-        file_class = available_module[file_data['Module']][0]               # check the class.
-        does_3d_exist = available_module[file_data['Module']][1]            # check if it can create the design
-        ans = self.module.run_test(self.module, file_class,file_name, file_data, does_3d_exist)
+        file_class = available_module[file_data['Module']]              # check the class.
+        ans = self.module.run_test(self.module, file_class,file_name, file_data)
         self.assertTrue(ans is self.output)
 
 
@@ -182,7 +183,7 @@ def suite():
 
     ''' Make changes in this line to add files in TestSuite for testing according to your need or available modules. '''
 
-    suite.addTests(TestModules(item, True) for item in files_data if item[1]['Module'] == "Fin Plate")
+    suite.addTests(TestModules(item, True) for item in files_data if item[1]['Module'] in available_module)
 
     return suite
 
