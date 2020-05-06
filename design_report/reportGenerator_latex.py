@@ -5,8 +5,6 @@ import math
 from utils.common.common_calculation import *
 # from Common import *
 import os
-import pdfkit
-import configparser
 # from utils.common import component
 from pylatex import Document, Section, Subsection
 from pylatex.utils import italic, bold
