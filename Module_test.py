@@ -122,7 +122,7 @@ class Modules:
             We are actually not comparing pdf. This is just for testing purpose whether function
             is running fine and creating pdf or not.
 
-            I have made some changes in save_design function. Instead of asking for output file
+            Some changes are made in save_design function. Instead of asking for output file
             location from save_design function it'll ask from 'save_inputSummary' function inside
             ui_summary_popup.py file immediately after getting popup inputs and send it to
             save_design function using the same dictionary in which popup inputs are present
