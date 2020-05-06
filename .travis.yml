@@ -59,7 +59,6 @@ install:
   - conda info --all;
   - conda update --name base --channel defaults --quiet conda;
   - while read requirement; do conda install --yes $requirement || pip install --user $requirement; done < requirements.txt;
-  - conda install -c cadquery pythonocc-core
   - source ./texlive/texlive_install.sh;
 
 

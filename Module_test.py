@@ -24,7 +24,7 @@ from design_type.compression_member.compression import Compression
 
 if not is_travis:
     from cad.common_logic import CommonDesignLogic
-    from src.df import init_display
+    from texlive .Design_wrapper import init_display
 
 
 all_modules = {'Base Plate':BasePlateConnection, 'Beam Coverplate  Weld Connection':BeamCoverPlateWeld,'Beam Coverplate Connection':BeamCoverPlate,
