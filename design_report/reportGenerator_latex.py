@@ -146,13 +146,12 @@ class CreateLatex(Document):
 
         doc.append(NewPage())
 
-        is_travis = 'TRAVIS' in os.environ
-        if not is_travis:
-            if does_3d_exist:
-                with doc.create(Section('3D View')):
-                    with doc.create(Figure(position='h!')) as view_3D:
-                        view_3dimg_path = rel_path + Disp_3d_image
-                        view_3D.add_image(filename=view_3dimg_path, width=NoEscape(r'\linewidth'))
-                        view_3D.add_caption('3D View')
+
+        if (not 'TRAVIS' in os.environ) and (does_3d_exist):
+            with doc.create(Section('3D View')):
+                with doc.create(Figure(position='h!')) as view_3D:
+                    view_3dimg_path = rel_path + Disp_3d_image
+                    view_3D.add_image(filename=view_3dimg_path, width=NoEscape(r'\linewidth'))
+                    view_3D.add_caption('3D View')
 
         doc.generate_pdf(filename, compiler='pdflatex', clean_tex=False)

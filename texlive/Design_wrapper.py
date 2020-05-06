@@ -1,21 +1,4 @@
-#!/usr/bin/env python
 
-# Copyright 2009-2016 Thomas Paviot (tpaviot@gmail.com)
-##
-# This file is part of pythonOCC.
-##
-# pythonOCC is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-##
-# pythonOCC is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-##
-# You should have received a copy of the GNU Lesser General Public License
-# along with pythonOCC.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
 import os
@@ -32,12 +15,7 @@ def check_callable(_callable):
 
 
 def init_display(backend_str=None, size=(1024, 768)):
-    """ This function loads and initialize a GUI using either wx, pyq4, pyqt5 or pyside.
-    If ever the environment variable PYTHONOCC_SHUNT_GUI, then the GUI is simply ignored.
-    It can be useful to test some algorithms without being polluted by GUI statements.
-    This feature is used for running the examples suite as tests for
-    pythonocc-core development.
-    """
+   
     if os.getenv("PYTHONOCC_SHUNT_GUI") == "1":
         # define a dumb class and an empty method
         from OCC.Display import OCCViewer
@@ -90,7 +68,7 @@ def init_display(backend_str=None, size=(1024, 768)):
         # returns empty classes and functions
         return BlindViewer(), do_nothing, do_nothing, call_function
     used_backend = load_backend(backend_str)
-    log.info("GUI backend set to: %s", used_backend)
+    #log.info("GUI backend set to: %s", used_backend)
     # wxPython based simple GUI
     if used_backend == 'wx':
         import wx
