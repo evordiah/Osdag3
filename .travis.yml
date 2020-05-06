@@ -63,4 +63,4 @@ install:
   - source ./texlive/texlive_install.sh;
 
 
-script : python df.py
+script : python Module_test.py

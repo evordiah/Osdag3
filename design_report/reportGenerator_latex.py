@@ -43,6 +43,7 @@ class CreateLatex(Document):
         jobnumber = str(reportsummary['JobNumber'])
         client = str(reportsummary['Client'])
 
+        does_3d_exist = reportsummary['does_3d_exist']
         # Add document header
 
         header = PageStyle("header")
@@ -147,10 +148,11 @@ class CreateLatex(Document):
 
         doc.append(NewPage())
 
-        with doc.create(Section('3D View')):
-            with doc.create(Figure(position='h!')) as view_3D:
-                view_3dimg_path = rel_path + Disp_3d_image
-                view_3D.add_image(filename=view_3dimg_path, width=NoEscape(r'\linewidth'))
-                view_3D.add_caption('3D View')
+        if does_3d_exist:
+            with doc.create(Section('3D View')):
+                with doc.create(Figure(position='h!')) as view_3D:
+                    view_3dimg_path = rel_path + Disp_3d_image
+                    view_3D.add_image(filename=view_3dimg_path, width=NoEscape(r'\linewidth'))
+                    view_3D.add_caption('3D View')
 
         doc.generate_pdf(filename, compiler='pdflatex', clean_tex=False)

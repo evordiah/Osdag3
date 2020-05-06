@@ -124,6 +124,7 @@ class CommonDesignLogic(object):
 
         self.connectivityObj = None
         self.folder = folder
+        print(self.folder,'fhbdfbffhdbshhhhhhhhhhh')
 
     # ============================= FinCalculation ===========================================
     # def call_calculation(self):  # Done
