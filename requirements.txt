@@ -1,6 +1,6 @@
 numpy
+pylatex
 pyyaml
 openpyxl
 Pygments
 XlsxWriter
-pylatex
