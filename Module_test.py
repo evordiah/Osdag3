@@ -5,6 +5,7 @@ import sys
 import unittest
 is_travis = 'TRAVIS' in os.environ
 
+
 from design_type.connection.fin_plate_connection import FinPlateConnection
 from design_type.connection.cleat_angle_connection import CleatAngleConnection
 from design_type.connection.seated_angle_connection import SeatedAngleConnection
@@ -47,7 +48,7 @@ available_module dictionary is used in -
 Make sure to make the necessary changes in above functions/methods if you are changing the name of available_module.
 '''
 
-available_module = {'Fin Plate':FinPlateConnection,'Tension Members Bolted Design':Tension_bolted, 'Column Coverplate Weld Connection': ColumnCoverPlateWeld}
+available_module = {'Tension Members Bolted Design':Tension_bolted,'Base Plate':BasePlateConnection,'Beam Coverplate  Weld Connection':BeamCoverPlateWeld}
 
 
 
@@ -110,7 +111,7 @@ class Modules:
 
         pdf_created = False
         main.set_osdaglogger(None)
-        error = main.func_for_validation(main,self,file_data)  # validating files and setting inputs (although we know files are valid).
+        error = main.func_for_validation(main,file_data)  # validating files and setting inputs (although we know files are valid).
 
         if error is None:  # if ran successfully and all input values are set without any error. Now create pdf
 
