@@ -65,11 +65,10 @@ def init_display(backend_str=None, size=(1024, 768)):
                     return Dumb
                 else:
                     return do_nothing
-        # returns empty classes and functions
+        
         return BlindViewer(), do_nothing, do_nothing, call_function
     used_backend = load_backend(backend_str)
-    #log.info("GUI backend set to: %s", used_backend)
-    # wxPython based simple GUI
+    
     if used_backend == 'wx':
         import wx
         from wxDisplay import wxViewer3d
@@ -91,7 +90,7 @@ def init_display(backend_str=None, size=(1024, 768)):
                 self._menus[menu_name] = _menu
 
             def add_function_to_menu(self, menu_name, _callable):
-                # point on curve
+                
                 _id = wx.NewId()
                 check_callable(_callable)
                 try:
@@ -118,7 +117,7 @@ def init_display(backend_str=None, size=(1024, 768)):
         def start_display():
             app.MainLoop()
 
-    # Qt based simple GUI
+   
     elif 'qt' in used_backend:
         from OCC.Display.qtDisplay import qtViewer3d
         QtCore, QtGui, QtWidgets, QtOpenGL = get_qt_modules()
@@ -134,18 +133,9 @@ def init_display(backend_str=None, size=(1024, 768)):
                 if sys.platform != 'darwin':
                     self.menu_bar = self.menuBar()
                 else:
-                    # create a parentless menubar
-                    # see: http://stackoverflow.com/questions/11375176/qmenubar-and-qmenu-doesnt-show-in-mac-os-x?lq=1
-                    # noticeable is that the menu ( alas ) is created in the
-                    # topleft of the screen, just
-                    # next to the apple icon
-                    # still does ugly things like showing the "Python" menu in
-                    # bold
                     self.menu_bar = QtWidgets.QMenuBar()
                 self._menus = {}
                 self._menu_methods = {}
-                # place the window in the center of the screen, at half the
-                # screen size
                 self.centerOnScreen()
 
             def centerOnScreen(self):
@@ -162,7 +152,6 @@ def init_display(backend_str=None, size=(1024, 768)):
                 check_callable(_callable)
                 try:
                     _action = QtWidgets.QAction(_callable.__name__.replace('_', ' ').lower(), self)
-                    # if not, the "exit" action is now shown...
                     _action.setMenuRole(QtWidgets.QAction.NoRole)
                     _action.triggered.connect(_callable)
 
@@ -170,9 +159,8 @@ def init_display(backend_str=None, size=(1024, 768)):
                 except KeyError:
                     raise ValueError('the menu item %s does not exist' % menu_name)
 
-        # following couple of lines is a twek to enable ipython --gui='qt'
-        app = QtWidgets.QApplication.instance()  # checks if QApplication already exists
-        if not app:  # create QApplication if it doesnt exist
+        app = QtWidgets.QApplication.instance()  
+        if not app:  
             app = QtWidgets.QApplication(sys.argv)
         win = MainWindow()
         win.showMinimized()
@@ -182,9 +170,7 @@ def init_display(backend_str=None, size=(1024, 768)):
         display = win.canva._display
         if sys.platform != "linux2":
             display.EnableAntiAliasing()
-        # background gradient
         display.set_bg_gradient_color([23, 1, 32], [23, 1, 32])
-        # display black trihedron
         display.display_triedron()
 
         def add_menu(*args, **kwargs):
@@ -194,6 +180,6 @@ def init_display(backend_str=None, size=(1024, 768)):
             win.add_function_to_menu(*args, **kwargs)
 
         def start_display():
-            win.raise_()  # make the application float to the top
+            win.raise_() 
             app.exec_()
     return display, start_display, add_menu, add_function_to_menu

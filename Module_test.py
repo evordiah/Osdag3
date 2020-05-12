@@ -48,9 +48,8 @@ available_module dictionary is used in -
 Make sure to make the necessary changes in above functions/methods if you are changing the name of available_module.
 '''
 
-available_module = {'Tension Members Bolted Design':Tension_bolted,'Base Plate':BasePlateConnection,'Beam Coverplate  Weld Connection':BeamCoverPlateWeld}
-
-
+available_module = {'Tension Members Bolted Design':Tension_bolted, 'Beam Coverplate  Weld Connection':BeamCoverPlateWeld,
+                    'Fin Plate':FinPlateConnection, 'Column Coverplate Weld Connection': ColumnCoverPlateWeld, 'Base Plate':BasePlateConnection}
 
 
 
@@ -135,7 +134,7 @@ class Modules:
             duplicate = output_folder_path         # Making duplicate so that original path doesn't change.
             duplicate = duplicate + '/' + file_name  # giving each output file it's corresponding input file name.
             popup_summary['filename'] = duplicate    # adding this key in popup_summary dict.
-
+            popup_summary['does_design_exist'] = False
             try:
                 display, start_display, add_menu, add_function_to_menu = init_display(backend_str="qt-pyqt5")
                 commLogicObj = CommonDesignLogic(display, ' ', main.module, main.mainmodule)
@@ -145,6 +144,7 @@ class Modules:
                 file_extension = fName.split(".")[-1]
                 if file_extension == 'png':
                     display.ExportToImage(fName)
+                popup_summary['does_design_exist'] = True
             except:
                 print("Design is not ready.")
 

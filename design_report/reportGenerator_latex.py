@@ -41,7 +41,7 @@ class CreateLatex(Document):
         jobnumber = str(reportsummary['JobNumber'])
         client = str(reportsummary['Client'])
 
-        does_3d_exist = reportsummary['does_3d_exist']
+        does_design_exist = reportsummary['does_design_exist']
         # Add document header
 
         header = PageStyle("header")
@@ -147,7 +147,7 @@ class CreateLatex(Document):
         doc.append(NewPage())
 
 
-        if (not 'TRAVIS' in os.environ) and (does_3d_exist):
+        if (not 'TRAVIS' in os.environ) and (does_design_exist):
             with doc.create(Section('3D View')):
                 with doc.create(Figure(position='h!')) as view_3D:
                     view_3dimg_path = rel_path + Disp_3d_image

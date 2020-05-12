@@ -2805,7 +2805,6 @@ class ColumnCoverPlate(MomentConnection):
 
         fname = popup_summary['filename']
 
-        popup_summary['does_3d_exist'] = False
-        
+
         CreateLatex.save_latex(CreateLatex(), self.report_input, self.report_check, popup_summary, fname_no_ext,
                                rel_path, Disp_3D_image)
