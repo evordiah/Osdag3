@@ -3,6 +3,7 @@ import errno
 import yaml
 import sys
 import unittest
+from pathlib import Path
 is_travis = 'TRAVIS' in os.environ
 
 
