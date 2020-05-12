@@ -28,6 +28,37 @@ if not is_travis:
     from texlive .Design_wrapper import init_display
 
 
+############################ Pre-Build Database Updation/Creation #################
+sqlpath = Path('ResourceFiles/Database/Intg_osdag.sql')
+sqlitepath = Path('ResourceFiles/Database/Intg_osdag.sqlite')
+
+if sqlpath.exists():
+    if not sqlitepath.exists():
+        cmd = 'sqlite3 ' + str(sqlitepath) + ' < ' + str(sqlpath)
+        os.system(cmd)
+        sqlpath.touch()
+        print('Database Created')
+
+    elif sqlitepath.stat().st_size == 0 or sqlitepath.stat().st_mtime < sqlpath.stat().st_mtime - 1:
+        try:
+            sqlitenewpath = Path('ResourceFiles/Database/Intg_osdag_new.sqlite')
+            cmd = 'sqlite3 ' + str(sqlitenewpath) + ' < ' + str(sqlpath)
+            error = os.system(cmd)
+            print(error)
+            # if error != 0:
+            #      raise Exception('SQL to SQLite conversion error 1')
+            # if sqlitenewpath.stat().st_size == 0:
+            #      raise Exception('SQL to SQLite conversion error 2')
+            os.remove(sqlitepath)
+            sqlitenewpath.rename(sqlitepath)
+            sqlpath.touch()
+            print('Database Updated', sqlpath.stat().st_mtime, sqlitepath.stat().st_mtime)
+        except Exception as e:
+            sqlitenewpath.unlink()
+            print('Error: ', e)
+#########################################################################################
+
+
 all_modules = {'Base Plate':BasePlateConnection, 'Beam Coverplate  Weld Connection':BeamCoverPlateWeld,'Beam Coverplate Connection':BeamCoverPlate,
     'Cleat Angle':CleatAngleConnection, 'Column Coverplate Weld Connection':ColumnCoverPlateWeld, 'Column Coverplate Connection':ColumnCoverPlate,
     'Column Endplate Connection':ColumnEndPlate, 'End Plate':EndPlateConnection, 'Fin Plate':FinPlateConnection,'Seated Angle': SeatedAngleConnection,
