@@ -235,7 +235,7 @@ def enablePrint():
 
 if __name__ == '__main__':
 
-    #blockPrint()         # disable printing to avoid printing from unnecessary print statments in each modules. Although log statements can still print.
+    blockPrint()         # disable printing to avoid printing from unnecessary print statments in each modules. Although log statements can still print.
     precompute_data()    # precompute all data.
 
 
