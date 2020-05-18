@@ -882,7 +882,7 @@ class FinPlateConnection(ShearConnection):
             self.design_status = True
             logger.info("=== End Of Design ===")
 
-    def results_to_test(self, filename):
+    def results_to_test(self):
         test_out_list = {KEY_OUT_DISP_D_PROVIDED:self.bolt.bolt_diameter_provided,
                         KEY_OUT_DISP_GRD_PROVIDED:self.bolt.bolt_grade_provided,
                         KEY_OUT_DISP_BOLT_SHEAR:self.bolt.bolt_shear_capacity,
@@ -905,10 +905,10 @@ class FinPlateConnection(ShearConnection):
                         KEY_OUT_DISP_WELD_SIZE:self.weld.size,
                         KEY_OUT_DISP_WELD_STRENGTH:self.weld.strength,
                         KEY_OUT_DISP_WELD_STRESS:self.weld.stress}
-        f = open(filename, "w")
-        f.write(str(test_out_list))
-        f.close()
-        # return test_out_list
+        #f = open(filename, "w")
+        #f.write(str(test_out_list))
+        #f.close()
+        return test_out_list
 
     # r'/ResourceFiles/images/ColumnsBeams".png'
     def save_design(self,popup_summary):

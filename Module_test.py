@@ -4,6 +4,7 @@ import yaml
 import sys
 import unittest
 from pathlib import Path
+import ast
 is_travis = 'TRAVIS' in os.environ
 
 ############################ Pre-Build Database Updation/Creation #################
@@ -84,18 +85,9 @@ available_module = {'Beam Coverplate  Weld Connection' : BeamCoverPlateWeld, 'Fi
 
 
 
-Output_folder_name = 'Output_PDF'
-
 #predefined pop-up summary.
 popup_summary = {'ProfileSummary': {'CompanyName': 'LoremIpsum', 'CompanyLogo': '', 'Group/TeamName': 'LoremIpsum', 'Designer': 'LoremIpsum'},
                 'ProjectTitle': 'Fossee', 'Subtitle': '', 'JobNumber': '123', 'AdditionalComments': 'No comments', 'Client': 'LoremIpsum'}
-
-
-input_file_path = os.path.join(os.path.dirname(__file__), 'ResourceFiles', 'design_example')   # input folder path
-
-output_folder_path = os.path.join(os.path.dirname(__file__), Output_folder_name)               # output folder path
-
-
 
 
 
@@ -107,7 +99,15 @@ def make_sure_path_exists(path):      # Works on all OS.
         if exception.errno != errno.EEXIST:
             raise
 
-make_sure_path_exists(output_folder_path)   #make sure output folder exists if not then create.
+
+
+input_file_path = os.path.join(os.path.dirname(__file__), 'ResourceFiles', 'design_example')   # input folder path
+
+output_file_path = os.path.join(os.path.dirname(__file__), 'OUTPUT_FILES', 'Output_PDF')               # output folder path
+
+
+
+make_sure_path_exists(output_file_path)   #make sure output folder exists if not then create.
 
 
 
@@ -161,10 +161,9 @@ class Modules:
 
 
             '''
-
-            duplicate = output_folder_path         # Making duplicate so that original path doesn't change.
-            duplicate = duplicate + '/' + file_name  # giving each output file it's corresponding input file name.
-            popup_summary['filename'] = duplicate    # adding this key in popup_summary dict.
+            file_name = file_name.split(".")[0]
+            path =  os.path.join(output_file_path, file_name)
+            popup_summary['filename'] = path    # adding this key in popup_summary dict.
             popup_summary['does_design_exist'] = False
             try:
                 display, start_display, add_menu, add_function_to_menu = init_display(backend_str="qt-pyqt5")
@@ -182,7 +181,24 @@ class Modules:
             main.save_design(main,popup_summary)  # calling the function.
             pdf_created = True   # if pdf created
 
-        return pdf_created
+
+            is_dict_same = True
+            path = os.path.join(os.path.dirname(__file__), 'OUTPUT_FILES', 'Command_line_output', file_name + ".txt")
+            if os.path.isfile(path):
+
+                with open(path,"r") as file_content:
+                    content = file_content.read()
+
+                output_dict = main.results_to_test(main)
+
+                content = ast.literal_eval(content)   # this line convert dictionary string to dictionary
+
+                if output_dict != content:
+                    is_dict_same = False
+
+
+
+        return (pdf_created & is_dict_same)
 
 
 
