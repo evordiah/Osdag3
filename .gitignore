@@ -19,5 +19,4 @@ venv/*
 Osdag_Workspace/*
 /Osdag.config
 /backup
-
-
+OUTPUT_FILES/Output_PDF
