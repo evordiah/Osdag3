@@ -189,9 +189,9 @@ class Modules:
                 with open(path,"r") as file_content:
                     content = file_content.read()
 
-                output_dict = main.results_to_test(main)
-
                 content = ast.literal_eval(content)   # convert dictionary string to dictionary
+
+                output_dict = main.results_to_test(main)
 
                 if output_dict != content:
                     is_dict_same = False
@@ -255,7 +255,7 @@ if __name__ == '__main__':
     precompute_data()    # precompute all data.
 
 
-    log_file = "test_log_file.txt"   # log file in which test results will be written.
+    log_file = "test_log_file.log"   # log file in which test results will be written.
 
 
     with open(log_file, 'w') as TEST_LOG_FILE:
