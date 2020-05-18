@@ -5,13 +5,6 @@ import sys
 import yaml
 from utils.common.component import Bolt, Plate, Weld
 from Common import *
-<<<<<<< HEAD
-=======
-import os
-import xlsxwriter
-import pandas as pd
-from openpyxl import load_workbook, Workbook
->>>>>>> 20cd099a42cf82842b99557b6c77f2d8c1063845
 
 
 
