@@ -191,7 +191,7 @@ class Modules:
 
                 output_dict = main.results_to_test(main)
 
-                content = ast.literal_eval(content)   # this line convert dictionary string to dictionary
+                content = ast.literal_eval(content)   # convert dictionary string to dictionary
 
                 if output_dict != content:
                     is_dict_same = False
