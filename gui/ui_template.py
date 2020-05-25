@@ -342,148 +342,19 @@ class Ui_ModuleWindow(QMainWindow):
         self.menubar.setNativeMenuBar(False)
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
-        self.menuFile.setStyleSheet("QMenu {\n"
-"    background-color:#b2bd84;\n"
-"    border-color: black;\n"
-"    border: 1px solid;\n"
-"    margin: 2px; /* some spacing around the menu */\n"
-"}\n"
-"QMenu::separator {\n"
-"    height: 1px;\n"
-"    background: #825051;\n"
-"    margin-left: 5px;\n"
-"    margin-right: 5px;\n"
-"}\n"
-"\n"
-"QMenu::item {\n"
-"    color: black;\n"
-"    padding: 2px 20px 2px 20px;\n"
-"    border: 1px solid transparent; /* reserve space for selection border */\n"
-"}\n"
-"\n"
-"QMenu::item:selected {\n"
-"   color:white;\n"
-"    border-color: darkblue;\n"
-"    background: #825051;\n"
-"    margin-left: 5px;\n"
-"    margin-right: 5px;\n"
-"}\n"
-"")
+
         self.menuFile.setObjectName("menuFile")
         self.menuEdit = QtWidgets.QMenu(self.menubar)
-        self.menuEdit.setStyleSheet("QMenu {\n"
-"    background-color:#b2bd84;\n"
-"    border-color: black;\n"
-"    border: 1px solid;\n"
-"    margin: 2px; /* some spacing around the menu */\n"
-"}\n"
-"QMenu::separator {\n"
-"    height: 1px;\n"
-"    background: #825051;\n"
-"    margin-left: 5px;\n"
-"    margin-right: 5px;\n"
-"}\n"
-"\n"
-"QMenu::item {\n"
-"    color: black;\n"
-"    padding: 2px 20px 2px 20px;\n"
-"    border: 1px solid transparent; /* reserve space for selection border */\n"
-"}\n"
-"\n"
-"QMenu::item:selected {\n"
-"   color:white;\n"
-"    border-color: darkblue;\n"
-"    background: #825051;\n"
-"    margin-left: 5px;\n"
-"    margin-right: 5px;\n"
-"}\n"
-"")
+
         self.menuEdit.setObjectName("menuEdit")
         self.menuView = QtWidgets.QMenu(self.menubar)
-        self.menuView.setStyleSheet("QMenu {\n"
-"    background-color:#b2bd84;\n"
-"    border-color: black;\n"
-"    border: 1px solid;\n"
-"    margin: 2px; /* some spacing around the menu */\n"
-"}\n"
-"QMenu::separator {\n"
-"    height: 1px;\n"
-"    background: #825051;\n"
-"    margin-left: 5px;\n"
-"    margin-right: 5px;\n"
-"}\n"
-"\n"
-"QMenu::item {\n"
-"    color: black;\n"
-"    padding: 2px 20px 2px 20px;\n"
-"    border: 1px solid transparent; /* reserve space for selection border */\n"
-"}\n"
-"\n"
-"QMenu::item:selected {\n"
-"   color:white;\n"
-"    border-color: darkblue;\n"
-"    background: #825051;\n"
-"    margin-left: 5px;\n"
-"    margin-right: 5px;\n"
-"}\n"
-"")
+
         self.menuView.setObjectName("menuView")
         self.menuHelp = QtWidgets.QMenu(self.menubar)
-        self.menuHelp.setStyleSheet("QMenu {\n"
-"    background-color:#b2bd84;\n"
-"    border-color: black;\n"
-"    border: 1px solid;\n"
-"    margin: 2px; /* some spacing around the menu */\n"
-"}\n"
-"QMenu::separator {\n"
-"    height: 1px;\n"
-"    background: #825051;\n"
-"    margin-left: 5px;\n"
-"    margin-right: 5px;\n"
-"}\n"
-"\n"
-"QMenu::item {\n"
-"    color: black;\n"
-"    padding: 2px 20px 2px 20px;\n"
-"    border: 1px solid transparent; /* reserve space for selection border */\n"
-"}\n"
-"\n"
-"QMenu::item:selected {\n"
-"   color:white;\n"
-"    border-color: darkblue;\n"
-"    background: #825051;\n"
-"    margin-left: 5px;\n"
-"    margin-right: 5px;\n"
-"}\n"
-"")
+
         self.menuHelp.setObjectName("menuHelp")
         self.menuGraphics = QtWidgets.QMenu(self.menubar)
-        self.menuGraphics.setStyleSheet("QMenu {\n"
-"    background-color:#b2bd84;\n"
-"    border-color: black;\n"
-"    border: 1px solid;\n"
-"    margin: 2px; /* some spacing around the menu */\n"
-"}\n"
-"QMenu::separator {\n"
-"    height: 1px;\n"
-"    background: #825051;\n"
-"    margin-left: 5px;\n"
-"    margin-right: 5px;\n"
-"}\n"
-"\n"
-"QMenu::item {\n"
-"    color: black;\n"
-"    padding: 2px 20px 2px 20px;\n"
-"    border: 1px solid transparent; /* reserve space for selection border */\n"
-"}\n"
-"\n"
-"QMenu::item:selected {\n"
-"   color:white;\n"
-"    border-color: darkblue;\n"
-"    background: #825051;\n"
-"    margin-left: 5px;\n"
-"    margin-right: 5px;\n"
-"}")
+
         self.menuGraphics.setObjectName("menuGraphics")
         MainWindow.setMenuBar(self.menubar)
 
@@ -497,7 +368,7 @@ class Ui_ModuleWindow(QMainWindow):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.inputDock.sizePolicy().hasHeightForWidth())
         self.inputDock.setSizePolicy(sizePolicy)
-        self.inputDock.setMinimumSize(QtCore.QSize(320, 710))
+        #self.inputDock.setMinimumSize(QtCore.QSize(320, 710))
         self.inputDock.setMaximumSize(QtCore.QSize(310, 710))
         self.inputDock.setBaseSize(QtCore.QSize(310, 710))
         font = QtGui.QFont()
@@ -548,6 +419,7 @@ class Ui_ModuleWindow(QMainWindow):
 
         i = 0
         j = 1
+        maxi_width_left, maxi_width_right = -1, -1
         for option in option_list:
             lable = option[1]
             type = option[2]
@@ -556,7 +428,7 @@ class Ui_ModuleWindow(QMainWindow):
                 # if option[0] in [KEY_MOMENT_MAJOR, KEY_MOMENT_MINOR] and module == KEY_DISP_BASE_PLATE:
                 #     l.setGeometry(QtCore.QRect(16, 10 + i, 120, 25))
                 # else:
-                l.setGeometry(QtCore.QRect(6, 10 + i, 120, 25))
+                #l.setGeometry(QtCore.QRect(6, 10 + i, 120, 25))
                 font = QtGui.QFont()
                 font.setPointSize(11)
                 font.setBold(False)
@@ -564,12 +436,15 @@ class Ui_ModuleWindow(QMainWindow):
                 l.setFont(font)
                 l.setObjectName(option[0] + "_label")
                 l.setText(_translate("MainWindow", "<html><head/><body><p>" + lable + "</p></body></html>"))
-                l.setFixedSize(l.size())
+                #l.setFixedSize(l.size())
                 in_layout2.addWidget(l, j, 1, 1, 1)
+                metrices = QtGui.QFontMetrics(font)
+                maxi_width_left = max(maxi_width_left, metrices.boundingRect(lable).width())
+
 
             if type == TYPE_COMBOBOX or type == TYPE_COMBOBOX_CUSTOMIZED:
                 combo = QtWidgets.QComboBox(self.dockWidgetContents)
-                combo.setGeometry(QtCore.QRect(150, 10 + i, 150, 27))
+                #combo.setGeometry(QtCore.QRect(150, 10 + i, 150, 27))
                 font = QtGui.QFont()
                 font.setPointSize(11)
                 font.setBold(False)
@@ -581,8 +456,12 @@ class Ui_ModuleWindow(QMainWindow):
                 combo.setObjectName(option[0])
                 for item in option[4]:
                     combo.addItem(item)
-                combo.setFixedSize(combo.size())
+                #combo.setFixedSize(combo.size())
+                width = combo.minimumSizeHint().width()
+                combo.view().setMinimumWidth(width)
+                #combo.AdjustToContents
                 in_layout2.addWidget(combo, j, 2, 1, 1)
+                maxi_width_right = max(maxi_width_right, width)
 
             if type == TYPE_TEXTBOX:
                 r = QtWidgets.QLineEdit(self.dockWidgetContents)
@@ -596,12 +475,13 @@ class Ui_ModuleWindow(QMainWindow):
                 #     r.setGeometry(QtCore.QRect(160, 10 + i, 150, 27))
                 #     r.setDisabled(True)
                 # else:
-                r.setGeometry(QtCore.QRect(150, 10 + i, 150, 27))
+                #r.setGeometry(QtCore.QRect(150, 10 + i, 150, 27))
                 r.setEnabled(True if option[5] else False)
                 if option[6] != 'No Validator':
                     r.setValidator(self.get_validator(option[6]))
-                r.setFixedSize(r.size())
+                #r.setFixedSize(r.size())
                 in_layout2.addWidget(r, j, 2, 1, 1)
+                maxi_width_right = max(maxi_width_right, 120)
 
             if type == TYPE_MODULE:
                 _translate = QtCore.QCoreApplication.translate
@@ -655,13 +535,13 @@ class Ui_ModuleWindow(QMainWindow):
 
             if type == TYPE_TITLE:
                 q = QtWidgets.QLabel(self.dockWidgetContents)
-                q.setGeometry(QtCore.QRect(3, 10 + i, 201, 25))
+                #q.setGeometry(QtCore.QRect(3, 10 + i, 201, 25))
                 font = QtGui.QFont()
                 q.setFont(font)
                 q.setObjectName("_title")
                 q.setText(_translate("MainWindow",
                                      "<html><head/><body><p><span style=\" font-weight:600;\">" + lable + "</span></p></body></html>"))
-                q.setFixedSize(q.size())
+                q.resize(q.sizeHint().width(), q.sizeHint().height())
                 in_layout2.addWidget(q, j, 1, 2, 2)
                 j = j + 1
 
@@ -669,7 +549,10 @@ class Ui_ModuleWindow(QMainWindow):
             j = j + 1
         in_layout2.setRowStretch(j+1, 10)
         in_scroll.setWidget(in_scrollcontent)
-
+        maxi_width = maxi_width_left + maxi_width_right
+        maxi_width += 82
+        self.inputDock.setMinimumSize(QtCore.QSize(maxi_width, 710))
+        in_widget.setGeometry(QtCore.QRect(0, 0, maxi_width, 600))
         for option in option_list:
             key = self.dockWidgetContents.findChild(QtWidgets.QWidget, option[0])
 
@@ -785,21 +668,21 @@ class Ui_ModuleWindow(QMainWindow):
                     self.on_change_connect(key_changed, updated_list, data)
 
         self.btn_Reset = QtWidgets.QPushButton(self.dockWidgetContents)
-        self.btn_Reset.setGeometry(QtCore.QRect(30, 600, 100, 30))
+        self.btn_Reset.setGeometry(QtCore.QRect((maxi_width/2)-110, 600, 100, 35))
         font = QtGui.QFont()
-        font.setPointSize(12)
+        font.setPointSize(10)
         font.setBold(True)
-        font.setWeight(75)
+        font.setWeight(65)
         self.btn_Reset.setFont(font)
         self.btn_Reset.setAutoDefault(True)
         self.btn_Reset.setObjectName("btn_Reset")
 
         self.btn_Design = QtWidgets.QPushButton(self.dockWidgetContents)
-        self.btn_Design.setGeometry(QtCore.QRect(140, 600, 100, 30))
+        self.btn_Design.setGeometry(QtCore.QRect((maxi_width/2)+10, 600, 100, 35))
         font = QtGui.QFont()
-        font.setPointSize(12)
+        font.setPointSize(10)
         font.setBold(True)
-        font.setWeight(75)
+        font.setWeight(65)
         self.btn_Design.setFont(font)
         self.btn_Design.setAutoDefault(True)
         self.btn_Design.setObjectName("btn_Design")
@@ -817,15 +700,17 @@ class Ui_ModuleWindow(QMainWindow):
         @author: Umair
 
         """
+        out_list = main.output_values(main, False)
 
+        #maxi_width = max([QtGui.QFontMetrics(font).boundingRect(option[1]).width() for option in out_list if option[2] not in [TYPE_TITLE, TYPE_IMAGE, TYPE_MODULE]])
         self.outputDock = QtWidgets.QDockWidget(MainWindow)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.outputDock.sizePolicy().hasHeightForWidth())
         self.outputDock.setSizePolicy(sizePolicy)
-        self.outputDock.setMinimumSize(QtCore.QSize(320, 710))
-        self.outputDock.setMaximumSize(QtCore.QSize(310, 710))
+        #self.outputDock.setMinimumSize(QtCore.QSize(400, 710))
+        #self.outputDock.setMaximumSize(QtCore.QSize(maxi_width+220, 710))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(11)
@@ -838,7 +723,7 @@ class Ui_ModuleWindow(QMainWindow):
         self.dockWidgetContents_out.setObjectName("dockWidgetContents_out")
 
         out_widget = QtWidgets.QWidget(self.dockWidgetContents_out)
-        out_widget.setGeometry(QtCore.QRect(0, 0, 325, 600))
+        #out_widget.setGeometry(QtCore.QRect(0, 0, 400, 600))
         out_layout1 = QtWidgets.QVBoxLayout(out_widget)
         out_scroll = QScrollArea(out_widget)
         out_layout1.addWidget(out_scroll)
@@ -847,34 +732,36 @@ class Ui_ModuleWindow(QMainWindow):
         out_layout2 = QtWidgets.QGridLayout(out_scrollcontent)
         out_scrollcontent.setLayout(out_layout2)
         out_scroll.horizontalScrollBar().hide()
-        out_list = main.output_values(main, False)
         _translate = QtCore.QCoreApplication.translate
-
+        #from PyQt5.QtCore import *
         i = 0
         j = 1
         button_list = []
+        maxi_width_left, maxi_width_right = -1, -1
         for option in out_list:
             lable = option[1]
             output_type = option[2]
             if output_type not in [TYPE_TITLE, TYPE_IMAGE, TYPE_MODULE]:
                 l = QtWidgets.QLabel(self.dockWidgetContents_out)
-                l.setGeometry(QtCore.QRect(6, 10 + i, 120, 25))
+                #l.setGeometry(QtCore.QRect(6, 10 + i, maxi_width , 25))
                 font = QtGui.QFont()
                 font.setPointSize(11)
                 font.setBold(False)
                 font.setWeight(50)
                 l.setFont(font)
                 l.setObjectName(option[0] + "_label")
-                l.setFixedSize(l.size())
+                #l.setFixedSize(l.size())
                 l.setText(_translate("MainWindow", "<html><head/><body><p>" + lable + "</p></body></html>"))
                 out_layout2.addWidget(l, j, 1, 1, 1)
                 l.setVisible(True if option[4] else False)
+                metrices = QtGui.QFontMetrics(font)
+                maxi_width_left = max(metrices.boundingRect(lable).width(), maxi_width_left)
                 # if option[0] == KEY_OUT_ANCHOR_BOLT_TENSION and module == KEY_DISP_BASE_PLATE:
                 #     l.setVisible(False)
 
             if output_type == TYPE_TEXTBOX:
                 r = QtWidgets.QLineEdit(self.dockWidgetContents_out)
-                r.setGeometry(QtCore.QRect(150, 10 + i, 150, 27))
+                #r.setGeometry(QtCore.QRect(100, 10 + i, 150, 27))
                 font = QtGui.QFont()
                 font.setPointSize(11)
                 font.setBold(False)
@@ -882,45 +769,57 @@ class Ui_ModuleWindow(QMainWindow):
                 r.setFont(font)
                 r.setObjectName(option[0])
                 r.setReadOnly(True)
-                r.setFixedSize(r.size())
+                #r.setFixedSize(r.size())
                 out_layout2.addWidget(r, j, 2, 1, 1)
                 r.setVisible(True if option[4] else False)
+                maxi_width_right = max(maxi_width_right, 110)    # predefined minimum width of 110 for textboxes
                 # if option[0] == KEY_OUT_ANCHOR_BOLT_TENSION and module == KEY_DISP_BASE_PLATE:
                 #     r.setVisible(False)
 
             if output_type == TYPE_OUT_BUTTON:
                 v = option[3]
                 b = QtWidgets.QPushButton(self.dockWidgetContents_out)
-                b.setGeometry(QtCore.QRect(150, 10 + i, 150, 27))
+                #b.setGeometry(QtCore.QRect(150, 10 + i, 150, 27))
                 font = QtGui.QFont()
                 font.setPointSize(11)
                 font.setBold(False)
                 font.setWeight(50)
                 b.setFont(font)
                 b.setObjectName(option[0])
-                b.setFixedSize(b.size())
+                #b.setFixedSize(b.size())
+                b.resize(b.sizeHint().width(), b.sizeHint().height())
                 b.setText(v[0])
                 b.setDisabled(True)
                 button_list.append(option)
                 out_layout2.addWidget(b, j, 2, 1, 1)
+                maxi_width_right = max(maxi_width_right, b.sizeHint().width())
                 #b.clicked.connect(lambda: self.output_button_dialog(main, out_list))
 
             if output_type == TYPE_TITLE:
                 q = QtWidgets.QLabel(self.dockWidgetContents_out)
-                q.setGeometry(QtCore.QRect(3, 10 + i, 201, 25))
+                #q.setGeometry(QtCore.QRect(3, 10 + i, 201, 25))
                 font = QtGui.QFont()
                 q.setFont(font)
                 q.setObjectName("_title")
-                q.setFixedSize(q.size())
+                #q.setFixedSize(q.size())
                 q.setText(_translate("MainWindow",
                                      "<html><head/><body><p><span style=\" font-weight:600;\">" + lable + "</span></p></body></html>"))
+                q.resize(q.sizeHint().width(), q.sizeHint().height())
                 out_layout2.addWidget(q, j, 1, 2, 2)
                 j = j + 1
             i = i + 30
             j = j + 1
         out_layout2.setRowStretch(j+1, 10)
         out_scroll.setWidget(out_scrollcontent)
-
+        maxi_width = maxi_width_left + maxi_width_right
+        maxi_width += 80    # +80 coz of whitespaces
+        if len(out_list) == 0:
+            self.outputDock.setMinimumSize(350, 710)
+            out_widget.setGeometry(0,0,350, 600)
+            maxi_width = 350
+        else:
+            self.outputDock.setMinimumSize(maxi_width, 710)
+            out_widget.setGeometry(0,0,maxi_width, 600)
         # common_button = QtWidgets.QPushButton()
         # d = {
         #     'Button_1': common_button,
@@ -974,8 +873,13 @@ class Ui_ModuleWindow(QMainWindow):
         MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.outputDock)
 
         self.btn_CreateDesign = QtWidgets.QPushButton(self.dockWidgetContents_out)
-        self.btn_CreateDesign.setGeometry(QtCore.QRect(50, 650, 200, 30))
+        self.btn_CreateDesign.setGeometry(QtCore.QRect(((maxi_width)/2) - 100, 650, 200, 35))
         self.btn_CreateDesign.setAutoDefault(True)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(65)
+        self.btn_CreateDesign.setFont(font)
         self.btn_CreateDesign.setObjectName("btn_CreateDesign")
         # self.btn_CreateDesign.clicked.connect(self.createDesignReport(main))
 
@@ -2030,9 +1934,11 @@ class Ui_ModuleWindow(QMainWindow):
     def output_button_dialog(self, main, button_list, button):
 
         dialog = QtWidgets.QDialog()
-        dialog.resize(470, 300)
+        #dialog.resize(470, 300)
         dialog.setObjectName("Dialog")
-
+        #q.sizeHint().width(), q.sizeHint().height()
+        #sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        #dialog.setSizePolicy(sizePolicy)
         layout1 = QtWidgets.QVBoxLayout(dialog)
         scroll = QScrollArea(dialog)
         layout1.addWidget(scroll)
@@ -2048,7 +1954,6 @@ class Ui_ModuleWindow(QMainWindow):
         inner_grid_widget.setLayout(inner_grid_layout)
         scrollcontent.setLayout(outer_grid_layout)
         section = 0
-
         for op in button_list:
 
             if op[0] == button.objectName():
@@ -2064,16 +1969,17 @@ class Ui_ModuleWindow(QMainWindow):
                     _translate = QtCore.QCoreApplication.translate
                     if out_but_type not in [TYPE_TITLE, TYPE_IMAGE, TYPE_MODULE, TYPE_SECTION]:
                         l = QtWidgets.QLabel(inner_grid_widget)
-                        l.setGeometry(QtCore.QRect(10, 10 + i, 120, 25))
+                        #l.setGeometry(QtCore.QRect(10, 10 + i, 120, 25))
                         font = QtGui.QFont()
                         font.setPointSize(9)
                         font.setBold(False)
                         font.setWeight(50)
                         l.setFont(font)
-                        l.setFixedSize(l.size())
+                        #l.setFixedSize(l.size())
                         l.setObjectName(option[0] + "_label")
                         l.setText(_translate("MainWindow", "<html><head/><body><p>" + lable + "</p></body></html>"))
                         inner_grid_layout.addWidget(l, j, 1, 1, 1)
+                        l.resize(l.sizeHint().width(), l.sizeHint().height())
 
                     if out_but_type == TYPE_SECTION:
                         if section != 0:
@@ -2092,44 +1998,49 @@ class Ui_ModuleWindow(QMainWindow):
                         inner_grid_widget.setLayout(inner_grid_layout)
 
                         im = QtWidgets.QLabel(image_widget)
-                        im.setGeometry(QtCore.QRect(330, 10, 150, 150))
-                        im.setFixedSize(im.size())
+                        #im.setGeometry(QtCore.QRect(330, 10, 150, 150))
+                        #im.setFixedSize(im.size())
                         pmap = QPixmap(option[3])
                         im.setPixmap(pmap)
                         image_layout.addWidget(im)
                         j += 1
+                        im.resize(im.sizeHint().width(), im.sizeHint().height())
 
                         q = QtWidgets.QLabel(scrollcontent)
-                        q.setGeometry(QtCore.QRect(30, 10, 201, 30))
+                        #q.setGeometry(QtCore.QRect(30, 10, 201, 30))
                         font = QtGui.QFont()
                         font.setWeight(600)
                         font.setPointSize(11)
                         q.setFont(font)
                         q.setObjectName("_title")
                         q.setText(lable)
-                        q.setFixedSize(q.size())
+                        #q.setFixedSize(q.size())
+                        q.resize(q.sizeHint().width(), q.sizeHint().height())
                         outer_grid_layout.addWidget(q, j, 1, 1, 2)
-
                         section += 1
 
                     if out_but_type == TYPE_TEXTBOX:
                         r = QtWidgets.QLineEdit(inner_grid_widget)
-                        r.setGeometry(QtCore.QRect(160, 10 + i, 160, 27))
+                        #r.setGeometry(QtCore.QRect(160, 10 + i, 160, 27))
                         font = QtGui.QFont()
                         font.setPointSize(11)
                         font.setBold(False)
                         font.setWeight(50)
                         r.setFont(font)
-                        r.setFixedSize(r.size())
+                        #r.setFixedSize(r.size())
                         r.setObjectName(option[0])
                         r.setText(str(option[3]))
                         inner_grid_layout.addWidget(r, j, 2, 1, 1)
+                        r.resize(r.sizeHint().width()+30, r.sizeHint().height())
                     j = j + 1
                     i = i + 30
-
                 outer_grid_layout.addWidget(inner_grid_widget, j, 1, 1, 1)
                 outer_grid_layout.addWidget(image_widget, j, 2, 1, 1)
                 scroll.setWidget(scrollcontent)
+                dialog.setMinimumSize(dialog.sizeHint().width(), 350)
+                #scrollcontent.setGeometry(0,0,maxi_width, 350)
+                #dialog.resize(dialog.sizeHint().width()+140, 300)
+                #scrollcontent.resize(scrollcontent.sizeHint().width()+140, 300)
                 if section == 0:
                     dialog.resize(350, 300)
                 dialog.setFixedSize(dialog.size())

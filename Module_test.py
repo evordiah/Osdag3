@@ -80,8 +80,7 @@ available_module dictionary is used in -
 Make sure to make the necessary changes in above functions/methods if you are changing the name of available_module.
 '''
 
-available_module = {'Beam Coverplate  Weld Connection' : BeamCoverPlateWeld, 'Fin Plate' : FinPlateConnection,
-                    'Column Coverplate Weld Connection': ColumnCoverPlateWeld}
+available_module = {'Fin Plate' : FinPlateConnection}
 
 
 
@@ -162,31 +161,49 @@ class Modules:
 
             '''
             file_name = file_name.split(".")[0]
+
             path =  os.path.join(output_file_path, file_name)
+
             popup_summary['filename'] = path    # adding this key in popup_summary dict.
+
             popup_summary['does_design_exist'] = False
+
             try:
+
                 display, start_display, add_menu, add_function_to_menu = init_display(backend_str="qt-pyqt5")
+
                 commLogicObj = CommonDesignLogic(display, ' ', main.module, main.mainmodule)
+
                 status = main.design_status
+
                 commLogicObj.call_3DModel(status, main)
+
                 fName = str('./ResourceFiles/images/3d.png')
+
                 file_extension = fName.split(".")[-1]
+
                 if file_extension == 'png':
+
                     display.ExportToImage(fName)
+
                 popup_summary['does_design_exist'] = True
+
             except:
+
                 print("Design is not ready.")
 
             main.save_design(main,popup_summary)  # calling the function.
+
             pdf_created = True   # if pdf created
 
-
             is_dict_same = True
+            '''
             path = os.path.join(os.path.dirname(__file__), 'OUTPUT_FILES', 'Command_line_output', file_name + ".txt")
+
             if os.path.isfile(path):
 
                 with open(path,"r") as file_content:
+
                     content = file_content.read()
 
                 content = ast.literal_eval(content)   # convert dictionary string to dictionary
@@ -194,10 +211,9 @@ class Modules:
                 output_dict = main.results_to_test(main)
 
                 if output_dict != content:
-                    is_dict_same = False
 
-
-
+                    is_dict_same = False    # if dictionary is not equal.
+            '''
         return (pdf_created & is_dict_same)
 
 

@@ -45,18 +45,22 @@ class Ui_Dialog(object):
         self.gridLayout_2 = QtWidgets.QGridLayout()
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.btn_defaults = QtWidgets.QPushButton(DesignPreferences)
+        self.btn_defaults.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         font = QtGui.QFont()
         font.setFamily("Arial")
         self.btn_defaults.setFont(font)
         self.btn_defaults.setObjectName("btn_defaults")
         self.gridLayout_2.addWidget(self.btn_defaults, 0, 1, 1, 1)
         self.btn_save = QtWidgets.QPushButton(DesignPreferences)
+
         font = QtGui.QFont()
         font.setFamily("Arial")
         self.btn_save.setFont(font)
         self.btn_save.setObjectName("btn_save")
         self.gridLayout_2.addWidget(self.btn_save, 0, 2, 1, 1)
         self.btn_close = QtWidgets.QPushButton(DesignPreferences)
+
+        self.btn_close.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         font = QtGui.QFont()
         font.setFamily("Arial")
         self.btn_close.setFont(font)
@@ -488,6 +492,7 @@ class Ui_Dialog(object):
 # START
 
         tab_index = 0
+
         for tab_details in main.tab_list(main):
             tab_name = tab_details[0]
             tab_elements = tab_details[2]
@@ -499,13 +504,15 @@ class Ui_Dialog(object):
                 _translate = QtCore.QCoreApplication.translate
                 i = 0
                 j = 6
+                labels = []
+                combo_text = []
                 for element in elements:
                     lable = element[1]
                     type = element[2]
                     # value = option[4]
                     if type in [TYPE_COMBOBOX, TYPE_TEXTBOX]:
                         l = QtWidgets.QLabel(tab)
-                        l.setGeometry(QtCore.QRect(3 + j, 10 + i, 165, 22))
+                        l.move(3 + j, 10 + i)
                         font = QtGui.QFont()
                         font.setPointSize(9)
                         if lable in [KEY_DISP_SUPTNGSEC_DESIGNATION, 'Type', 'Source']:
@@ -516,10 +523,11 @@ class Ui_Dialog(object):
                         l.setObjectName(element[0] + "_label")
                         l.setText(_translate("MainWindow", "<html><head/><body><p>" + lable + "</p></body></html>"))
                         l.setAlignment(QtCore.Qt.AlignLeft)
-
+                        l.resize(l.sizeHint().width(), l.sizeHint().height())
+                        labels.append((l, l.sizeHint().width()+3+j))
                     if type == TYPE_COMBOBOX:
                         combo = QtWidgets.QComboBox(tab)
-                        combo.setGeometry(QtCore.QRect(170 + j, 10 + i, 130, 22))
+                        combo.setGeometry(QtCore.QRect(l.sizeHint().width() + 10 + j, 10 + i, 130, 22))
                         font = QtGui.QFont()
                         font.setPointSize(9)
                         font.setBold(False)
@@ -532,7 +540,9 @@ class Ui_Dialog(object):
                             combo.addItem(item)
                         if input_dictionary:
                             combo.setCurrentText(str(element[4]))
-
+                        width = combo.minimumSizeHint().width()
+                        combo.view().setMinimumWidth(width)
+                        combo_text.append((combo,l.sizeHint().width() + 10 + j,10+i))
                     if type == TYPE_TITLE:
                         q = QtWidgets.QLabel(tab)
                         q.setGeometry(QtCore.QRect(j, 10 + i, 155, 35))
@@ -542,10 +552,11 @@ class Ui_Dialog(object):
                         q.setObjectName("_title")
                         q.setText(_translate("MainWindow",
                                              "<html><head/><body><p><span style=\" font-weight:600;\">" + lable + "</span></p></body></html>"))
+                        q.resize(q.sizeHint().width(), q.sizeHint().height())
 
                     if type == TYPE_TEXTBOX:
                         r = QtWidgets.QLineEdit(tab)
-                        r.setGeometry(QtCore.QRect(170 + j, 10 + i, 130, 22))
+                        r.setGeometry(QtCore.QRect(QtCore.QRect(l.sizeHint().width() + 10 + j, 10 + i, 130, 22)))
                         font = QtGui.QFont()
                         font.setPointSize(9)
                         font.setBold(False)
@@ -556,7 +567,7 @@ class Ui_Dialog(object):
                             r.setValidator(QDoubleValidator())
                         if input_dictionary:
                             r.setText(str(element[4]))
-
+                        combo_text.append((r,l.sizeHint().width() + 10 + j,10+i))
                     if type == TYPE_IMAGE:
                         im = QtWidgets.QLabel(tab)
                         im.setGeometry(QtCore.QRect(60 + j, 30 + i, 200, 300))
@@ -565,60 +576,91 @@ class Ui_Dialog(object):
                         image = QPixmap("./ResourceFiles/images/ColumnsBeams.png")
                         im.setPixmap(image)
                         i = i + 300
+                        im.resize(im.sizeHint().width(), im.sizeHint().height())
 
                     if type == TYPE_BREAK:
-                        j = j + 310
+                        ki = -1
+                        for item,size in labels:
+                            item.resize(size,item.sizeHint().height())
+                            ki = max(ki,size)
+                        labels =[]
+
+                        for item in combo_text:
+                            x,y = item[1], item[2]
+                            item[0].move(ki+10,y)
+                        combo_text = []
+
+                        j = j + 400
                         i = -30
 
                     if type == TYPE_ENTER:
                         pass
 
                     i = i + 30
+
                 pushButton_Add = QtWidgets.QPushButton(tab)
                 pushButton_Add.setObjectName(str("pushButton_Add_" + tab_name))
-                pushButton_Add.setGeometry(QtCore.QRect(6, 500, 160, 27))
+                pushButton_Add.setGeometry(QtCore.QRect(6, i + 30, 160, 27))
                 font = QtGui.QFont()
                 font.setPointSize(9)
                 font.setBold(False)
                 font.setWeight(50)
                 pushButton_Add.setFont(font)
                 pushButton_Add.setText("Add")
+                pushButton_Add.resize(pushButton_Add.sizeHint().width() + 10, pushButton_Add.sizeHint().height() + 7)
 
                 pushButton_Clear = QtWidgets.QPushButton(tab)
                 pushButton_Clear.setObjectName(str("pushButton_Clear_" + tab_name))
-                pushButton_Clear.setGeometry(QtCore.QRect(180, 500, 160, 27))
+                pushButton_Clear.setGeometry(QtCore.QRect(180, i + 30, 160, 27))
                 font = QtGui.QFont()
                 font.setPointSize(9)
                 font.setBold(False)
                 font.setWeight(50)
                 pushButton_Clear.setFont(font)
                 pushButton_Clear.setText("Clear")
+                pushButton_Clear.resize(pushButton_Clear.sizeHint().width() + 10, pushButton_Clear.sizeHint().height() + 7)
 
                 pushButton_Import = QtWidgets.QPushButton(tab)
                 pushButton_Import.setObjectName(str("pushButton_Import_" + tab_name))
-                pushButton_Import.setGeometry(QtCore.QRect(770, 500, 160, 27))
+                pushButton_Import.setGeometry(QtCore.QRect(770, i + 30, 160, 27))
                 font = QtGui.QFont()
                 font.setPointSize(9)
                 font.setBold(False)
                 font.setWeight(50)
                 pushButton_Import.setFont(font)
                 pushButton_Import.setText("Import xlsx file")
+                pushButton_Import.resize(pushButton_Import.sizeHint().width() + 10, pushButton_Import.sizeHint().height() + 7)
 
                 pushButton_Download = QtWidgets.QPushButton(tab)
                 pushButton_Download.setObjectName(str("pushButton_Download_" + tab_name))
-                pushButton_Download.setGeometry(QtCore.QRect(600, 500, 160, 27))
+                pushButton_Download.setGeometry(QtCore.QRect(600, i + 30, 160, 27))
                 font = QtGui.QFont()
                 font.setPointSize(9)
                 font.setBold(False)
                 font.setWeight(50)
                 pushButton_Download.setFont(font)
                 pushButton_Download.setText("Download xlsx file")
+                pushButton_Download.resize(pushButton_Download.sizeHint().width() + 10, pushButton_Download.sizeHint().height() + 7)
+
+
+                if combo_text and labels:
+                    ki = -1
+                    for item,size in labels:
+                        item.resize(size,item.sizeHint().height())
+                        ki = max(ki,size)
+
+                    for item in combo_text:
+                        x,y = item[1], item[2]
+                        item[0].move(ki+10,y)
 
                 self.tabWidget.addTab(tab, "")
                 self.tabWidget.setTabText(tab_index, tab_name)
                 tab_index += 1
 
+
             elif tab_type == TYPE_TAB_2:
+                labels = []
+                combo_text = []
                 tab = QtWidgets.QWidget()
                 tab.setObjectName(tab_name)
                 elements = tab_elements(main, input_dictionary)
@@ -652,10 +694,11 @@ class Ui_Dialog(object):
                         l.setObjectName(element[0] + "_label")
                         l.setText(_translate("MainWindow", "<html><head/><body><p>" + lable + "</p></body></html>"))
                         l.setAlignment(QtCore.Qt.AlignLeft)
-
+                        l.resize(l.sizeHint().width(), l.sizeHint().width())
+                        labels.append((l, l.sizeHint().width()+3+j))
                     if type == TYPE_COMBOBOX:
                         combo = QtWidgets.QComboBox(tab)
-                        combo.setGeometry(QtCore.QRect(170 + j, 10 + i, 270, 22))
+                        combo.setGeometry(QtCore.QRect(l.sizeHint().width() + 10 + j, 10 + i, 270, 22))
                         font = QtGui.QFont()
                         font.setPointSize(9)
                         font.setBold(False)
@@ -673,7 +716,9 @@ class Ui_Dialog(object):
                             combo.model().item(2).setEnabled(False)
                         if input_dictionary:
                             combo.setCurrentText(str(element[4]))
-
+                        width = combo.minimumSizeHint().width()
+                        combo.view().setMinimumWidth(width)
+                        combo_text.append((combo,l.sizeHint().width() + 10 + j,10+i))
                     if type == TYPE_TITLE:
                         q = QtWidgets.QLabel(tab)
                         q.setGeometry(QtCore.QRect(j, 10 + i, 155, 35))
@@ -685,17 +730,17 @@ class Ui_Dialog(object):
                                              "<html><head/><body><p><span style=\" font-weight:600;\">" + lable + "</span></p></body></html>"))
                     if type == TYPE_NOTE:
                         q = QtWidgets.QLabel(tab)
-                        q.setGeometry(QtCore.QRect(j, 10 + i, 355, 35))
+                        q.setGeometry(QtCore.QRect(j, 55 + i, 355, 35))
                         font = QtGui.QFont()
                         font.setPointSize(10)
                         q.setFont(font)
                         q.setObjectName("_title")
                         q.setText(_translate("MainWindow",
                                              "<html><head/><body><p><span style=\" font-weight:600;\">" + lable + "</span></p></body></html>"))
-
+                        q.resize(q.sizeHint().width(),q.sizeHint().height())
                     if type == TYPE_TEXTBOX:
                         r = QtWidgets.QLineEdit(tab)
-                        r.setGeometry(QtCore.QRect(170 + j, 10 + i, 270, 22))
+                        r.setGeometry(QtCore.QRect(l.sizeHint().width() + 10 + j, 10 + i, 270, 22))
                         font = QtGui.QFont()
                         font.setPointSize(9)
                         font.setBold(False)
@@ -710,7 +755,7 @@ class Ui_Dialog(object):
                             r.setMaxLength(7)
                         if input_dictionary:
                             r.setText(str(element[4]))
-
+                        combo_text.append((r,l.sizeHint().width() + 10 + j,10+i))
                     if type == TYPE_IMAGE:
                         im = QtWidgets.QLabel(tab)
                         im.setGeometry(QtCore.QRect(60 + j, 30 + i, 200, 300))
@@ -718,10 +763,23 @@ class Ui_Dialog(object):
                         im.setScaledContents(True)
                         image = QPixmap("./ResourceFiles/images/Columns_Beams.png")
                         im.setPixmap(image)
+                        im.resize(im.sizeHint().width(),im.sizeHint().height())
                         i = i + 300
 
                     if type == TYPE_BREAK:
-                        j = j + 310
+
+                        ki = -1
+                        for item,size in labels:
+                            item.resize(size,item.sizeHint().height())
+                            ki = max(ki,size)
+                        labels =[]
+
+                        for item in combo_text:
+                            x,y = item[1], item[2]
+                            item[0].move(ki+10,y)
+                        combo_text = []
+
+                        j = j + 400
                         i = -30
 
                     if type == TYPE_ENTER:
@@ -734,19 +792,31 @@ class Ui_Dialog(object):
                         font.setWeight(75)
                         label_3.setFont(font)
                         label_3.setObjectName("label_3")
-                        label_3.setGeometry(QtCore.QRect(460, 10, 130, 22))
+                        label_3.setGeometry(QtCore.QRect(550, 10, 130, 22))
                         label_3.setText("Description")
                         textBrowser = QtWidgets.QTextBrowser(tab)
                         textBrowser.setMinimumSize(QtCore.QSize(210, 320))
                         textBrowser.setObjectName(element[0])
-                        textBrowser.setGeometry(QtCore.QRect(460, 40, 480, 450))
+                        textBrowser.setGeometry(QtCore.QRect(550, 40, 480, 450))
                         textBrowser.setHtml(_translate("DesignPreferences", element[3]))
                         textBrowser.horizontalScrollBar().setVisible(False)
 
                     i = i + 30
+
+                if combo_text and labels:
+                    ki = -1
+                    for item,size in labels:
+                        item.resize(size,item.sizeHint().height())
+                        ki = max(ki,size)
+
+                    for item in combo_text:
+                        x,y = item[1], item[2]
+                        item[0].move(ki+10,y)
+
                 self.tabWidget.addTab(tab, "")
                 self.tabWidget.setTabText(tab_index, tab_name)
                 tab_index += 1
+        DesignPreferences.resize(1170,700)
 
 # END
 
@@ -2274,4 +2344,3 @@ if __name__ == "__main__":
     ui.setupUi(DesignPreferences)
     DesignPreferences.exec()
     sys.exit(app.exec_())
-
