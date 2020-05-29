@@ -318,7 +318,8 @@ class Ui_ModuleWindow(QMainWindow):
             checkBox.setDisabled(True)
             function_name = component[1]
             self.chkbox_connect(main, checkBox, function_name)
-            i += 111
+            checkBox.resize(checkBox.sizeHint())
+            i += (checkBox.sizeHint().width() + 5)
 
         self.verticalLayout_2.addWidget(self.frame)
         self.splitter = QtWidgets.QSplitter(self.centralwidget)
@@ -344,7 +345,7 @@ class Ui_ModuleWindow(QMainWindow):
         self.mytabWidget.setFont(font)
         self.mytabWidget.setFocusPolicy(QtCore.Qt.NoFocus)
         self.mytabWidget.setStyleSheet("QTabBar::tab { height: 75px; width: 1px;  }")
-        self.mytabWidget.setTabPosition(QtWidgets.QTabWidget.West)
+        self.mytabWidget.setTabPosition(QtWidgets.QTabWidget.East)
         self.mytabWidget.setObjectName("mytabWidget")
         self.verticalLayout.addWidget(self.mytabWidget)
         self.textEdit = QtWidgets.QTextEdit(self.splitter)
@@ -478,20 +479,18 @@ class Ui_ModuleWindow(QMainWindow):
                 combo.setStyleSheet("QComboBox { combobox-popup: 0; }")
                 combo.setMaxVisibleItems(5)
                 combo.setObjectName(option[0])
+                metrices = QtGui.QFontMetrics(font)
+                item_width = 10
                 for item in option[4]:
                     combo.addItem(item)
-                #combo.setFixedSize(combo.size())
-                width = combo.minimumSizeHint().width()
-
-                #combo.AdjustToContents
+                    item_width = max(item_width, metrices.boundingRect(item).width())
                 in_layout2.addWidget(combo, j, 2, 1, 1)
 
                 if lable == 'Material *':
 
-                    #combo.setFixedSize(combo.sizeHint().width()+10,combo.sizeHint().height())
                     maxi_width_right = max(maxi_width_right, combo.sizeHint().width())
                 else:
-                    combo.view().setSizePolicy(QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed,QtWidgets.QSizePolicy.Maximum))
+                    combo.view().setMinimumWidth(item_width + 10)
 
             if type == TYPE_TEXTBOX:
                 r = QtWidgets.QLineEdit(self.dockWidgetContents)
@@ -587,8 +586,8 @@ class Ui_ModuleWindow(QMainWindow):
         in_scrollcontent.setMinimumSize(maxi_width,in_scrollcontent.sizeHint().height())
         maxi_width += 82
         maxi_width = max(maxi_width, 350)    # In case there is no widget
-        self.inputDock.setMinimumSize(maxi_width, 710)
-        in_widget.setGeometry(0, 0, maxi_width, 650)
+        self.inputDock.setFixedSize(maxi_width, 710)
+        in_widget.setFixedSize( maxi_width, 650)
         for option in option_list:
             key = self.dockWidgetContents.findChild(QtWidgets.QWidget, option[0])
 
@@ -851,8 +850,8 @@ class Ui_ModuleWindow(QMainWindow):
         maxi_width += 80    # +80 coz of whitespaces
         maxi_width = max(maxi_width, 350) # in case no widget
 
-        self.outputDock.setMinimumSize(maxi_width, 710)
-        out_widget.setGeometry(0,0,maxi_width, 650)
+        self.outputDock.setFixedSize(maxi_width, 710)
+        out_widget.setFixedSize(maxi_width, 650)
         # common_button = QtWidgets.QPushButton()
         # d = {
         #     'Button_1': common_button,
@@ -860,7 +859,7 @@ class Ui_ModuleWindow(QMainWindow):
         #     'Button_3': common_button,
         #     'Button_4': common_button,
         #     'Button_5': common_button,
-        #     'Button_6': common_button
+        #     'Button_6':  common_button
         # }
         #
         # print(button_list)
