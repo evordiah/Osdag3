@@ -155,7 +155,6 @@ import subprocess
 from gui.ui_template import Ui_ModuleWindow
 
 
-
 class MyTutorials(QDialog):
     def __init__(self, parent=None):
         QDialog.__init__(self, parent)
@@ -791,7 +790,7 @@ class OsdagMainWindow(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    path = os.path.join(os.path.dirname(__file__), 'themes', 'light.qss')
+    path = os.path.join(os.path.dirname(__file__), 'themes', 'darkstyle.qss')
     file = open(path,'r')
     file = file.read()
     app.setStyleSheet(file)
