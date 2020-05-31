@@ -1283,6 +1283,12 @@ QLineEdit:selected {
 https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qtabwidget-and-qtabbar
 
 --------------------------------------------------------------------------- */
+
+QTabWidget#mytabWidget QTabBar::tab {
+
+	background: #19232D;
+	
+}
 QTabWidget {
     background: #16181c;
     border: none;
