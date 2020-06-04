@@ -194,7 +194,7 @@ class Ui_ModuleWindow(QMainWindow):
         self.folder = folder
         main.design_status = False
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1328, 769)
+        #sMainWindow.resize(1328, 769)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/newPrefix/images/finwindow.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
@@ -554,8 +554,8 @@ class Ui_ModuleWindow(QMainWindow):
         in_scrollcontent.setMinimumSize(maxi_width,in_scrollcontent.sizeHint().height())
         maxi_width += 82
         maxi_width = max(maxi_width, 350)    # In case there is no widget
-        self.inputDock.setFixedSize(maxi_width, 710)
-        in_widget.setFixedSize( maxi_width, 650)
+        self.inputDock.setFixedSize(maxi_width,self.height())
+        in_widget.setFixedSize( maxi_width, (2/3)*self.height())
         for option in option_list:
             key = self.dockWidgetContents.findChild(QtWidgets.QWidget, option[0])
 
