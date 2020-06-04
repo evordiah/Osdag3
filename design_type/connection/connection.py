@@ -202,7 +202,7 @@ class Connection(Main):
         t32 = ('Label_25', KEY_DISP_THERMAL_EXP, TYPE_TEXTBOX, None, t_e)
         supporting_section.append(t32)
 
-        t33 = (KEY_IMAGE, None, TYPE_IMAGE, None, None, None)
+        t33 = (KEY_IMAGE, None, TYPE_IMAGE, None, 'ResourceFiles/images/ISection.png')
         supporting_section.append(t33)
 
         return supporting_section
@@ -398,7 +398,7 @@ class Connection(Main):
         t32 = ('Label_25', KEY_DISP_THERMAL_EXP, TYPE_TEXTBOX, None, t_e)
         supporting_section.append(t32)
 
-        t33 = (KEY_IMAGE, None, TYPE_IMAGE, None, None, None)
+        t33 = (KEY_IMAGE, None, TYPE_IMAGE, None, 'ResourceFiles/images/ISection.png')
         supporting_section.append(t33)
 
         return supporting_section
@@ -604,6 +604,14 @@ class Connection(Main):
             if isinstance(chkbox, QCheckBox):
                 chkbox.setChecked(Qt.Unchecked)
         ui.commLogicObj.display_3DModel("Beam", bgcolor)
+
+    def new_material(self):
+
+        selected_material = self[0]
+        if selected_material == "Custom":
+            return True
+        else:
+            return False
 
 if __name__ == "__main__":
     connection = Connection()

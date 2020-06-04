@@ -228,7 +228,7 @@ class ShearConnection(Connection):
         t32 = ('Label_26', KEY_DISP_THERMAL_EXP, TYPE_TEXTBOX, None, t_e)
         section.append(t32)
 
-        t33 = (KEY_IMAGE, None, TYPE_IMAGE, None, None, None)
+        t33 = (KEY_IMAGE, None, TYPE_IMAGE, None, 'ResourceFiles/images/Angles.png')
         section.append(t33)
 
         return section
@@ -397,6 +397,9 @@ class ShearConnection(Connection):
 
         t7 = ([KEY_TYP], KEY_OUT_BOLT_BEARING, TYPE_OUT_LABEL, self.out_bolt_bearing)
         lst.append(t7)
+
+        t8 = ([KEY_MATERIAL], KEY_MATERIAL, TYPE_CUSTOM_MATERIAL, self.new_material)
+        lst.append(t8)
 
         return lst
 

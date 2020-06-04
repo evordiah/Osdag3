@@ -572,10 +572,10 @@ class Ui_Dialog(object):
                         combo_text.append((r,l.sizeHint().width() + 10 + j,10+i))
                     if type == TYPE_IMAGE:
                         im = QtWidgets.QLabel(tab)
-                        im.setGeometry(QtCore.QRect(60 + j, 30 + i, 200, 300))
+                        im.setGeometry(QtCore.QRect(20 + j, 30 + i, 200, 200))
                         im.setObjectName(element[0])
                         im.setScaledContents(True)
-                        image = QPixmap("./ResourceFiles/images/ColumnsBeams.png")
+                        image = QPixmap(element[4])
                         im.setPixmap(image)
                         i = i + 300
                         im.resize(im.sizeHint().width(), im.sizeHint().height())
@@ -822,7 +822,7 @@ class Ui_Dialog(object):
                 self.tabWidget.setTabText(tab_index, tab_name)
                 tab_index += 1
         dialog_height += 170   # 70 for buttons and 100 for whitespaces
-        DesignPreferences.resize(1170,dialog_height)
+        DesignPreferences.resize(1170,dialog_height)  # Width of Design Preference Dialog is not set automatically. You have to adjust the width manually.
         for item in buttons:
             item[0].move(item[1],dialog_height-150)
 
@@ -1320,6 +1320,13 @@ class Ui_Dialog(object):
         elif tab_name == "Beam":
             tab_Beam = self.tabWidget.findChild(QtWidgets.QWidget, KEY_DISP_BEAMSEC)
             tab = tab_Beam
+        elif tab_name == "Angle":
+            tab_Angle = self.tabWidget.findChild(QtWidgets.QWidget, DISP_TITLE_ANGLE)
+            tab = tab_Angle
+        elif tab_name == "Channel":
+            tab_Channel = self.tabWidget.findChild(QtWidgets.QWidget, DISP_TITLE_CHANNEL)
+            tab = tab_Channel
+
         for c in tab.children():
             if isinstance(c, QtWidgets.QComboBox):
                 c.setCurrentIndex(0)
