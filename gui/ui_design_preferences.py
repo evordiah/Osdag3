@@ -576,6 +576,7 @@ class Ui_Dialog(object):
                         im.setObjectName(element[0])
                         im.setScaledContents(True)
                         image = QPixmap(element[4])
+                        print(element[4])
                         im.setPixmap(image)
                         i = i + 300
                         im.resize(im.sizeHint().width(), im.sizeHint().height())
@@ -1339,14 +1340,16 @@ class Ui_Dialog(object):
         '''
         tab_Column = self.tabWidget.findChild(QtWidgets.QWidget, KEY_DISP_COLSEC)
         name = self.tabWidget.tabText(self.tabWidget.indexOf(tab_Column))
+        #print(tab_Column.children())
         if name in [KEY_DISP_COLSEC, KEY_DISP_SECSIZE]:
             table = "Columns"
         elif name == KEY_DISP_PRIBM:
             table = "Beams"
         else:
             pass
-
+        print(tab_Column.children()[len(tab_Column.children())-1].objectName())
         for ch in tab_Column.children():
+            print('xdf')
             if isinstance(ch, QtWidgets.QLineEdit) and ch.text() == "":
                 QMessageBox.information(QMessageBox(), 'Warning', 'Please Fill all missing parameters!')
                 add_col = tab_Column.findChild(QtWidgets.QWidget, 'pushButton_Add_'+KEY_DISP_COLSEC)
@@ -1408,7 +1411,6 @@ class Ui_Dialog(object):
             elif isinstance(ch, QtWidgets.QComboBox):
                 if ch.objectName() == 'Label_8':
                     Type = ch.currentText()
-
         if ch == tab_Column.children()[len(tab_Column.children())-1]:
             conn = sqlite3.connect(PATH_TO_DATABASE)
             c = conn.cursor()
@@ -1653,6 +1655,7 @@ class Ui_Dialog(object):
         '''
         @author: Umair
         '''
+        
         tab_Channel = self.tabWidget.findChild(QtWidgets.QWidget, DISP_TITLE_CHANNEL)
         for ch in tab_Channel.children():
             if isinstance(ch, QtWidgets.QLineEdit) and ch.text() == "":
