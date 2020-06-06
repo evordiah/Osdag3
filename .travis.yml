@@ -58,7 +58,6 @@ install:
   # Useful for debugging any issues with conda
   - conda info --all;
   - conda update --name base --channel defaults --quiet conda;
-  - conda install -c cadquery pythonocc-core
   - while read requirement; do conda install --yes $requirement || pip install --user $requirement; done < requirements.txt;
   - source ./texlive/texlive_install.sh;
 
