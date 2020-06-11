@@ -237,6 +237,7 @@ class OsdagMainWindow(QMainWindow):
         width = resolution.width()
         height = resolution.height()
         self.resize(width*(0.8),height*(0.75))
+        self.center()
         self.ui=Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.comboBox_help.currentIndexChanged.connect(self.selection_change)
@@ -394,7 +395,7 @@ class OsdagMainWindow(QMainWindow):
 
             else:
                 raise ValueError
-        self.center()
+
         self.show()
 
     def center(self):

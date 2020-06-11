@@ -1246,14 +1246,12 @@ class Window(QMainWindow):
                         if lable!=None and value!=None:
                             to_Save[lable] = value
 
-            ty = dict(sorted(self.design_inputs.items()))
-            df = pd.DataFrame(ty.items())
+            df = pd.DataFrame(self.design_inputs.items())
             #df.columns = ['label','value']
             #columns = [('input values','label'),('input values','value')]
             #df.columns = pd.MultiIndex.from_tuples(columns)
 
-            ty = dict(sorted(to_Save.items()))
-            df1 = pd.DataFrame(ty.items())
+            df1 = pd.DataFrame(to_Save.items())
             #df1.columns = ['label','value']
             #df1.columns = pd.MultiIndex.from_product([["Output Values"], df1.columns])
 
