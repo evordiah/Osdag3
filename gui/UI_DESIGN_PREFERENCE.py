@@ -259,15 +259,18 @@ class Window(QMainWindow):
                     lable = element[1]
                     if type in [TYPE_COMBOBOX, TYPE_TEXTBOX]:
                         label = QLabel(tab)
-                        #label.setWordWrap(True)
+                        label.setWordWrap(True)
                         label.setText("<html><head/><body><p>" + lable + "</p></body></html>")
+                        print(lable,'lmoahb sbdjds')
                         label.setObjectName(element[0] + "_label")
                         grid.addWidget(label,r,1)
-                        label.setSizePolicy(QSizePolicy(QSizePolicy.Maximum,QSizePolicy.Maximum))
+                        #grid.setSizeConstraint(QtWidgets.QLayout.SetMinimumSize)
+                        label.setSizePolicy(QSizePolicy(QSizePolicy.Maximum,QSizePolicy.Preferred))
                         font = QtGui.QFont()
                         font.setPointSize(9)
                         font.setWeight(50)
                         label.setFont(font)
+                        label.setFixedWidth(220)
 
                     if type == TYPE_TEXTBOX:
                         line = QLineEdit(tab)
@@ -319,12 +322,14 @@ class Window(QMainWindow):
                     if type == 'Title':
                         title = QLabel(tab)
                         title.setText(element[1])
-                        grid.addWidget(title,r,1)
+                        grid.addWidget(title,r,1,1,2)
                         title.setObjectName("_title")
                         font = QtGui.QFont()
                         font.setPointSize(10)
                         title.setFont(font)
+                        title.setWordWrap(True)
                         title.setSizePolicy(QSizePolicy(QSizePolicy.Maximum,QSizePolicy.Maximum))
+                        title.setMaximumWidth(130+220)  # Size of textbox/Combobox and label
                         r += 1
 
                     if type == 'Image':

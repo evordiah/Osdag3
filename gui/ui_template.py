@@ -41,7 +41,7 @@ from utils.common.component import Section,I_sectional_Properties
 from utils.common.component import *
 from .customized_popup import Ui_Popup
 # from .ui_summary_popup import Ui_Dialog1
-from .ui_design_preferences import Ui_Dialog
+#from .ui_design_preferences import Ui_Dialog
 
 from gui.ui_summary_popup import Ui_Dialog1
 from design_report.reportGenerator import save_html
@@ -72,6 +72,7 @@ from design_type.tension_member.tension_bolted import Tension_bolted
 from design_type.tension_member.tension_welded import Tension_welded
 import logging
 from cad.cad3dconnection import cadconnection
+import pandas as pd
 
 class Ui_ModuleWindow(QtWidgets.QMainWindow):
     resized = QtCore.pyqtSignal()
@@ -1228,23 +1229,46 @@ class Window(QMainWindow):
         def save_fun():
             status = main.design_status
             out_list = main.output_values(main, status)
+            in_list = main.input_values(main)
+            #print(out_list)
             to_Save = {}
             flag = 0
+            #print(self.design_inputs)
             for option in out_list:
                 if option[0] is not None and option[2] == TYPE_TEXTBOX:
-                    to_Save[option[0]] = str(option[3])
+                    to_Save[option[0]] = option[3]
                     if str(option[3]):
                         flag = 1
+                if option[2] == TYPE_OUT_BUTTON:
+                    tup = option[3]
+                    fn = tup[1]
+                    for item in fn(main, status):
+                        lable = item[0]
+                        value = item[3]
+                        if lable!=None and value!=None:
+                            to_Save[lable] = value
+
+            ty = dict(sorted(self.design_inputs.items()))
+            df = pd.DataFrame(ty.items())
+            #df.columns = ['label','value']
+            #columns = [('input values','label'),('input values','value')]
+            #df.columns = pd.MultiIndex.from_tuples(columns)
+
+            ty = dict(sorted(to_Save.items()))
+            df1 = pd.DataFrame(ty.items())
+            #df1.columns = ['label','value']
+            #df1.columns = pd.MultiIndex.from_product([["Output Values"], df1.columns])
+
+            bigdata = pd.concat([df, df1], axis=1)
             if not flag:
                 QMessageBox.information(self, "Information",
                                         "Nothing to Save.")
             else:
                 fileName, _ = QFileDialog.getSaveFileName(self,
-                                                          "Save Output", os.path.join(self.folder, "untitled.txt"),
-                                                          "Input Files(*.txt)")
+                                                          "Save Output", os.path.join(self.folder, "untitled.csv"),
+                                                          "Input Files(*.csv)")
                 if fileName:
-                    with open(fileName, 'w') as outfile:
-                        yaml.dump(to_Save, outfile, default_flow_style=False)
+                    bigdata.to_csv(fileName, index=False, header=None)
                     QMessageBox.information(self, "Information",
                                             "Saved successfully.")
         return save_fun
@@ -1618,7 +1642,7 @@ class Window(QMainWindow):
         elif trigger_type == "Design_Pref":
 
             if self.prev_inputs != self.input_dock_inputs:
-                self.designPrefDialog = DesignPreferences(main, input_dictionary=self.input_dock_inputs)
+                #self.designPrefDialog = DesignPreferences(main, input_dictionary=self.input_dock_inputs)
 
                 if 'Select Section' in self.input_dock_inputs.values():
                     self.designPrefDialog.flag = False
@@ -1744,7 +1768,6 @@ class Window(QMainWindow):
                         metrices = QtGui.QFontMetrics(font)
                         l.setSizePolicy(QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum,QtWidgets.QSizePolicy.Maximum))
                         maxi_width = max(maxi_width, metrices.boundingRect(lable).width() + 8)
-
 
 
                     if out_but_type == TYPE_SECTION:
