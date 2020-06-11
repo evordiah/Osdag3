@@ -648,7 +648,6 @@ class Window(QMainWindow):
         in_scroll.setWidget(in_scrollcontent)
 
         maxi_width = maxi_width_left + maxi_width_right
-        print(maxi_width)
         in_scrollcontent.setMinimumSize(maxi_width,in_scrollcontent.sizeHint().height())
         maxi_width += 82
         maxi_width = max(maxi_width, 350)    # In case there is no widget
@@ -1231,10 +1230,8 @@ class Window(QMainWindow):
             status = main.design_status
             out_list = main.output_values(main, status)
             in_list = main.input_values(main)
-            #print(out_list)
             to_Save = {}
             flag = 0
-            #print(self.design_inputs)
             for option in out_list:
                 if option[0] is not None and option[2] == TYPE_TEXTBOX:
                     to_Save[option[0]] = option[3]

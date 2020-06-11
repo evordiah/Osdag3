@@ -233,6 +233,10 @@ class LeftPanelButton(QWidget):          # Custom Button widget for the Left Pan
 class OsdagMainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        resolution = QtWidgets.QDesktopWidget().screenGeometry()
+        width = resolution.width()
+        height = resolution.height()
+        self.resize(width*(0.8),height*(0.75))
         self.ui=Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.comboBox_help.currentIndexChanged.connect(self.selection_change)
@@ -390,8 +394,15 @@ class OsdagMainWindow(QMainWindow):
 
             else:
                 raise ValueError
-        self.showMaximized()
+        self.center()
+        self.show()
 
+    def center(self):
+        frameGm = self.frameGeometry()
+        screen = QtWidgets.QApplication.desktop().screenNumber(QtWidgets.QApplication.desktop().cursor().pos())
+        centerPoint = QtWidgets.QApplication.desktop().screenGeometry(screen).center()
+        frameGm.moveCenter(centerPoint)
+        self.move(frameGm.topLeft())
 
     @pyqtSlot(int)
     def current_changed(self, index):
@@ -697,6 +708,7 @@ if __name__ == '__main__':
     path = os.path.join(os.path.dirname(__file__), 'ResourceFiles', 'images', 'Osdag.png')
     window = OsdagMainWindow()
     trayIcon = SystemTrayIcon(QtGui.QIcon(path), window)
+
 
     trayIcon.show()
     # app.exec_()
