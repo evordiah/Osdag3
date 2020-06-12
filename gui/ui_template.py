@@ -134,6 +134,7 @@ class Ui_ModuleWindow(QtWidgets.QMainWindow):
             for handler in logger.handlers[:]:
                 logger.removeHandler(handler)
             self.closed.emit()
+            self.ui.designPrefDialog.close()
             event.accept()
         else:
             event.ignore()

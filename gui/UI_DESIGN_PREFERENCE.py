@@ -1216,6 +1216,9 @@ class DesignPreferences():
         self.ui.center()
         self.ui.show()
 
+    def close(self):
+        self.ui.close()
+
     def default_fn(self):
         '''
         @author: Umair
