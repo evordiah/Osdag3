@@ -170,13 +170,14 @@ class Window(QMainWindow):
             QMessageBox.warning(self, 'Warning', 'No design created!')
             return
 
-        self.new_window = QtWidgets.QDialog()
+
+        self.new_window = QtWidgets.QDialog(self)
         self.new_ui = Ui_Dialog1(main.design_button_status)
         self.new_ui.setupUi(self.new_window, main)
         self.new_ui.btn_browse.clicked.connect(lambda: self.getLogoFilePath(self.new_window, self.new_ui.lbl_browse))
         self.new_ui.btn_saveProfile.clicked.connect(lambda: self.saveUserProfile(self.new_window))
         self.new_ui.btn_useProfile.clicked.connect(lambda: self.useUserProfile(self.new_window))
-        self.new_window.exec()
+        self.new_window.exec_()
         # self.new_ui.btn_browse.clicked.connect(lambda: self.getLogoFilePath(self.new_ui.lbl_browse))
         # self.new_ui.btn_saveProfile.clicked.connect(self.saveUserProfile)
         # self.new_ui.btn_useProfile.clicked.connect(self.useUserProfile)
@@ -387,8 +388,8 @@ class Window(QMainWindow):
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
-        self.mytabWidget.setFont(font)
-        self.mytabWidget.setFocusPolicy(QtCore.Qt.NoFocus)
+        #self.mytabWidget.setFont(font)
+        #self.mytabWidget.setFocusPolicy(QtCore.Qt.NoFocus)
         self.mytabWidget.setStyleSheet("QTabBar::tab { height: 75px; width: 1px;  }")
         self.mytabWidget.setTabPosition(QtWidgets.QTabWidget.East)
         self.mytabWidget.setObjectName("mytabWidget")
@@ -396,7 +397,7 @@ class Window(QMainWindow):
         self.textEdit = QtWidgets.QTextEdit(self.splitter)
         self.textEdit.setMinimumSize(QtCore.QSize(0, 125))
         self.textEdit.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.textEdit.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.textEdit.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
         self.textEdit.setReadOnly(True)
         self.textEdit.setOverwriteMode(True)
         self.textEdit.setObjectName("textEdit")
@@ -1207,7 +1208,7 @@ class Window(QMainWindow):
         self.menubar.addAction(self.menuHelp.menuAction())
 
         self.retranslateUi()
-        self.mytabWidget.setCurrentIndex(-1)
+        self.mytabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         self.action_save_input.triggered.connect(lambda: self.common_function_for_save_and_design(main, data, "Save"))
         self.btn_Design.clicked.connect(lambda: self.common_function_for_save_and_design(main, data, "Design"))
@@ -1639,8 +1640,7 @@ class Window(QMainWindow):
         elif trigger_type == "Design_Pref":
 
             if self.prev_inputs != self.input_dock_inputs:
-                #self.designPrefDialog = DesignPreferences(main, input_dictionary=self.input_dock_inputs)
-
+                self.designPrefDialog = DesignPinput_dictionary=self.input_dock_inputs)
                 if 'Select Section' in self.input_dock_inputs.values():
                     self.designPrefDialog.flag = False
                 else:
@@ -1653,7 +1653,6 @@ class Window(QMainWindow):
                 pass
             error = main.func_for_validation(main, self.design_inputs)
             status = main.design_status
-            print(status)
 
             if error is not None:
                 self.show_error_msg(error)
@@ -2154,14 +2153,14 @@ class Window(QMainWindow):
         # from OCC.Display.pyqt4Display import qtViewer3d
         from OCC.Display.qtDisplay import qtViewer3d
         self.modelTab = qtViewer3d(self)
-
+        #self.modelTab.resizeGL(100,100)
         # self.setWindowTitle("Osdag Fin Plate")
         self.mytabWidget.resize(size[0], size[1])
         self.mytabWidget.addTab(self.modelTab, "")
 
         self.modelTab.InitDriver()
         display = self.modelTab._display
-
+        #display.SetSize(100,100)
         # background gradient
         # display.set_bg_gradient_color(23, 1, 32, 23, 1, 32)
         display.set_bg_gradient_color([23, 1, 32], [23, 1, 32])

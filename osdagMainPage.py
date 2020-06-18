@@ -489,7 +489,6 @@ class OsdagMainWindow(QMainWindow):
         if self.findChild(QRadioButton,'Fin_Plate').isChecked():
             self.hide()
             self.ui2 = Ui_ModuleWindow(FinPlateConnection, ' ')
-            #self.ui2.center()
             self.ui2.show()
             self.ui2.closed.connect(self.show)
         elif self.findChild(QRadioButton,'Cleat_Angle').isChecked():

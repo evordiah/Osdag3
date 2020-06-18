@@ -1216,6 +1216,17 @@ class DesignPreferences():
         self.ui.center()
         self.ui.show()
 
+    def show(self):
+        resolution = QtWidgets.QDesktopWidget().screenGeometry()
+        width = resolution.width()
+        height = resolution.height()
+        #self.ui = Window(main, self.inptdict)
+        self.ui.resize(width*(0.67),height*(0.60))
+        #self.ui.setWindowFlag(Qt.WindowMinimizeButtonHint, True)
+        #self.ui.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
+        self.ui.center()
+        self.ui.show()
+
     def close(self):
         self.ui.close()
 
