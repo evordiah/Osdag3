@@ -45,7 +45,7 @@ class Ui_Popup(object):
     def setupUi(self, MainWindow):
 
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(607, 598)
+        MainWindow.resize(607, 450)
         self.label = QtWidgets.QLabel(MainWindow)
         self.label.setGeometry(QtCore.QRect(20, 50, 121, 31))
         font = QtGui.QFont()
@@ -92,7 +92,7 @@ class Ui_Popup(object):
         self.pushButton_4.setObjectName("pushButton_4")
         self.pushButton_4.setAutoDefault(False)
         self.pushButton_5 = QtWidgets.QPushButton(MainWindow)
-        self.pushButton_5.setGeometry(QtCore.QRect(225, 400, 140, 40))
+        self.pushButton_5.setGeometry(QtCore.QRect(225, 400, 140, 35))
         font = QtGui.QFont()
         font.setFamily("Myanmar Text")
         font.setPointSize(14)

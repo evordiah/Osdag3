@@ -151,7 +151,7 @@ class Ui_Dialog1(object):
 
         self.retranslateUi()
 
-        #self.buttonBox.accepted.connect(self.Dialog.accept)
+        self.buttonBox.accepted.connect(self.Dialog.accept)
         self.buttonBox.accepted.connect(lambda: self.save_inputSummary(main))
         self.buttonBox.rejected.connect(self.Dialog.reject)
         self.btn_browse.clicked.connect(self.lbl_browse.clear)
@@ -171,28 +171,15 @@ class Ui_Dialog1(object):
     def save_inputSummary(self,main):
         input_summary = self.getPopUpInputs()  # getting all inputs entered by user in PopUp self.Dialog box.
         file_type = "PDF (*.pdf)"
-        filename, _ = QFileDialog.getSaveFileName(self.Dialog, "Save File As", '', file_type, None, QtWidgets.QFileDialog.DontUseNativeDialog)
-        #filename, _ = QFileDialog.getSaveFileName(self.Dialog, "Save File As", '', file_type)
-        '''
-        Comment out the second QFileDialog function if you want to use NativeDialog which will be both system and OS dependent hence
-        it'll impossible to assign any modal to QFileDialog once it's opened, therefore it'll look like system is hanged.
-        But if you want to control the behaviour of QFileDialog according to you need then use the first function(QFileDialog provided by Qt which is faster than NativeDialog).
-
-        Same is the case when we'll select 'Load Input' option. We can't control the behaviour of QFileDialog because it's native and hence
-        OS and system dependent.
-        '''
-        if filename:
-            self.Dialog.accept()
-            fname_no_ext = filename.split(".")[0]
-            input_summary['filename'] = fname_no_ext
-            input_summary['does_design_exist'] = self.design_exist
-            main.save_design(main,input_summary)
-            if os.path.isfile(str(filename)) and not os.path.isfile(fname_no_ext+'.log'):
-                QMessageBox.information(QMessageBox(), 'Information', 'Design report saved!')
-            else:
-                QMessageBox.critical(QMessageBox(), 'Error', 'Please make sure no pdf is open with same name. If error persists send us the log file created in location you are trying to save.')
-
-
+        filename, _ = QFileDialog.getSaveFileName(QFileDialog(), "Save File As", os.path.join(str(' '), "untitled.pdf"), file_type)
+        fname_no_ext = filename.split(".")[0]
+        input_summary['filename'] = fname_no_ext
+        input_summary['does_design_exist'] = self.design_exist
+        main.save_design(main,input_summary)
+        if os.path.isfile(str(filename)) and not os.path.isfile(fname_no_ext+'.log'):
+            QMessageBox.information(QMessageBox(), 'Information', 'Design report saved!')
+        else:
+            QMessageBox.critical(QMessageBox(), 'Error', 'Please make sure no pdf is open with same name. If error persists send us the log file created in location you are trying to save.')
     def call_designreport(self, main,fileName, report_summary, folder):
         self.alist = main.report_input
         self.column_details = main.report_supporting
