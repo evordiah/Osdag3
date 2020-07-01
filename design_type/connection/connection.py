@@ -1,4 +1,5 @@
-from utils.common.component import Section,I_sectional_Properties, Material, Beam
+from utils.common.component import ISection, Material, Beam
+from utils.common.Section_Properties_Calculator import I_sectional_Properties
 from design_type.main import Main
 from Common import *
 import numpy as np
@@ -48,9 +49,7 @@ class Connection(Main):
         else:
             designation = str(input_dictionary[KEY_SUPTNGSEC])
             material_grade = str(input_dictionary[KEY_MATERIAL])
-            I_sec_attributes = Section(designation, material_grade)
-            table = "Beams" if designation in connectdb("Beams", "popup") else "Columns"
-            Section.connect_to_database_update_other_attributes(I_sec_attributes, table, designation,material_grade)
+            I_sec_attributes = ISection(designation, material_grade)
             source = str(I_sec_attributes.source)
             fu = str(I_sec_attributes.fu)
             fy = str(I_sec_attributes.fy)
@@ -77,7 +76,7 @@ class Connection(Main):
             plast_sec_mod_y = str(round((I_sec_attributes.plast_sec_mod_y/10**3),2))
             torsion_const = str(round((I_sec_attributes.It/10**4),2))
             warping_const = str(round((I_sec_attributes.Iw/10**6),2))
-            if flange_slope != '90':
+            if flange_slope != 90:
                 image = VALUES_IMG_BEAM[0]
             else:
                 image = VALUES_IMG_BEAM[1]
@@ -240,7 +239,7 @@ class Connection(Main):
         else:
             designation = str(input_dictionary[KEY_SUPTDSEC])
             material_grade = str(input_dictionary[KEY_MATERIAL])
-            I_sec_attributes = Section(designation)
+            I_sec_attributes = ISection(designation)
             table = "Beams" if designation in connectdb("Beams", "popup") else "Columns"
 
             I_sec_attributes.connect_to_database_update_other_attributes(table, designation,material_grade)
@@ -403,7 +402,7 @@ class Connection(Main):
         fy = ''
         if material_grade != "Select Material" and designation != "Select Section":
             table = "Beams" if designation in connectdb("Beams", "popup") else "Columns"
-            I_sec_attributes = Section(designation)
+            I_sec_attributes = ISection(designation)
             I_sec_attributes.connect_to_database_update_other_attributes(table, designation, material_grade)
             fu = str(I_sec_attributes.fu)
             fy = str(I_sec_attributes.fy)
@@ -422,7 +421,7 @@ class Connection(Main):
         fy = ''
         if material_grade != "Select Material" and designation != "Select Section":
             table = "Beams" if designation in connectdb("Beams", "popup") else "Columns"
-            I_sec_attributes = Section(designation)
+            I_sec_attributes = ISection(designation)
             I_sec_attributes.connect_to_database_update_other_attributes(table, designation, material_grade)
             fu = str(I_sec_attributes.fu)
             fy = str(I_sec_attributes.fy)
@@ -510,11 +509,10 @@ class Connection(Main):
 
         val = {KEY_DP_BOLT_TYPE: "Pretensioned",
                KEY_DP_BOLT_HOLE_TYPE: "Standard",
-               KEY_DP_BOLT_MATERIAL_G_O: str(fu),
                KEY_DP_BOLT_SLIP_FACTOR: str(0.3),
                KEY_DP_WELD_FAB: KEY_DP_WELD_FAB_SHOP,
                KEY_DP_WELD_MATERIAL_G_O: str(fu),
-               KEY_DP_DETAILING_EDGE_TYPE: "a - Sheared or hand flame cut",
+               KEY_DP_DETAILING_EDGE_TYPE: "Sheared or hand flame cut",
                KEY_DP_DETAILING_GAP: '10',
                KEY_DP_DETAILING_CORROSIVE_INFLUENCES: 'No',
                KEY_DP_DESIGN_METHOD: "Limit State Design",
@@ -646,15 +644,7 @@ class Connection(Main):
         return information
 
 
-    def call_3DModel(self, ui, bgcolor):
-        from PyQt5.QtWidgets import QCheckBox
-        from PyQt5.QtCore import Qt
-        for chkbox in ui.frame.children():
-            if chkbox.objectName() == 'Model':
-                continue
-            if isinstance(chkbox, QCheckBox):
-                chkbox.setChecked(Qt.Unchecked)
-        ui.commLogicObj.display_3DModel("Model", bgcolor)
+
 
     def call_3DColumn(self, ui, bgcolor):
         from PyQt5.QtWidgets import QCheckBox
@@ -737,6 +727,7 @@ class Connection(Main):
                  KEY_MAIN_MODULE: self.mainmodule,
                  KEY_CONN: self.connectivity,
                  KEY_DISP_SHEAR: self.load.shear_force,
+                 KEY_DISP_AXIAL: self.load.axial_force,
                  "Supporting Section": "TITLE",
                  "Supporting Section Details": self.report_supporting,
                  "Supported Section": "TITLE",
@@ -746,6 +737,7 @@ class Connection(Main):
                  KEY_DISP_GRD: str(self.bolt.bolt_grade),
                  KEY_DISP_TYP: self.bolt.bolt_type,
                  KEY_DISP_DP_BOLT_HOLE_TYPE: self.bolt.bolt_hole_type,
+                 KEY_DISP_DP_BOLT_TYPE:self.bolt.bolt_tensioning,
                  KEY_DISP_DP_BOLT_SLIP_FACTOR: self.bolt.mu_f,
                  KEY_DISP_DP_DETAILING_EDGE_TYPE: self.bolt.edge_type,
                  KEY_DISP_GAP: self.plate.gap,
