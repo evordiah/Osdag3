@@ -866,7 +866,7 @@ if __name__ == '__main__':
     try:
         #update = Update(0)
         #update.notifi()
-        #sys.excepthook = hook_exception
+        sys.excepthook = hook_exception
         # window.notification2()
         QCoreApplication.exit(app.exec_()) # to properly close the Qt Application use QCoreApplication instead of sys
     except BaseException as e:

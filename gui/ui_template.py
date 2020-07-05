@@ -1008,7 +1008,7 @@ class Window(QMainWindow):
         self.save_outputDock.setFont(font)
         self.save_outputDock.setObjectName("save_outputDock")
         self.save_outputDock.setText("Save Output")
-        self.save_outputDock.clicked.connect(self.save_output_to_txt(main))
+        self.save_outputDock.clicked.connect(self.save_output_to_csv(main))
         # self.btn_CreateDesign.clicked.connect(self.createDesignReport(main))
 
         ##################################
@@ -1372,7 +1372,7 @@ class Window(QMainWindow):
         else:
             msg = QMessageBox.information(self, 'Update', 'No Update Available')
 
-    def save_output_to_txt(self, main):
+    def save_output_to_csv(self, main):
         def save_fun():
             status = main.design_status
             out_list = main.output_values(main, status)
